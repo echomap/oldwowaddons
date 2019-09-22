@@ -1,0 +1,25 @@
+## Interface: 11302
+## Title: StableSnapshot
+## Notes: An addon for hunters to take a snapshot of their stable, so they can remember what pets they have anywhere.
+## Author: echomap
+## Version: 1.0.1
+## SavedVariables: StableSnapshotDB
+## X-Curse-Project-Name: StableSnapshot
+## X-Curse-Project-ID: stablesnapshot
+## X-Curse-Repository-ID: wow/stablesnapshot/mainline
+## X-Localizations: enUS, deDE
+## X-Category: Interface Enhancements
+## X-License: GPL v3
+## X-Website: http://wow.curse.com/downloads/wow-addons/details/stablesnapshot.aspx
+## X-Embeds: LibStub, Ace3, AceDB, AceGUI, LibDataBroker
+## X-Category: Interface Enhancements
+
+embeds.xml
+
+Localization\enUS.lua
+Localization\deDE.lua
+
+StableSnapshot.lua
+StableSnapshot_Default.lua
+StableSnapshot_db.lua
+StableSnapshot_Gui.lua

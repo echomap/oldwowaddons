@@ -1,0 +1,8 @@
+
+set FROM_DIR=D:\workspace\repos\github\echomap\oldwowaddons\classic\StableSnapshot
+set DEST_DIR="E:\Games\Blizzard\World of Warcraft\_classic_\Interface\StableSnapshot"
+set EX_FILE=%FROM_DIR%\excludedfileslist.txt
+
+echo FROM=%FROM_DIR% 
+echo DEST=%DEST_DIR% 
+XCOPY /E /Y  %FROM_DIR% %DEST_DIR% /exclude:%EX_FILE%
