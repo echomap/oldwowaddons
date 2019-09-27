@@ -1,8 +1,8 @@
-## Interface: 50300
+## Interface: 11302
 ## Title: StableSnapshot
 ## Notes: An addon for hunters to take a snapshot of their stable, so they can remember what pets they have anywhere.
 ## Author: echomap
-## Version: 1.7.3
+## Version: 1.8.0
 ## SavedVariables: StableSnapshotDB
 ## X-Curse-Project-Name: StableSnapshot
 ## X-Curse-Project-ID: stablesnapshot

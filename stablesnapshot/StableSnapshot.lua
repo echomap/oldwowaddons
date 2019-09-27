@@ -41,6 +41,7 @@ function StableSnapshot:OnInitialize()
     self.db.profile.playerName = UnitName("player")
 
 	StableSnapshot:RegisterChatCommand("strack", "SlashFunc")		
+	StableSnapshot:RegisterChatCommand("stablesnapshot", "SlashFunc")		
 end
 
 -- OnEnable: Called when the addon is enabled
@@ -116,7 +117,9 @@ end
 function StableSnapshot:DoStableOpened()
 	StableSnapshot:DebugMessage("You have opened the stable!")
    
-	icon, name, level, family, talent = GetStablePetInfo(1)
+   -- petIcon, petName, petLevel, petType, petLoyalty = GetStablePetInfo (classic)
+	local icon, name, level, family, talent = GetStablePetInfo(1)
+	StableSnapshot:DebugMessage("DoStableOpened name: " .. name .. "' family: '" ..family.. "'" )
 	if icon == nil and name == nil and family == nil then
 		--break
 	else 

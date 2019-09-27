@@ -109,8 +109,10 @@ function StableSnapshot:ScanStable()
 	petnumidx = 1
 	self.db.char.stable = {}
 	
+	StableSnapshot:DebugMessage("ScanStable: GetStablePetInfo, maxPets = " .. maxPets )
 	for index=1, maxPets do		
-		--petIcon, petName, petLevel, petType, petTalents = GetStablePetInfo(index);
+		--retail petIcon, petName, petLevel, petType, petTalents = GetStablePetInfo(index);
+		--classic petIcon, petName, petLevel, petType, petLoyalty = GetStablePetInfo(index);
 		icon, name, level, family, talent = GetStablePetInfo(index)
 		if  icon == nil then
 			icon = "";
@@ -127,7 +129,8 @@ function StableSnapshot:ScanStable()
 		if  talent == nil then
 			talent = "";
 		end
-		StableSnapshot:DebugMessage("ScanStable: GetStablePetInfo, index = " .. index .." icon=" .. icon .. " name="..name.." level="..level.." family=" .. family.. " talent="..talent );
+		if(name~=nil)
+			StableSnapshot:DebugMessage("ScanStable: GetStablePetInfo, index = " .. index .." icon=" .. icon .. " name="..name.." level="..level.." family=" .. family.. " talent="..talent );
 		--if name == nil then
 			--print("Pet: noname")
 		--else 
