@@ -1,0 +1,193 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/"> 
+	<Script file="Artemis.lua" />
+  <Script file="Artemis_Data.lua" />
+  
+	<Frame name="ArtemisMainFrame" parent="UIParent" 
+      hidden="true" movable="true" enableMouse="true" frameStrata="HIGH" resizable="false">
+		<Size><AbsDimension x="24" y="24"/></Size>
+		<Anchors>
+			<Anchor point="CENTER"/>
+			<Offset><AbsDimension x="32" y="0"/></Offset>
+		</Anchors>
+		
+		<Backdrop name="$parentBackdrop" bgFile="Interface\TutorialFrame\TutorialFrameBackground" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<EdgeSize>
+				<AbsValue val="16"/>
+			</EdgeSize>
+			<TileSize>
+				<AbsValue val="24"/>
+			</TileSize>
+			<BackgroundInsets>
+				<AbsInset left="5" right="5" top="5" bottom="5"/>
+			</BackgroundInsets>
+		</Backdrop>	
+		
+		<Layers>
+			<Layer level="BACKGROUND">
+
+				<FontString name="textAmmoCount" inherits="GameFontNormal" text="Ammo 0000/0000" maxLines="1" justifyH="LEFT" justifyV="TOP">
+					<Anchors>
+            <Anchor point="RIGHT" relativePoint="LEFT" relativeTo="ArtemisMainFrame" >
+							<Offset>
+								<AbsDimension x="-6" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+        
+        <FontString name="textWpnDur" inherits="GameFontNormal" text="Dur:000/000" maxLines="1" justifyH="LEFT" justifyV="TOP">
+					<Anchors>
+            <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="ArtemisMainFrame" >
+							<Offset>
+								<AbsDimension x="12" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+        
+			</Layer>
+		</Layers>
+    
+    <Frames>
+      <!-- main frame here -->
+			<Button name="$parentStableButton" inherits="UIPanelButtonTemplate">
+        <Anchors>
+          <Anchor point="LEFT" relativePoint="LEFT" relativeTo="ArtemisMainFrame"/>
+        </Anchors>
+				<Size><AbsDimension x="24" y="24"/></Size>
+				<NormalTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
+				<PushedTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
+				<Scripts>
+					<OnClick>
+						Artemis:ToggleStable()
+					</OnClick>
+          <OnEnter> Artemis:ShowTooltip(self,"Stable") </OnEnter>
+          <OnLeave> Artemis:HideTooltip(self,"Stable") </OnLeave>			
+                    
+          <OnLoad>        self:RegisterForDrag("LeftButton"); </OnLoad>
+          <OnDragStart>   Artemis:OnDragStart();   </OnDragStart>
+          <OnDragStop>    Artemis:OnDragStop();    </OnDragStop>
+				</Scripts>
+			</Button>
+      <!-- main frame here -->			      
+    </Frames>
+    
+		<Scripts>
+			<OnUpdate>      Artemis:OnUpdate();      </OnUpdate>
+			<OnSizeChanged> Artemis:OnSizeChanged(); </OnSizeChanged>
+			<OnLoad>        Artemis:OnLoad(); self:RegisterForDrag("LeftButton"); </OnLoad>
+			<OnEvent>       Artemis:OnEvent(event, ...); </OnEvent>
+			<OnDragStart>   Artemis:OnDragStart();   </OnDragStart>
+			<OnDragStop>    Artemis:OnDragStop();    </OnDragStop>
+			<OnEnter> Artemis:ShowTooltip(self) </OnEnter>
+			<OnLeave> Artemis:HideTooltip(self) </OnLeave>					
+		</Scripts>
+      
+	</Frame>	
+  
+
+	<Frame name="ArtemisMainDataFrame" parent="UIParent" 
+      hidden="true" movable="true" enableMouse="true" frameStrata="HIGH" resizable="true">
+		<Size><AbsDimension x="300" y="300"/></Size>
+		<Anchors>
+			<Anchor point="CENTER"/>
+			<Offset><AbsDimension x="300" y="0"/></Offset>
+		</Anchors>
+    
+		<Backdrop name="$parentBackdrop" bgFile="Interface\TutorialFrame\TutorialFrameBackground" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<EdgeSize>
+				<AbsValue val="16"/>
+			</EdgeSize>
+			<TileSize>
+				<AbsValue val="64"/>
+			</TileSize>
+			<BackgroundInsets>
+				<AbsInset left="5" right="5" top="5" bottom="5"/>
+			</BackgroundInsets>
+		</Backdrop>	
+    
+		<Layers>
+			<Layer level="BACKGROUND">
+      
+        <FontString name="$parentTitle" inherits="GameFontNormal" text="Stable Viewer" maxLines="1" justifyH="LEFT" justifyV="TOP">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="10" y="-10"/>
+							</Offset>
+						</Anchor>
+						<Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT">
+							<Offset>
+								<AbsDimension x="-10" y="-30"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+      </Layer>
+    </Layers>
+      
+    <Frames>
+      
+			<!-- default gui elements -->
+			<Button name="$parentCloseButton" inherits="UIPanelCloseButton">
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativeTo="ArtemisMainDataFrame" relativePoint="TOPRIGHT"/>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						Artemis:BtnCloseDataFrame()
+					</OnClick>
+				</Scripts>
+			</Button>
+      
+			<Button name="$parentSettingsButton" inherits="UIPanelButtonTemplate">
+				<Anchors>
+					<Anchor point="RIGHT" relativeTo="$parentCloseButton" relativePoint="LEFT">
+						<Offset>
+							<AbsDimension x="4" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Size><AbsDimension x="16" y="16"/></Size>
+				<NormalTexture file="Interface\AddOns\Artemis\Media\settings.tga"/>
+				<PushedTexture file="Interface\AddOns\Artemis\Media\settings.tga"/>
+				<Scripts>
+					<OnClick>
+						Artemis:BtnSettings()
+					</OnClick>
+          <OnEnter> Artemis:ShowTooltip(self,"Settings") </OnEnter>
+          <OnLeave> Artemis:HideTooltip(self,"Settings") </OnLeave>					
+				</Scripts>
+			</Button>
+      
+			<Button name="$parentResizeGrip" inherits="UIPanelButtonTemplate">
+				<Anchors>
+					<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" relativeTo="ArtemisMainDataFrame">
+					</Anchor>
+				</Anchors>
+				<Size><AbsDimension x="16" y="16"/></Size>
+				<NormalTexture file="Interface\AddOns\Artemis\Media\ResizeGrip.tga"/>
+				<PushedTexture file="Interface\AddOns\Artemis\Media\ResizeGrip.tga"/>
+				<Scripts>
+					<OnMouseDown> Artemis:BtnStartSizeing() </OnMouseDown>
+					<OnMouseUp>   Artemis:BtnStopSizeing()  </OnMouseUp>
+				</Scripts>
+			</Button>
+      
+      
+    </Frames>
+    
+    <Scripts>
+			<OnUpdate>      Artemis:OnUpdateDataFrame();      </OnUpdate>
+			<OnLoad>        Artemis:OnLoadDataFrame(); self:RegisterForDrag("LeftButton"); </OnLoad>
+			<OnEvent>       Artemis:OnEventDataFrame(event, ...); </OnEvent>
+			<OnDragStart>   Artemis:OnDragStartDataFrame();   </OnDragStart>
+			<OnDragStop>    Artemis:OnDragStopDataFrame();    </OnDragStop>
+			<OnEnter> Artemis:ShowTooltipDataFrame(self) </OnEnter>
+			<OnLeave> Artemis:HideTooltipDataFrame(self) </OnLeave>					
+		</Scripts>
+    
+  </Frame>
+    
+	
+</Ui>
