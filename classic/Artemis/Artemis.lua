@@ -102,10 +102,12 @@ end
 
 function Artemis:ShowDataWindow()
 	ArtemisMainDataFrame:Show()
+  ArtemisMainDataFrameButtonFrame:Show()
 end
 
 function Artemis:HideDataWindow()
 	ArtemisMainDataFrame:Hide()
+  ArtemisMainDataFrameButtonFrame:Hide()
 end
 
     
@@ -233,6 +235,11 @@ function Artemis:OnLoad()
 	if not ArtemisDB then ArtemisDB = {} end -- fresh DB
 	if not ArtemisDBChar then ArtemisDBChar = {} end -- fresh DB
   
+  localizedClass, englishClass = UnitClass("player");
+  if englishClass == 'HUNTER' then
+    Artemis:ShowWindow()
+  end
+    
 	print("v"..Artemis.version.." loaded")
 end
 -------------------------------------------------------------------------
@@ -375,8 +382,9 @@ function Artemis:LoadAmmoCount()
   Artemis.view.ammoCount = tonumber(GetInventoryItemCount("player", Artemis.view.ammoSlot ));
   
   Artemis.view.rangedSlot  = GetInventorySlotInfo("RangedSlot");
-  Artemis.view.rangedDurCurr = GetInventoryItemDurability( Artemis.view.rangedSlot );
-  Artemis.view.rangedDurMax = GetInventoryItemDurability( Artemis.view.rangedSlot );
+  local currDur, maxDur = GetInventoryItemDurability( Artemis.view.rangedSlot );
+  Artemis.view.rangedDurCurr = currDur
+  Artemis.view.rangedDurMax  = maxDur
   --  0 normal (6+), 1 yellow (5-1), 2 broken (0)
   Artemis.view.rangedDurStatus = GetInventoryAlertStatus( Artemis.view.rangedSlot );
   

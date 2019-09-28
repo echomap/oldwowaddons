@@ -128,7 +128,7 @@
       
     <Frames>
       
-			<!-- default gui elements -->
+      <!-- Header -->
 			<Button name="$parentCloseButton" inherits="UIPanelCloseButton">
 				<Anchors>
 					<Anchor point="TOPRIGHT" relativeTo="ArtemisMainDataFrame" relativePoint="TOPRIGHT"/>
@@ -173,8 +173,69 @@
 					<OnMouseUp>   Artemis:BtnStopSizeing()  </OnMouseUp>
 				</Scripts>
 			</Button>
+      <!-- Header -->
+      
+      <!-- Button/Tabs -->
+      <Frame name="ArtemisMainDataFrameButtonFrame" parent="UIParent" hidden="true" frameStrata="HIGH" >
+        <Size><AbsDimension x="24" y="24"/></Size>
+        <Anchors>
+          <Anchor point="TOPLEFT" relativeTo="ArtemisMainDataFrame" relativePoint="TOPLEFT">
+            <Offset><AbsDimension x="0" y="-24"/></Offset>
+          </Anchor>
+          <Anchor point="BOTTOMRIGHT" relativeTo="ArtemisMainDataFrame" relativePoint="TOPRIGHT">
+            <Offset><AbsDimension x="0" y="-64"/></Offset>
+          </Anchor>
+        </Anchors>
+        
+        <Backdrop name="$parentBackdrop" bgFile="Interface\TutorialFrame\TutorialFrameBackground" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+          <EdgeSize>
+            <AbsValue val="16"/>
+          </EdgeSize>
+          <TileSize>
+            <AbsValue val="24"/>
+          </TileSize>
+          <BackgroundInsets>
+            <AbsInset left="5" right="5" top="5" bottom="5"/>
+          </BackgroundInsets>
+        </Backdrop>	
+        
+        <Frames>
+          <Button name="$parentStableButton" inherits="UIPanelButtonTemplate">
+            <Anchors>
+              <Anchor point="LEFT" relativePoint="LEFT" relativeTo="ArtemisMainDataFrameButtonFrame"/>
+            </Anchors>
+            <Size><AbsDimension x="24" y="24"/></Size>
+            <NormalTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
+            <PushedTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
+            <Scripts>
+            </Scripts>
+          </Button>
+        </Frames>
+      </Frame>
       
       
+      <!-- left side menu -->
+      
+      <!-- Main content-->
+
+      <!-- Status bar
+      <FontString name="$parentStatusText" inherits="GameFontNormalSmall" text="status - bar" maxLines="1" justifyH="LEFT" justifyV="TOP">
+					<Color r="0.5" g="0.5" b="1.0"/>
+					<Anchors>
+						<Anchor point="BOTTOMLEFT">
+							<Offset>
+								<AbsDimension x="10" y="10"/>
+							</Offset>
+						</Anchor>
+						<Anchor point="BOTTOMRIGHT">
+							<Offset>
+								<AbsDimension x="-10" y="10"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+      </FontString>	
+       -->
+       
     </Frames>
     
     <Scripts>
