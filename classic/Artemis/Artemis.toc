@@ -14,5 +14,5 @@
 ## DefaultState: enabled
 ## SavedVariables: ArtemisDB
 ## SavedVariablesPerCharacter: ArtemisDBChar
-
+enUS.lua
 Artemis.xml

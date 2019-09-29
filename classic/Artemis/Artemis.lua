@@ -27,7 +27,7 @@ Artemis = {
 -------------------------------------------------------------------------
 -------------------------------------------------------------------------
 function Artemis.DebugMsg(msg)
-  if( msg ~= nil and msg ~= "") then 
+  if( msg ~= nil and msg ~= "" and Artemis.view.debug ) then 
     print("Artemis " .. msg )
   end
 end
@@ -64,7 +64,7 @@ end
 
 function Artemis:ShowHide()
 	--DEFAULT_CHAT_FRAME:AddMessage("Is shown?" .. "was clicked.")
-	if ArtemisMainFrame == nil then 
+	if ArtemisMainFrame == nil or not Artemis.view.setupmain then 
 		Artemis:SetupWindow()
     Artemis:ShowWindow()
 	else
@@ -79,10 +79,11 @@ function Artemis:ShowHide()
 end
 
 function Artemis:SetupWindow()
-    --
+  ArtemisMainFrame:SetScript("OnEscapePressed", function(self) self:Hide() end)
+  Artemis.view.setupmain = true
 end
 
-function Artemis:ShowWindow()
+function Artemis:ShowWindow()  
 	ArtemisMainFrame:Show()
 	--Artemis_UpdateList()
   -- TODOcontent/tabs
@@ -308,6 +309,11 @@ end
 -------------------------------------------------------------------------
 function Artemis:ClickPet(self,petIndex)
   --TODO model
+  --TODO XXX
+  ArtemisMainDataFrameMCFrame_MyPetModel:ClearModel()
+  
+	--TODO 
+  SetPetStablePaperdoll(ArtemisMainDataFrameMCFrame_MMyPetModel)
 end
 
 function Artemis:ShowTooltipPet(self,petIndex)
@@ -484,7 +490,8 @@ function Artemis:ScanCurrentPet()
   local currXP, nextXP = GetPetExperience()
   local petFoodList = { GetPetFoodTypes() };
   --
-  local petarr2 =  { petarr[1], petarr[2], petarr[3], petarr[4], petarr[5], happiness, petFoodList, currXP, nextXP }   
+  -- { name, family, level, icon, loyalty, happiness, petFoodList, currXP, nextXP }
+  local petarr2 =  { petarr[1], petarr[2], petarr[3], petarr[4], loyaltyRate, happiness, petFoodList, currXP, nextXP }   
   ArtemisDBChar.stable[1] = petarr2
   Artemis.DebugMsg("ScanCurrentPet: Done")
   return petarr2
@@ -697,17 +704,10 @@ function Artemis:SetupMCFrame()
   ArtemisMainDataFrameMCFrame_MyStabledPet2:SetNormalTexture(icon)
   
   
-  --ArtemisMainDataFrameMCFrame_MyCurrentPet:SetImage(icon)
-  --ArtemisMainDataFrameMCFrame_MyCurrentPet:SetImageSize(30,30)
-  --ArtemisMainDataFrameMCFrame_MyCurrentPet:SetLabel(name) -- .. " ("..miscinfo..")" )
-  --ArtemisMainDataFrameMCFrame_MyCurrentPet.tooltipText = name
-  --ArtemisMainDataFrameMCFrame_MyCurrentPet.tooltip = name;
   --
-  --tooltip/mouseover
+  ArtemisMainDataFrameMCFrame_MyPetModel:ClearModel()
   
-  --next #2
-  --next #3
-  --
+  
 	Artemis.DebugMsg("SetupMCFrame Done")
 end
 
