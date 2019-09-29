@@ -212,11 +212,119 @@
           </Button>
         </Frames>
       </Frame>
-      
+      <!-- Button/Tabs -->
       
       <!-- left side menu -->
       
       <!-- Main content-->
+      <Frame name="ArtemisMainDataFrameMCFrame" parent="UIParent" hidden="true" frameStrata="HIGH" >
+        <Size><AbsDimension x="24" y="24"/></Size>
+        <Anchors>
+          <Anchor point="TOPLEFT" relativeTo="ArtemisMainDataFrameButtonFrame" relativePoint="BOTTOMLEFT">
+            <Offset><AbsDimension x="0" y="-4"/></Offset>
+          </Anchor>
+          <Anchor point="BOTTOMRIGHT" relativeTo="ArtemisMainDataFrame" relativePoint="BOTTOMRIGHT">
+            <Offset><AbsDimension x="0" y="-4"/></Offset>
+          </Anchor>
+        </Anchors>
+        
+        <Backdrop name="$parentBackdrop" bgFile="Interface\TutorialFrame\TutorialFrameBackground" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+          <EdgeSize>
+            <AbsValue val="16"/>
+          </EdgeSize>
+          <TileSize>
+            <AbsValue val="24"/>
+          </TileSize>
+          <BackgroundInsets>
+            <AbsInset left="5" right="5" top="5" bottom="5"/>
+          </BackgroundInsets>
+        </Backdrop>	
+        
+      	<Layers>
+          <Layer level="BACKGROUND">
+            <FontString name="parent_MyCurrentPetText" inherits="GameFontNormalSmall" text="Current Pet:" maxLines="1" justifyH="LEFT" justifyV="TOP">
+              <Color r="0.5" g="0.5" b="1.0"/>
+              <Anchors>
+                <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="ArtemisMainDataFrameMCFrame">
+                  <Offset><AbsDimension x="8" y="78"/></Offset>
+                </Anchor>
+              </Anchors>
+            </FontString>	
+            <FontString name="parent_MyStabledPetsText" inherits="GameFontNormalSmall" text="Stabled Pets:" maxLines="1" justifyH="LEFT" justifyV="TOP">
+              <Color r="0.5" g="0.5" b="1.0"/>
+              <Anchors>
+                <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="ArtemisMainDataFrameMCFrame">
+                  <Offset><AbsDimension x="136" y="78"/></Offset>
+                </Anchor>
+              </Anchors>
+            </FontString>	
+          </Layer>
+        </Layers>
+        
+        <Frames>
+        
+          <Model name="$parent_MyPetModel" >
+             <Anchors>
+              <Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="ArtemisMainDataFrameMCFrame">
+                <Offset><AbsDimension x="4" y="-10"/></Offset>
+              </Anchor>
+              <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" relativeTo="ArtemisMainDataFrameMCFrame">
+                <Offset><AbsDimension x="4" y="-80"/></Offset>
+              </Anchor>
+            </Anchors>
+          </Model>
+        
+          <Button name="$parent_MyCurrentPet" inherits="UIPanelButtonTemplate">
+            <Anchors>
+              <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="ArtemisMainDataFrameMCFrame">
+                <Offset><AbsDimension x="4" y="10"/></Offset>
+              </Anchor>
+            </Anchors>
+            <Size><AbsDimension x="64" y="64"/></Size>
+            <NormalTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
+            <PushedTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
+            <Scripts>
+              <OnClick> Artemis:ClickPet(1) </OnClick>
+              <OnEnter> Artemis:ShowTooltipPet(self,1) </OnEnter>
+              <OnLeave> Artemis:HideTooltipPet(self,1) </OnLeave>			
+            </Scripts>
+          </Button>
+          
+          <Button name="$parent_MyStabledPet1" inherits="UIPanelButtonTemplate">
+            <Anchors>
+              <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parent_MyCurrentPet">
+                <Offset><AbsDimension x="64" y="0"/></Offset>
+              </Anchor>
+            </Anchors>
+            <Size><AbsDimension x="64" y="64"/></Size>
+            <NormalTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
+            <PushedTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
+            <Scripts>
+              <OnClick> Artemis:ClickPet(2) </OnClick>
+              <OnEnter> Artemis:ShowTooltipPet(self,2) </OnEnter>
+              <OnLeave> Artemis:HideTooltipPet(self,2) </OnLeave>			
+            </Scripts>
+          </Button>
+          <Button name="$parent_MyStabledPet2" inherits="UIPanelButtonTemplate">
+            <Anchors>
+              <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parent_MyStabledPet1">
+                <Offset><AbsDimension x="24" y="0"/></Offset>
+              </Anchor>
+            </Anchors>
+            <Size><AbsDimension x="64" y="64"/></Size>
+            <NormalTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
+            <PushedTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
+            <Scripts>
+              <OnClick> Artemis:ClickPet(1) </OnClick>
+              <OnEnter> Artemis:ShowTooltipPet(self,3) </OnEnter>
+              <OnLeave> Artemis:HideTooltipPet(self,3) </OnLeave>			
+            </Scripts>
+          </Button>
+          
+        </Frames>
+      </Frame>
+    <!-- Main content-->
+      
 
       <!-- Status bar
       <FontString name="$parentStatusText" inherits="GameFontNormalSmall" text="status - bar" maxLines="1" justifyH="LEFT" justifyV="TOP">

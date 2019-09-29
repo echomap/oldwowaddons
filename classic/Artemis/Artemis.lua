@@ -97,17 +97,23 @@ function Artemis:BtnClose()
 end
 
 
-function Artemis:SetupDataWindow()
+function Artemis:SetupDataWindow() 
+	Artemis.DebugMsg("SetupDataWindow: Called")
+  Artemis:ScanCurrentPet()
 end
 
 function Artemis:ShowDataWindow()
 	ArtemisMainDataFrame:Show()
   ArtemisMainDataFrameButtonFrame:Show()
+  
+  Artemis:SetupMCFrame()  
+  ArtemisMainDataFrameMCFrame:Show()  
 end
 
 function Artemis:HideDataWindow()
 	ArtemisMainDataFrame:Hide()
   ArtemisMainDataFrameButtonFrame:Hide()
+  ArtemisMainDataFrameMCFrame:Hide()
 end
 
     
@@ -300,6 +306,52 @@ function Artemis:HideTooltip()
 end
 -------------------------------------------------------------------------
 -------------------------------------------------------------------------
+function Artemis:ClickPet(self,petIndex)
+  --TODO model
+end
+
+function Artemis:ShowTooltipPet(self,petIndex)
+  local message = "Artemis"
+  if( petIndex == nil) then
+    petIndex = 1
+  end
+  local petarr = ArtemisDBChar.stable[petIndex] 
+  local name, family, level, icon, loyalty, happiness, petFoodList = Artemis:ParsePetArray(petarr)	
+  
+  if icon == nil then
+    icon = "Interface\\AddOns\\StableSnapshot\\Icons\\Default.png"
+  end  
+  name = Artemis:SetStringOrDefault(name,"No Pet")
+
+  --local message = string.format("Pet %s Level: %s Family: %s Special: %s loyalty: %s happiness: %s petFoodList: %s", name, level, family, specialAbility, loyalty , happiness, petFoodList);
+  
+  GameTooltip:SetOwner(ArtemisMainDataFrameMCFrame, "ANCHOR_BOTTOM", 0,0	)
+	GameTooltip:AddLine(string.format("Pet: %s\n",name)  ,.8,.8,.8,1,false)
+  GameTooltip:AddLine(string.format("Level: %s",level)  ,.8,.8,.8,1,false)
+  GameTooltip:AddLine(string.format("Family: %s",family)  ,.8,.8,.8,1,false)
+  GameTooltip:AddLine(string.format("Loyalty: %s",loyalty)  ,.8,.8,.8,1,false)
+  GameTooltip:AddLine(string.format("Happiness: %s",tostring(happiness) )  ,.8,.8,.8,1,false)
+  
+  local petFoodString = ""
+  if( petFoodList ~= nil and petFoodList ~= "" ) then
+    for i,v in pairs(petFoodList) do
+        if (v ~= nil and v ~= "") then
+            petFoodString = petFoodString .. string.lower(v) .. ", " 
+        end
+    end
+  elseif( petFoodList ~= nil ) then
+    petFoodString = petFoodList
+  end
+  GameTooltip:AddLine(string.format("PetFoodList: %s",tostring(petFoodString))  ,.8,.8,.8,1,false)
+
+	GameTooltip:Show()
+end
+function Artemis:HideTooltipPet()
+	GameTooltip:Hide()
+end
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+              
 function Artemis:OnUpdateDataFrame()  
   --Artemis.DebugMsg("OnUpdate: Called")
   --TODO How often is this called?
@@ -390,9 +442,19 @@ function Artemis:LoadAmmoCount()
   
   textAmmoCount:SetText( Artemis.view.ammoCount )
   if( Artemis.view.rangedDurCurr ~= nil and Artemis.view.rangedDurMax ~= nil) then
-    textWpnDur:SetText(    Artemis.view.rangedDurCurr .. "/" .. Artemis.view.rangedDurMax )
+    textWpnDur:SetText(    Artemis.view.rangedDurCurr .. "/" .. Artemis.view.rangedDurMax )    
+    if(Artemis.view.rangedDurStatus==0) then
+      textWpnDur:SetTextColor(0,255,0)
+    elseif(Artemis.view.rangedDurStatus==1) then
+      textWpnDur:SetTextColor(0,125,125)
+    elseif(Artemis.view.rangedDurStatus==2) then
+      textWpnDur:SetTextColor(255,0,0)
+    else
+      textWpnDur:SetTextColor(0,255,0)
+    end
   else
-    textWpnDur:SetText( "n/a" )
+    textWpnDur:SetText( "n/a" )    
+    textWpnDur:SetTextColor(0,255,0);
   end
   
 end
@@ -401,7 +463,7 @@ function Artemis:DoStableMasterEvent()
 	Artemis.PrintMsg("You have opened the stable!")
   --If has one pet... scan the others
 	local icon, name, level, family, loyalty = GetStablePetInfo(1)
-	Artemis.DebugMsg("DoStableOpened name: " .. name .. "' family: '" ..family.. "'" )
+	Artemis.DebugMsg("DoStableOpened name: " .. tostring(name) .. "' family: '" ..tostring(family).. "'" )
 	if icon == nil and name == nil and family == nil then
 		Artemis:ResetStable()
     Artemis.PrintMsg("You have no pets at this time?")
@@ -413,33 +475,39 @@ end
 -------------------------------------------------------------------------
 -------------------------------------------------------------------------
 function Artemis:ScanCurrentPet()
+  Artemis.DebugMsg("ScanCurrentPet: Called")
  -- Current Pet is index ZERO  
+  Artemis:ScanPetAtIndex(0)
+  local petarr = ArtemisDBChar.stable[1]
+  --
   local happiness, damagePercentage, loyaltyRate = GetPetHappiness()
   local currXP, nextXP = GetPetExperience()
   local petFoodList = { GetPetFoodTypes() };
-
-  Artemis:ScanPetAtIndex(0)
-  local petarr = ArtemisDBChar.stable[0]
   --
+  local petarr2 =  { petarr[1], petarr[2], petarr[3], petarr[4], petarr[5], happiness, petFoodList, currXP, nextXP }   
+  ArtemisDBChar.stable[1] = petarr2
+  Artemis.DebugMsg("ScanCurrentPet: Done")
+  return petarr2
 end
 
 function Artemis:ScanPetAtIndex(index)
   --
   local icon, name, level, family, loyalty = GetStablePetInfo(index)
-  icon =  Artemis:SetStringOrDefault(icon,"")
+  --icon =  Artemis:SetStringOrDefault(icon,"")
   name =  Artemis:SetStringOrDefault(name,"")
   level =  Artemis:SetStringOrDefault(level,"")
   family =  Artemis:SetStringOrDefault(family,"")
   loyalty =  Artemis:SetStringOrDefault(loyalty,"")
   happiness =  Artemis:SetStringOrDefault(happiness,"")
-  petFoodList =  Artemis:SetStringOrDefault(petFoodList,"")
+  --petFoodList =  Artemis:SetStringOrDefault(petFoodList,"")
     
-  Artemis.DebugMsg("ScanStable: ScanPetAtIndex, index = " .. index .." icon=" .. icon .. " name="..name.." level="..level.." family=" .. family.. " loyalty="..loyalty .. " happiness="..happiness .. " petFoodList="..tostring(petFoodList)
+    
+  Artemis.DebugMsg("ScanPetAtIndex, index = " .. index .." icon=" .. tostring(icon) .. " name="..name.." level="..level.." family=" .. family.. " loyalty="..loyalty .. " happiness="..happiness .. " petFoodList="..tostring(petFoodList)
   );
   
   local petarr = {}
   petarr =  { name, family, level, icon, loyalty, happiness, petFoodList }
-  ArtemisDBChar.stable[petnumidx] =  petarr
+  ArtemisDBChar.stable[index+1] =  petarr
   --
 end
 
@@ -459,7 +527,7 @@ function Artemis:ScanStable()
 	for index=0, Artemis.view.maxPets-1 do		
     Artemis:ScanPetAtIndex(index)
     --{name, family, level, icon, loyalty, happiness, petFoodList }
-    local petarr = ArtemisDBChar.stable[index]
+    local petarr = ArtemisDBChar.stable[index+1]
     
     petnumidx = petnumidx +1
 		if petarr ~= nil and petarr[1] and petarr[1] ~= "" then		
@@ -524,7 +592,7 @@ function Artemis:ParsePetArray(petarr)
 			petFoodList = value
 		end    
 	end
-	miscinfo = L["PetFamilies_Unknown"]
+	miscinfo = "Unknown Family" --L["PetFamilies_Unknown"]
 	--miscinfo =  StableSnapshot:GetPetTypeInfo(family)
 	--defaultSpec    =  Artemis:GetPetDefaultSpec(family)	
 	--specialAbility =  Artemis:GetPetSpecialAbility(family)
@@ -572,6 +640,76 @@ function Artemis:ShowStable()
 end
 -------------------------------------------------------------------------
 -------------------------------------------------------------------------
+function Artemis:SetupMCFrame()
+	Artemis.DebugMsg("SetupMCFrame Called")
+  -- 1index is 0pet(Current)
+  Artemis:ScanCurrentPet()
+  local petarr = ArtemisDBChar.stable[1] 
+	local name, family, level, icon, specialAbility, defaultSpec, talent = Artemis:ParsePetArray(petarr)
+    
+  
+  if icon == nil then
+    icon = "Interface\\AddOns\\StableSnapshot\\Icons\\Default.png"
+  end  
+  name = Artemis:SetStringOrDefault(name,"No Pet")
+
+	if name == nil then
+		Artemis.DebugMsg("PrintPet: cant find current pet ")
+  end  
+  --Artemis.DebugMsg("PrintPet: icon = ".. tostring(icon) )
+
+  --
+  --ArtemisMainDataFrameMCFrame_MyCurrentPet:SetMouseOverTexture(icon)
+  ArtemisMainDataFrameMCFrame_MyCurrentPet:SetNormalTexture(icon)
+  
+  --
+  icon = nil
+  name = nil
+  if(#ArtemisDBChar.stable > 1) then
+    petarr = ArtemisDBChar.stable[2] 
+    name, family, level, icon, specialAbility, defaultSpec, talent = Artemis:ParsePetArray(petarr)
+  end
+  if icon == nil then
+    icon = "Interface\\AddOns\\StableSnapshot\\Icons\\Default.png"
+  end  
+  name = Artemis:SetStringOrDefault(name,"No Pet")
+
+	if name == nil then
+		Artemis.DebugMsg("PrintPet: cant find current pet ")
+  end  
+  ArtemisMainDataFrameMCFrame_MyStabledPet1:SetNormalTexture(icon)
+  
+  --
+  icon = nil
+  name = nil
+  if(#ArtemisDBChar.stable > 2) then
+    petarr = ArtemisDBChar.stable[3] 
+    name, family, level, icon, specialAbility, defaultSpec, talent = Artemis:ParsePetArray(petarr)
+  end
+  if icon == nil then
+    icon = "Interface\\AddOns\\StableSnapshot\\Icons\\Default.png"
+  end  
+  name = Artemis:SetStringOrDefault(name,"No Pet")
+
+	if name == nil then
+		Artemis.DebugMsg("PrintPet: cant find current pet ")
+  end  
+  ArtemisMainDataFrameMCFrame_MyStabledPet2:SetNormalTexture(icon)
+  
+  
+  --ArtemisMainDataFrameMCFrame_MyCurrentPet:SetImage(icon)
+  --ArtemisMainDataFrameMCFrame_MyCurrentPet:SetImageSize(30,30)
+  --ArtemisMainDataFrameMCFrame_MyCurrentPet:SetLabel(name) -- .. " ("..miscinfo..")" )
+  --ArtemisMainDataFrameMCFrame_MyCurrentPet.tooltipText = name
+  --ArtemisMainDataFrameMCFrame_MyCurrentPet.tooltip = name;
+  --
+  --tooltip/mouseover
+  
+  --next #2
+  --next #3
+  --
+	Artemis.DebugMsg("SetupMCFrame Done")
+end
 
 
 -------------------------------------------------------------------------
