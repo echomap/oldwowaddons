@@ -79,28 +79,68 @@ function Artemis:ShowHide()
 end
 
 function Artemis:SetupWindow()
-  ArtemisMainFrame:SetScript("OnEscapePressed", function(self) self:Hide() end)
+  --TODO ArtemisMainFrame:SetScript("OnEscapePressed", function(self) self:Hide() end)
   Artemis.view.setupmain = true
 end
 
 function Artemis:ShowWindow()  
 	ArtemisMainFrame:Show()
+  local hasUI, isHunterPet = HasPetUI();
+  if( hasUI and isHunterPet ) then
+    ArtemisMainFrame_HappinessFrame:Show()
+  end
+  ArtemisMainFrame_AmmoFrame:Show()
+  ArtemisMainFrame_wpnDurFrame:Show()
 	--Artemis_UpdateList()
   -- TODOcontent/tabs
 end
 
 function Artemis:HideWindow()
 	ArtemisMainFrame:Hide()
+  ArtemisMainFrame_HappinessFrame:Hide()
+  ArtemisMainFrame_AmmoFrame:Hide()
+  ArtemisMainFrame_wpnDurFrame:Hide()
 end
 
 function Artemis:BtnClose()
 	Artemis:HideWindow()
 end
 
+function Artemis:InitDataWindow()
+  --
+end
 
 function Artemis:SetupDataWindow() 
 	Artemis.DebugMsg("SetupDataWindow: Called")
-  Artemis:ScanCurrentPet()
+  local hasUI, isHunterPet = HasPetUI();
+  if( hasUI and isHunterPet ) then
+    Artemis:ScanCurrentPet()
+    local happiness, damagePercentage, loyaltyRate = GetPetHappiness()
+    local icon, name, level, family, loyalty = GetStablePetInfo(1)
+    if(name~=nil) then
+    --ArtemisMainFrame_HappinessFrame_textPetHappiness:SetText(loyaltyRate)
+      local happiness, damagePercentage, loyaltyRate = GetPetHappiness()
+      local happy = ({"Unhappy", "Content", "Happy"})[happiness]
+      local hText = "Unknown"
+      textPetHappiness:SetTextColor(0,255,0) -- green
+      if(happy~=nil) then
+        hText = string.format("Pet is... %s", happy)
+        --TODO set text color
+        if(happiness==1) then
+          textPetHappiness:SetTextColor(125,125,125) 
+        elseif(happiness==2) then
+          textPetHappiness:SetTextColor(0,125,125) --yellow
+        elseif(happiness==3) then
+          textPetHappiness:SetTextColor(0,255,0) --green
+        else
+          textPetHappiness:SetTextColor(0,125,125)--yellow
+        end
+      end
+      textPetHappiness:SetText(hText)
+    end
+  else
+    --TODO reset data?
+  end-- has pet
 end
 
 function Artemis:ShowDataWindow()
@@ -120,12 +160,13 @@ end
     
 function Artemis:ShowHideDataWindow()
 	if ArtemisMainDataFrame == nil then 
-		Artemis:SetupDataWindow()
+		Artemis:InitDataWindow()
     Artemis:ShowDataWindow()
 	else
     if (ArtemisMainDataFrame:IsShown()) then 
       Artemis:HideDataWindow()
     else
+      Artemis:SetupDataWindow()
       Artemis:ShowDataWindow()
 		end
 	end
@@ -209,6 +250,7 @@ function Artemis:OnUpdate()
   --Artemis.DebugMsg("OnUpdate: Called")
   --TODO How often is this called?
   Artemis:LoadAmmoCount()
+  Artemis:SetupDataWindow()
 end
 
 function Artemis:OnEvent(event, ...)	
@@ -238,7 +280,7 @@ function Artemis:OnLoad()
 	ArtemisMainFrame:RegisterEvent("PET_STABLE_SHOW")
 	--StableSnapshot:addSlideIcon() --create ldb launcher button
   
-  -- Initalize options
+  -- Initalize Saved Variables
 	if not ArtemisDB then ArtemisDB = {} end -- fresh DB
 	if not ArtemisDBChar then ArtemisDBChar = {} end -- fresh DB
   
@@ -290,10 +332,33 @@ end
 -------------------------------------------------------------------------
 -------------------------------------------------------------------------
 function Artemis:ShowTooltip(self,messageType)
+  if( not ArtemisMainFrame:IsShown()) then
+    return
+  end
   local message = "Artemis"
   if( messageType ~= nil) then
     if( messageType == "Settings") then 
       message = message .. " Settings/Options"
+    elseif( messageType == "AmmoCount") then
+      local itemName = Artemis.view.ammoItemName
+      message = "<" .. itemName .. ">"
+    elseif( messageType == "WpnDur") then
+      local itemLink = GetInventoryItemLink("player", Artemis.view.rangedSlot )
+      if( itemLink ~= nil) then
+        local itemName, itemLink2, itemRarity, itemLevel, itemMinLevel, itemType, 
+            itemSubType, itemStackCount, itemEquipLoc, itemTexture, itemSellPrice =  GetItemInfo(itemLink)      
+        message = "<" .. itemName .. ">"      
+      else
+        --TODO
+      end
+    elseif( messageType == "PetHappiness") then
+      if( ArtemisDBChar.stable ~= nil ) then
+        local petarr = ArtemisDBChar.stable[1] 
+        local name, family, level, icon, loyalty, happiness, petFoodList = Artemis:ParsePetArray(petarr)	
+        --local happiness, damagePercentage, loyaltyRate = GetPetHappiness()
+        --local happy = ({"Unhappy", "Content", "Happy"})[happiness]
+        message = "<" .. happiness .. ">"
+      end
     else
       message = message .. " " .. messageType
     end
@@ -308,12 +373,10 @@ end
 -------------------------------------------------------------------------
 -------------------------------------------------------------------------
 function Artemis:ClickPet(self,petIndex)
+  ArtemisMainDataFrameMCFrame_MyPetModel:ClearModel()
   --TODO model
   --TODO XXX
-  ArtemisMainDataFrameMCFrame_MyPetModel:ClearModel()
-  
-	--TODO 
-  SetPetStablePaperdoll(ArtemisMainDataFrameMCFrame_MMyPetModel)
+  SetPetStablePaperdoll(ArtemisMainDataFrameMCFrame_MyPetModel)
 end
 
 function Artemis:ShowTooltipPet(self,petIndex)
@@ -436,9 +499,23 @@ function Artemis:ResetStable()
 end
 
 function Artemis:LoadAmmoCount()
-  Artemis.view.ammoSlot  = GetInventorySlotInfo("AmmoSlot");
+  local slotId, textureName  = GetInventorySlotInfo("AmmoSlot");  
+  Artemis.view.ammoSlot = slotId
+  local itemId = GetInventoryItemID("unit", invSlot);
+  Artemis.view.ammoItemId = itemId
   Artemis.view.ammoCount = tonumber(GetInventoryItemCount("player", Artemis.view.ammoSlot ));
-  
+  local itemLink = GetInventoryItemLink("player", Artemis.view.ammoSlot )
+  --Artemis.PrintMsg("LoadAmmoCount: itemLink ".. tostring(itemLink) )
+  --Artemis.PrintMsg("LoadAmmoCount: ammoSlot  ".. tostring(Artemis.view.ammoSlot ) )
+  --Artemis.PrintMsg("LoadAmmoCount: itemId ".. tostring(itemId) )
+  Artemis.view.ammoItemName = "None"
+  if ( itemLink ~= nil ) then
+    local itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount,
+        itemEquipLoc, itemIcon, itemSellPrice, itemClassID, itemSubClassID, bindType, expacID, itemSetID, 
+          isCraftingReagent = GetItemInfo(itemId) 
+    Artemis.view.ammoItemName = itemName
+  end
+  --  
   Artemis.view.rangedSlot  = GetInventorySlotInfo("RangedSlot");
   local currDur, maxDur = GetInventoryItemDurability( Artemis.view.rangedSlot );
   Artemis.view.rangedDurCurr = currDur
@@ -450,13 +527,13 @@ function Artemis:LoadAmmoCount()
   if( Artemis.view.rangedDurCurr ~= nil and Artemis.view.rangedDurMax ~= nil) then
     textWpnDur:SetText(    Artemis.view.rangedDurCurr .. "/" .. Artemis.view.rangedDurMax )    
     if(Artemis.view.rangedDurStatus==0) then
-      textWpnDur:SetTextColor(0,255,0)
+      textWpnDur:SetTextColor(0,255,0) -- green
     elseif(Artemis.view.rangedDurStatus==1) then
-      textWpnDur:SetTextColor(0,125,125)
+      textWpnDur:SetTextColor(0,125,125) -- yellow
     elseif(Artemis.view.rangedDurStatus==2) then
-      textWpnDur:SetTextColor(255,0,0)
+      textWpnDur:SetTextColor(255,0,0) -- borken
     else
-      textWpnDur:SetTextColor(0,255,0)
+      textWpnDur:SetTextColor(0,255,0) -- green
     end
   else
     textWpnDur:SetText( "n/a" )    
@@ -491,6 +568,7 @@ function Artemis:ScanCurrentPet()
   local petFoodList = { GetPetFoodTypes() };
   --
   -- { name, family, level, icon, loyalty, happiness, petFoodList, currXP, nextXP }
+  --TODO rate is a number, translate to words??
   local petarr2 =  { petarr[1], petarr[2], petarr[3], petarr[4], loyaltyRate, happiness, petFoodList, currXP, nextXP }   
   ArtemisDBChar.stable[1] = petarr2
   Artemis.DebugMsg("ScanCurrentPet: Done")
@@ -541,8 +619,8 @@ function Artemis:ScanStable()
 			haveFilled = haveFilled +1
 		end
 	end --for
-	--print("Stored: num pets: " .. petnumidx)
-	print( "You have " .. haveFilled .. " pets stabled")
+	--Artemis.PrintMsg("Stored: num pets: " .. petnumidx)
+	Artemis.PrintMsg( "You have " .. haveFilled .. " pets.")
 	ArtemisDBChar.stable_petnumidx = petnumidx			
 	ArtemisDBChar.stable_lasttime  = date("%B %m %Y %H:%M:%S")
   --
@@ -553,15 +631,15 @@ function Artemis:printPet(petarr,index)
   name, family, level, icon, loyalty, happiness, petFoodList = Artemis:ParsePetArray(petarr)
 
 	if name == nil then
-		print( L["PrintPet_CantPrintNum"] .. index )
+		Artemis.PrintMsg( L["PrintPet_CantPrintNum"] .. index )
 	else 
 		if family == nil then
-			print("PrintPet: " .. name )
+			Artemis.PrintMsg("PrintPet: " .. name )
 		else
 			--miscinfo =  StableSnapshot:GetPetTypeInfo(family)
 			--defaultSpec    =  Artemis:GetPetDefaultSpec(family)	
       --specialAbility =  Artemis:GetPetSpecialAbility(family)
-			print("PrintPet: " .. name .. " is a " .. family .. " --> " .. family .. " loyalty = " .. loyalty) 
+			Artemis.PrintMsg("PrintPet: " .. name .. " is a " .. family .. " --> " .. family .. " loyalty = " .. loyalty) 
 		end
 	end
 end
@@ -576,7 +654,7 @@ function Artemis:ParsePetArray(petarr)
   happiness = "";
   petFoodList = "";
 	for index,value in ipairs(petarr) do 
-		--print( tostring(index) .. " : " .. value )
+		--Artemis.PrintMsg( tostring(index) .. " : " .. value )
 		if index == 1 then
 			name = value
 		end
@@ -619,19 +697,19 @@ function Artemis:ShowStable()
 	maxNum = ArtemisDBChar.stable_petnumidx
   --
 	if maxNum == nil then
-		print( L["ShowStable_NoneSaved"] )
+		Artemis.PrintMsg( L["ShowStable_NoneSaved"] )
 		--playerUnitId = UnitId("player")
 		localizedClass, englishClass = UnitClass("player");
 		Artemis.DebugMsg("ShowStable englishClass: " .. englishClass .. "'" )
 		if englishClass == 'HUNTER' then
-			print( L["ShowStable_NoneSaved_Hunter"] )
+			Artemis.PrintMsg( L["ShowStable_NoneSaved_Hunter"] )
 		end
 	else 
-		print( L["ShowStable_MaxNum"] .. maxNum )	
+		Artemis.PrintMsg( L["ShowStable_MaxNum"] .. maxNum )	
 		
 		petarrAll = ArtemisDBChar.stable
 		if petarrAll == nil then
-			print( L["ShowStable_NoPets"] )
+			Artemis.PrintMsg( L["ShowStable_NoPets"] )
 		else 	
 			for index=1, maxNum-1 do				
 				petarr = ArtemisDBChar.stable[index] 
@@ -654,7 +732,7 @@ function Artemis:SetupMCFrame()
   local petarr = ArtemisDBChar.stable[1] 
 	local name, family, level, icon, specialAbility, defaultSpec, talent = Artemis:ParsePetArray(petarr)
     
-  
+  -- 
   if icon == nil then
     icon = "Interface\\AddOns\\StableSnapshot\\Icons\\Default.png"
   end  
