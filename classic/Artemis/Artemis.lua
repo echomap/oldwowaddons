@@ -111,7 +111,7 @@ function Artemis:InitDataWindow()
 end
 
 function Artemis:SetupDataWindow() 
-	Artemis.DebugMsg("SetupDataWindow: Called")
+	--Artemis.DebugMsg("SetupDataWindow: Called")
   local hasUI, isHunterPet = HasPetUI();
   if( hasUI and isHunterPet ) then
     Artemis:ScanCurrentPet()
@@ -213,6 +213,8 @@ function Artemis.SlashCommandHandler(msg)
     else
       Artemis:GetAbilitiesBase() 
     end
+  elseif options[1] == "searchabilities" then
+    Artemis:SearchAbilities(options[2]) --,options[3])--,maxLvl)
   else
     Artemis:ShowHelp()
   end
@@ -510,7 +512,7 @@ function Artemis:LoadAmmoCount()
   --Artemis.PrintMsg("LoadAmmoCount: itemId ".. tostring(itemId) )
   Artemis.view.ammoItemName = "None"
   if ( itemLink ~= nil ) then
-    local itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount,
+    local itemName, itemLink2, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount,
         itemEquipLoc, itemIcon, itemSellPrice, itemClassID, itemSubClassID, bindType, expacID, itemSetID, 
           isCraftingReagent = GetItemInfo(itemId) 
     Artemis.view.ammoItemName = itemName

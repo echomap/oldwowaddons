@@ -4,56 +4,56 @@ Written by : echomap
 --]]
 
 Artemis.Ability_Base_List = {
-  "Bite",
-  "Charge",
-  "Claw",
-  "Cower",
-  "Dash",
-  "Dive",
-  "Furious Howl",
-  "Lightning Breath",
-  "Prowl",
-  "Scorpid Poison",
-  "Screech",
-  "Shell Shield",
-  "Thunderstomp",
-  "Arcane Resistance",
-  "Fire Resistance",
-  "Frost Resistance",
-  "Great Stamina",
-  "Growl",
-  "Natural Armor",
-  "Nature Resistance",
-  "Shadow Resistance",
+  "cite",
+  "charge",
+  "claw",
+  "cower",
+  "dash",
+  "dive",
+  "furious howl",
+  "lightning breath",
+  "prowl",
+  "scorpid poison",
+  "screech",
+  "shell shield",
+  "thunderstomp",
+  "arcane resistance",
+  "fire resistance",
+  "frost resistance",
+  "great stamina",
+  "growl",
+  "natural armor",
+  "nature resistance",
+  "shadow resistance",
 }
 
 Artemis.Abilities_Base = {
-  ["Bite"] = {
+  ["bite"] = {
       ["trainer"] = false ,
       ["MaxLevel"] = 8 ,
     } ,
-  ["Charge"] = {
+  ["charge"] = {
       ["trainer"] = false , ["MaxLevel"] = 6 ,
     } ,
-  ["Claw"] = {
+  ["claw"] = {
       ["trainer"] = false , ["MaxLevel"] = 8 ,
     } ,
-  ["Cower"] = {
+  ["cower"] = {
       ["trainer"] = false , ["MaxLevel"] = 6 ,
     } ,
-  ["Dash"] = {
+  ["dash"] = {
       ["trainer"] = false , ["MaxLevel"] = 3 ,
     } ,
-  ["Dive"] = {
+  ["dive"] = {
       ["trainer"] = false , ["MaxLevel"] = 0 ,
     } ,
-  ["Furious Howl"] = {
+  ["furious howl"] = {
       ["trainer"] = false , ["MaxLevel"] = 4 ,
     } ,
-  ["Lightning Breath"] = {
+  ["lightning breath"] = {
       ["trainer"] = false , ["MaxLevel"] = 6 ,
     } ,
-  ["Prowl"] = {
+  ["prowl"] = {
       ["trainer"] = false , ["MaxLevel"] = 3 ,
     } ,
   ["Scorpid Poison"] = {
@@ -96,8 +96,8 @@ Artemis.Abilities_Base = {
 
 
 Artemis.Ability_List = {
-  "Bite 1", "Bite 2", "Bite 3", "Bite 4", "Bite 5", "Bite 6", "Bite 7", "Bite 8",
-  "Charge 1","Charge 2","Charge 3","Charge 4","Charge 5","Charge 6",
+  "bite 1", "bite 2", "bite 3", "bite 4", "bite 5", "bite 6", "bite 7", "bite 8",
+  "charge 1","charge 2","charge 3","charge 4","charge 5","charge 6",
   "Claw 1","Claw 2","Claw 3","Claw 4","Claw 5","Claw 6","Claw 7","Claw 8",
   "Cower 1","Cower 2","Cower 3","Cower 4","Cower 5","Cower 6",
   "Dash 1","Dash 2","Dash 3",
@@ -124,14 +124,14 @@ Artemis.Ability_List = {
 
 --
 Artemis.AbilityFamily = {
-  ["Bite"] = {
+  ["bite"] = {
     ["trainer"] = false ,
     ["CanLearnText"] = "Can be learned by: Bats, Bears, Boars, Carrion Birds, Cats, Crocolisks, Gorillas, Hyenas, Raptors, Spiders, Tallstriders, Turtles, Wind Serpents, Wolves",
     ["CanLearnList"] = { "Bats", "Bears", "Boars", "Carrion Birds", "Cats", "Crocolisks", "Gorillas", "Hyenas", "Raptors", "Spiders", "Tallstriders", "Turtles", "Wind Serpents", "Wolves" } ,
    ["Text"] = "Bite the enemy, causing damage.",
   },
   
-  ["Charge"] = {
+  ["charge"] = {
     ["trainer"] = false ,
     ["CanLearnText"] = "Can be learned by: Boars",
     ["CanLearnList"] = { "Boars" } ,
@@ -141,7 +141,7 @@ Artemis.AbilityFamily = {
 
 --
 Artemis.Abilities = {
-  ["Bite 1"] = {
+  ["bite 1"] = {
     ["trainer"] = false ,
     ["MinPetLevel"] = 1 ,
     ["CostTP"] = 1 ,
@@ -150,7 +150,7 @@ Artemis.Abilities = {
     ["AbilityLevel"] = 1,
     ["AbilityValue"] = 7,
   } ,
-  ["Bite 2"] = {
+  ["bite 2"] = {
     ["trainer"] = false ,
     ["MinPetLevel"] = 8 ,
     ["CostTP"] = 4 ,
@@ -159,7 +159,7 @@ Artemis.Abilities = {
     ["AbilityLevel"] = 2,
     ["AbilityValue"] = 16,
   } ,
-  ["Bite 3"] = {
+  ["bite 3"] = {
     ["trainer"] = false ,
     ["MinPetLevel"] = 16 ,
     ["CostTP"] = 7 ,
@@ -632,18 +632,18 @@ end
 
 --
 function Artemis:CreateTameList()
-  Artemis:CreateTameListItem("Bite 1","TamingList","Ragged Scavenger","Wolf",2,3,"Tirisfal Glades")
-  Artemis:CreateTameListItem("Bite 1","TamingList","Night Web Spider","Spider",3,4,"Tirisfal Glades")
-  Artemis:CreateTameListItem("Bite 1","TamingList","Prairie Wolf","Wolf",5,6,"Mulgore")
-  Artemis:CreateTameListItem("Bite 1","TamingList","Night Web Matriarch","Spider",5,5,"Tirisfal Glades")
-  Artemis:CreateTameListItem("Bite 1","TamingList","Githyiss the Vile","Spider",5,53,"Teldrassil")
-  Artemis:CreateTameListItem("Bite 1","TamingList","Forest Spider","Spider",5,6,"Elwynn Forest")
-  Artemis:CreateTameListItem("Bite 1","TamingList","Snow Tracker","Wolf",6,7,"Dun Morogh")
-  Artemis:CreateTameListItem("Bite 1","TamingList","Prairie Stalker","Wolf",7,8,"Mulgore")
-  Artemis:CreateTameListItem("Bite 1","TamingList","Gray Forest Wolf","Wolf",7,8,"Elwynn Forest")
-  Artemis:CreateTameListItem("Bite 1","TamingList","Webwood Venomfang","Spider",7,8,"Teldrassil")
-  Artemis:CreateTameListItem("Bite 1","TamingList","Winter Wolf","Wolf",7,8,"Dun Morogh")
-  Artemis:CreateTameListItem("Bite 1","TamingList","Dreadmaw Crocolisk","Crocolisk",5,5,"Durotar")
+  Artemis:CreateTameListItem("bite 1","TamingList","Ragged Scavenger","Wolf",2,3,"Tirisfal Glades")
+  Artemis:CreateTameListItem("bite 1","TamingList","Night Web Spider","Spider",3,4,"Tirisfal Glades")
+  Artemis:CreateTameListItem("bite 1","TamingList","Prairie Wolf","Wolf",5,6,"Mulgore")
+  Artemis:CreateTameListItem("bite 1","TamingList","Night Web Matriarch","Spider",5,5,"Tirisfal Glades")
+  Artemis:CreateTameListItem("bite 1","TamingList","Githyiss the Vile","Spider",5,53,"Teldrassil")
+  Artemis:CreateTameListItem("bite 1","TamingList","Forest Spider","Spider",5,6,"Elwynn Forest")
+  Artemis:CreateTameListItem("bite 1","TamingList","Snow Tracker","Wolf",6,7,"Dun Morogh")
+  Artemis:CreateTameListItem("bite 1","TamingList","Prairie Stalker","Wolf",7,8,"Mulgore")
+  Artemis:CreateTameListItem("bite 1","TamingList","Gray Forest Wolf","Wolf",7,8,"Elwynn Forest")
+  Artemis:CreateTameListItem("bite 1","TamingList","Webwood Venomfang","Spider",7,8,"Teldrassil")
+  Artemis:CreateTameListItem("bite 1","TamingList","Winter Wolf","Wolf",7,8,"Dun Morogh")
+  Artemis:CreateTameListItem("bite 1","TamingList","Dreadmaw Crocolisk","Crocolisk",5,5,"Durotar")
   
 
   Artemis:CreateTameListItem("Bite 2","TamingList","Starving Winter Wolf","Wolf",8,9,"Dun Morogh")
@@ -746,9 +746,9 @@ Bite 8: Pet Level 56, Cost 25 TP. Bite the enemy, causing 81 to 99 damage. Can b
 ]]--
 
   --
-  Artemis:CreateTameListItem("Charge 1","TamingList","Young Thistle Boar","Boar",1,2,"Teldrassil")
-  Artemis:CreateTameListItem("Charge 1","TamingList","Mottled Boar","Boar",1,2,"Durotar")
-  Artemis:CreateTameListItem("Charge 1","TamingList","Thistle Boar","Boar",2,3,"Teldrassil")
+  Artemis:CreateTameListItem("charge 1","TamingList","Young Thistle Boar","Boar",1,2,"Teldrassil")
+  Artemis:CreateTameListItem("charge 1","TamingList","Mottled Boar","Boar",1,2,"Durotar")
+  Artemis:CreateTameListItem("carge 1","TamingList","Thistle Boar","Boar",2,3,"Teldrassil")
   Artemis:CreateTameListItem("Charge 1","TamingList","Battleboar","Boar",3,4,"Mulgore")
   Artemis:CreateTameListItem("Charge 1","TamingList","Small Crag Boar","Boar",3,3,"Dun Morogh")
   Artemis:CreateTameListItem("Charge 1","TamingList","Bristleback Battleboar","Boar",4,5,"Mulgore")
@@ -859,4 +859,72 @@ Artemis.Abilities = {
 --]]--
   Artemis.DebugMsg("GetAbilitiesBaseList: End")
 end
+
+
+--
+function Artemis:SearchAbilities(abilityName,minLvl,maxLvl) 
+  Artemis.DebugMsg("SearchAbilities: Start")
+  local retElem = {}
+  if(abilityName==nil) then
+    return retElem
+  end
+  Artemis.DebugMsg("SearchAbilities: abilityName = ".. abilityName)  
+  local elemA = Artemis.Abilities[abilityName]
+  if(elemA~=nil) then
+    local elemT = elemA["TamingList"]
+    if(elemT~=nil) then
+      for kName, kTable in pairs(elemT) do
+        Artemis.DebugMsg("SearchAbilities: kName="..tostring(kName))
+        local kMinL = kTable["MinLvl"]
+        local kMaxL = kTable["MaxLvl"]
+        local dataok = true
+        if(minLvl~=nil) then
+          --check lvl
+          dataok = false
+        end
+        if(maxLvl~=nil) then
+          --check lvl
+          dataok = false
+        end
+        if(dataok) then
+          retElem[kName] = kTable
+        end        
+      end --for 
+    else
+      Artemis.DebugMsg("SearchAbilities: not found TamingList")
+    end
+  else
+    Artemis.DebugMsg("SearchAbilities: not found ability")
+  end
+  --retElem
+  for kName, kTable in pairs(retElem) do
+    Artemis.DebugMsg("SearchAbilities: kName="..tostring(kName))
+    for vName, vValue in pairs(kTable) do
+      Artemis.DebugMsg("SearchAbilities: vName="..tostring(vName))
+      Artemis.DebugMsg("SearchAbilities: vValue="..tostring(vValue))
+    end
+  end
+  
+  --[[
+   Artemis.Abilities[abilityName][subElem][name] = {
+          ["type"] = family,
+          ["MinLvl"] = minlvl,
+          ["MaxLvl"] = maxlvl, 
+          ["location"] = location
+          
+  for k, v in pairs(Artemis.Abilities_Base) do
+    Artemis.DebugMsg("GetAbilitiesBase: k="..tostring(k))
+  end
+    
+  --for id,tag in pairs(searchTagsLoc[loc]) do
+	--	tagList[tag]=GBB_TAGSEARCH
+	--end
+    "Bite" = {
+      ["trainer"] = false , ["MaxLevel"] = 8 ,
+    } ,
+    ]]--
+  Artemis.DebugMsg("SearchAbilities: End")
+end
+
+
 
