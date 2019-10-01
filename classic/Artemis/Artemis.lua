@@ -342,8 +342,14 @@ function Artemis:ShowTooltip(self,messageType)
     if( messageType == "Settings") then 
       message = message .. " Settings/Options"
     elseif( messageType == "AmmoCount") then
-      local itemName = Artemis.view.ammoItemName
-      message = "<" .. itemName .. ">"
+      local itemLink = GetInventoryItemLink("player", Artemis.view.ammoSlot )
+      if( itemLink ~= nil) then
+        local itemName, itemLink2, itemRarity, itemLevel, itemMinLevel, itemType, 
+            itemSubType, itemStackCount, itemEquipLoc, itemTexture, itemSellPrice =  GetItemInfo(itemLink)      
+        message = "<" .. itemName .. ">"      
+      else
+        message = "< None >"
+      end
     elseif( messageType == "WpnDur") then
       local itemLink = GetInventoryItemLink("player", Artemis.view.rangedSlot )
       if( itemLink ~= nil) then
@@ -351,7 +357,7 @@ function Artemis:ShowTooltip(self,messageType)
             itemSubType, itemStackCount, itemEquipLoc, itemTexture, itemSellPrice =  GetItemInfo(itemLink)      
         message = "<" .. itemName .. ">"      
       else
-        --TODO
+        message = "< None >"
       end
     elseif( messageType == "PetHappiness") then
       if( ArtemisDBChar.stable ~= nil ) then
@@ -506,17 +512,6 @@ function Artemis:LoadAmmoCount()
   local itemId = GetInventoryItemID("unit", invSlot);
   Artemis.view.ammoItemId = itemId
   Artemis.view.ammoCount = tonumber(GetInventoryItemCount("player", Artemis.view.ammoSlot ));
-  local itemLink = GetInventoryItemLink("player", Artemis.view.ammoSlot )
-  --Artemis.PrintMsg("LoadAmmoCount: itemLink ".. tostring(itemLink) )
-  --Artemis.PrintMsg("LoadAmmoCount: ammoSlot  ".. tostring(Artemis.view.ammoSlot ) )
-  --Artemis.PrintMsg("LoadAmmoCount: itemId ".. tostring(itemId) )
-  Artemis.view.ammoItemName = "None"
-  if ( itemLink ~= nil ) then
-    local itemName, itemLink2, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount,
-        itemEquipLoc, itemIcon, itemSellPrice, itemClassID, itemSubClassID, bindType, expacID, itemSetID, 
-          isCraftingReagent = GetItemInfo(itemId) 
-    Artemis.view.ammoItemName = itemName
-  end
   --  
   Artemis.view.rangedSlot  = GetInventorySlotInfo("RangedSlot");
   local currDur, maxDur = GetInventoryItemDurability( Artemis.view.rangedSlot );
