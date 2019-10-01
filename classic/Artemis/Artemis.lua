@@ -25,6 +25,7 @@ Artemis = {
     --savedVariables  = {},
 }
 -------------------------------------------------------------------------
+-- UTILS
 -------------------------------------------------------------------------
 function Artemis.DebugMsg(msg)
   if( msg ~= nil and msg ~= "" and Artemis.view.debug ) then 
@@ -56,12 +57,8 @@ function Artemis:trim (s)
       return (string.gsub(s, "^%s*(.-)%s*$", "%1"))
 end
 -------------------------------------------------------------------------
+--MAIN UI
 -------------------------------------------------------------------------
-function Artemis:ShowHelp()
-  print("---===ARTEMIS====---")
-  print("/artemis <gui/debug/printabilities/printability <name>" )
-end
-
 function Artemis:ShowHide()
 	--DEFAULT_CHAT_FRAME:AddMessage("Is shown?" .. "was clicked.")
 	if ArtemisMainFrame == nil or not Artemis.view.setupmain then 
@@ -87,8 +84,9 @@ function Artemis:ShowWindow()
 	ArtemisMainFrame:Show()
   local hasUI, isHunterPet = HasPetUI();
   if( hasUI and isHunterPet ) then
-    ArtemisMainFrame_HappinessFrame:Show()
+    ArtemisMainFrame_HappinessFrame:Show() --TODO not showing?
   end
+  --if has ammo and ranged weapon TODO
   ArtemisMainFrame_AmmoFrame:Show()
   ArtemisMainFrame_wpnDurFrame:Show()
 	--Artemis_UpdateList()
@@ -102,10 +100,124 @@ function Artemis:HideWindow()
   ArtemisMainFrame_wpnDurFrame:Hide()
 end
 
+--GUI close button clicked
 function Artemis:BtnClose()
 	Artemis:HideWindow()
 end
 
+-- really called from MAIN frame?
+function Artemis:InitAddon()
+  Artemis.DebugMsg("Init: Called")
+  --uuu
+end
+
+function Artemis:OnUpdate()
+  --Artemis.DebugMsg("OnUpdate: Called")
+  --TODO How often is this called? too often probably?
+  Artemis:LoadAmmoCount()
+  Artemis:SetupDataWindow()
+end
+
+function Artemis:OnEvent(event, ...)	
+  Artemis.DebugMsg("OnEvent: Called")
+	local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg, arg9 = ...
+	if event == "ADDON_LOADED" and arg1 == "ArtemisMainFrame" then
+    Artemis.DebugMsg("OnEvent: ADDON_LOADED")
+		ArtemisMainFrame:UnregisterEvent("ADDON_LOADED")
+		Artemis:InitAddon()
+  elseif event == "PLAYER_LOGOUT" then
+    Artemis:OnUnLoad()
+	elseif event == "PET_STABLE_SHOW" then
+    Artemis:DoStableMasterEvent()
+	elseif event == "PET_STABLE_UPDATE" then
+    Artemis:DoStableMasterEvent()
+  elseif event == "UNIT_PET" then
+    Artemis:CheckPetChanged()
+  elseif event == "UNIT_HAPPINESS" then
+    --TODO check... values? arg1??
+    Artemis:UpdatePetHappiness()
+  else
+    --TODO How often is this called?
+    --Artemis:LoadAmmoCount()
+  end
+end
+
+function Artemis:OnUnLoad()
+  Artemis.DebugMsg("OnUnLoad: Called")
+  ArtemisMainFrame:UnregisterEvent("PET_STABLE_SHOW")
+  ArtemisMainFrame:UnregisterEvent("PET_STABLE_UPDATE")
+  ArtemisMainFrame:UnregisterEvent(" UNIT_PET")
+  ArtemisMainFrame:UnregisterEvent("UNIT_HAPPINESS")
+  Artemis.DebugMsg("OnUnLoad: Done")
+end
+
+function Artemis:OnLoad()
+  Artemis.DebugMsg("OnLoad: Called")
+  ArtemisMainFrame:RegisterEvent("ADDON_LOADED");  -- Fired when saved variables are loaded
+  ArtemisMainFrame:RegisterEvent("PLAYER_LOGOUT"); -- Fired when about to log out
+  ArtemisMainFrame:RegisterForDrag("LeftButton");  -- DRAG
+  
+	ArtemisMainFrame:RegisterEvent("PET_STABLE_SHOW")
+  ArtemisMainFrame:RegisterEvent("PET_STABLE_UPDATE")
+  
+  ArtemisMainFrame:RegisterUnitEvent("UNIT_PET","player")
+  ArtemisMainFrame:RegisterUnitEvent("UNIT_HAPPINESS","pet")
+
+	--StableSnapshot:addSlideIcon() --create ldb launcher button
+  
+  -- Initalize Saved Variables
+	if not ArtemisDB then ArtemisDB = {} end -- fresh DB
+	if not ArtemisDBChar then ArtemisDBChar = {} end -- fresh DB
+  
+  localizedClass, englishClass = UnitClass("player");
+  if englishClass == 'HUNTER' then
+    Artemis:ShowWindow()
+  end
+    
+	print("v"..Artemis.version.." loaded")
+end
+
+function Artemis:BtnStartSizeing()
+  --Artemis.DebugMsg("BtnStartSizeing: Called")
+  ArtemisMainFrame:StartSizing()		
+end
+function Artemis:BtnStopSizeing()
+  --Artemis.DebugMsg("BtnStopSizeing: Called")
+	ArtemisMainFrame:StopMovingOrSizing()
+	Artemis:ResizeGui()
+	Artemis:SaveAnchors()
+end
+function Artemis:ResizeGui()
+  --Artemis.DebugMsg("ResizeGui: Called")
+	--ArtemisMainFrame_ScrollChildFrame:SetWidth(ArtemisMainFrame_ScrollFrame:GetWidth())
+end
+function Artemis:SaveAnchors()
+  --Artemis.DebugMsg("SaveAnchors: Called")
+	--GroupBulletinBoardDB.X = GroupBulletinBoardFrame:GetLeft()
+	--GroupBulletinBoardDB.Y = GroupBulletinBoardFrame:GetTop()
+	--GroupBulletinBoardDB.Width = GroupBulletinBoardFrame:GetWidth()
+	--GroupBulletinBoardDB.Height = GroupBulletinBoardFrame:GetHeight()
+end
+
+function Artemis:OnSizeChanged()
+  --Artemis.DebugMsg("OnSizeChanged: Called")
+  Artemis:ResizeGui()
+end
+function Artemis:OnDragStart()
+  --Artemis.DebugMsg("OnDragStart: Called")  
+	ArtemisMainFrame:StartMoving()
+end
+function Artemis:OnDragStop()
+  --Artemis.DebugMsg("OnDragStop: Called")
+	ArtemisMainFrame:StopMovingOrSizing()
+	Artemis:SaveAnchors()
+end
+
+
+
+-------------------------------------------------------------------------
+--Stable UI
+-------------------------------------------------------------------------
 function Artemis:InitDataWindow()
   --
 end
@@ -157,7 +269,6 @@ function Artemis:HideDataWindow()
   ArtemisMainDataFrameMCFrame:Hide()
 end
 
-    
 function Artemis:ShowHideDataWindow()
 	if ArtemisMainDataFrame == nil then 
 		Artemis:InitDataWindow()
@@ -173,12 +284,132 @@ function Artemis:ShowHideDataWindow()
 	--DEFAULT_CHAT_FRAME:AddMessage(tostring(arg1).." was clicked.")
   --TODO frames/tabs
 end
+
 function Artemis:BtnCloseDataFrame()
 	Artemis:HideDataWindow()
 end
 
+
+function Artemis:ClickPet(self,petIndex)
+  ArtemisMainDataFrameMCFrame_MyPetModel:ClearModel()
+  --TODO model
+  --TODO XXX
+  SetPetStablePaperdoll(ArtemisMainDataFrameMCFrame_MyPetModel)
+end
+
+function Artemis:ShowTooltipPet(self,petIndex)
+  local message = "Artemis"
+  if( petIndex == nil) then
+    petIndex = 1
+  end
+  local petarr = ArtemisDBChar.stable[petIndex] 
+  local name, family, level, icon, loyalty, happiness, petFoodList = Artemis:ParsePetArray(petarr)	
+  
+  if icon == nil then
+    icon = "Interface\\AddOns\\StableSnapshot\\Icons\\Default.png"
+  end  
+  name = Artemis:SetStringOrDefault(name,"No Pet")
+
+  --local message = string.format("Pet %s Level: %s Family: %s Special: %s loyalty: %s happiness: %s petFoodList: %s", name, level, family, specialAbility, loyalty , happiness, petFoodList);
+  
+  GameTooltip:SetOwner(ArtemisMainDataFrameMCFrame, "ANCHOR_BOTTOM", 0,0	)
+	GameTooltip:AddLine(string.format("Pet: %s\n",name)  ,.8,.8,.8,1,false)
+  GameTooltip:AddLine(string.format("Level: %s",level)  ,.8,.8,.8,1,false)
+  GameTooltip:AddLine(string.format("Family: %s",family)  ,.8,.8,.8,1,false)
+  GameTooltip:AddLine(string.format("Loyalty: %s",loyalty)  ,.8,.8,.8,1,false)
+  GameTooltip:AddLine(string.format("Happiness: %s",tostring(happiness) )  ,.8,.8,.8,1,false)
+  
+  local petFoodString = ""
+  if( petFoodList ~= nil and petFoodList ~= "" ) then
+    for i,v in pairs(petFoodList) do
+        if (v ~= nil and v ~= "") then
+            petFoodString = petFoodString .. string.lower(v) .. ", " 
+        end
+    end
+  elseif( petFoodList ~= nil ) then
+    petFoodString = petFoodList
+  end
+  GameTooltip:AddLine(string.format("PetFoodList: %s",tostring(petFoodString))  ,.8,.8,.8,1,false)
+
+	GameTooltip:Show()
+end
+function Artemis:HideTooltipPet()
+	GameTooltip:Hide()
+end
 -------------------------------------------------------------------------
 -------------------------------------------------------------------------
+function Artemis:OnUpdateDataFrame()  
+  --Artemis.DebugMsg("OnUpdate: Called")
+  --TODO How often is this called?
+end
+
+function Artemis:OnLoadDataFrame()
+end
+
+function Artemis:OnEventDataFrame(event, ...)
+  --Artemis.DebugMsg("OnEventDataFrame: Called")
+	local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg, arg9 = ...
+	if event == "ADDON_LOADED" and arg1 == "ArtemisMainDataFrame" then
+    Artemis.DebugMsg("OnEvent: ADDON_LOADED (DataFrame)")
+		--ArtemisMainDataFrame:UnregisterEvent("ADDON_LOADED")
+		--Artemis:InitAddon()
+  elseif event == "PLAYER_LOGOUT" then
+    --
+    --ArtemisMainDataFrame:UnregisterEvent("PET_STABLE_SHOW")
+	elseif event == "PET_STABLE_SHOW" then
+    --Artemis:DoStableMasterEvent()
+  else
+    --TODO How often is this called?
+    --Artemis:LoadAmmoCount()
+  end
+end
+
+function Artemis:OnLoadDataFrame()
+  Artemis.DebugMsg("OnLoadDataFrame: Called")
+  ArtemisMainDataFrame:RegisterForDrag("LeftButton");  -- DRAG
+  -- Initalize options
+  --
+	--print("v"..Artemis.version.." loaded")
+end
+
+function Artemis:OnDragStartDataFrame()
+  --Artemis.DebugMsg("OnDragStartDataFrame: Called")  
+	ArtemisMainDataFrame:StartMoving()
+end
+function Artemis:OnDragStopDataFrame()
+  --Artemis.DebugMsg("OnDragStopDataFrame: Called")
+	ArtemisMainDataFrame:StopMovingOrSizing()
+	Artemis:SaveAnchorsDataFrame()
+end
+
+function Artemis:SaveAnchorsDataFrame()
+  --Artemis.DebugMsg("SaveAnchors: Called")
+	--GroupBulletinBoardDB.X = GroupBulletinBoardFrame:GetLeft()
+	--GroupBulletinBoardDB.Y = GroupBulletinBoardFrame:GetTop()
+	--GroupBulletinBoardDB.Width = GroupBulletinBoardFrame:GetWidth()
+	--GroupBulletinBoardDB.Height = GroupBulletinBoardFrame:GetHeight()
+end
+
+function Artemis:ShowTooltipDataFrame(self,messageType)
+  --
+end
+function Artemis:HideTooltipDataFrame(self)  
+	--GameTooltip:Hide()
+end
+
+
+
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+
+-------------------------------------------------------------------------
+-- Slash Commands
+-------------------------------------------------------------------------
+function Artemis:ShowHelp()
+  print("---===ARTEMIS====---")
+  print("/artemis <gui/debug/printabilities/printability <name>" )
+end
+
 --Commands, help/debug/beta/testdata/deltestdata
 function Artemis.SlashCommandHandler(msg)  
 	Artemis.DebugMsg("SlashCommandHandler: " .. tostring(msg) )
@@ -235,103 +466,15 @@ function Artemis.SlashCommandHandler(msg)
 	end	
   --]]--
 end
--------------------------------------------------------------------------
--------------------------------------------------------------------------
+
 SlashCmdList["Artemis"] = function(msg)
               Artemis.SlashCommandHandler(msg);
             end
 SLASH_Artemis1 = "/artemis"
 SLASH_Artemis2 = "/artemes"
--------------------------------------------------------------------------
--------------------------------------------------------------------------
-function Artemis:Init()
-  Artemis.DebugMsg("Init: Called")
-end
 
-function Artemis:OnUpdate()
-  --Artemis.DebugMsg("OnUpdate: Called")
-  --TODO How often is this called?
-  Artemis:LoadAmmoCount()
-  Artemis:SetupDataWindow()
-end
-
-function Artemis:OnEvent(event, ...)	
-  Artemis.DebugMsg("OnEvent: Called")
-	local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg, arg9 = ...
-	if event == "ADDON_LOADED" and arg1 == "ArtemisMainFrame" then
-    Artemis.DebugMsg("OnEvent: ADDON_LOADED")
-		ArtemisMainFrame:UnregisterEvent("ADDON_LOADED")
-		Artemis:Init()
-  elseif event == "PLAYER_LOGOUT" then
-    --
-    ArtemisMainFrame:UnregisterEvent("PET_STABLE_SHOW")
-	elseif event == "PET_STABLE_SHOW" then
-    Artemis:DoStableMasterEvent()
-  else
-    --TODO How often is this called?
-    --Artemis:LoadAmmoCount()
-  end
-end
-
-function Artemis:OnLoad()
-  Artemis.DebugMsg("OnLoad: Called")
-  ArtemisMainFrame:RegisterEvent("ADDON_LOADED");  -- Fired when saved variables are loaded
-  ArtemisMainFrame:RegisterEvent("PLAYER_LOGOUT"); -- Fired when about to log out
-  ArtemisMainFrame:RegisterForDrag("LeftButton");  -- DRAG
-  
-	ArtemisMainFrame:RegisterEvent("PET_STABLE_SHOW")
-	--StableSnapshot:addSlideIcon() --create ldb launcher button
-  
-  -- Initalize Saved Variables
-	if not ArtemisDB then ArtemisDB = {} end -- fresh DB
-	if not ArtemisDBChar then ArtemisDBChar = {} end -- fresh DB
-  
-  localizedClass, englishClass = UnitClass("player");
-  if englishClass == 'HUNTER' then
-    Artemis:ShowWindow()
-  end
-    
-	print("v"..Artemis.version.." loaded")
-end
 -------------------------------------------------------------------------
--------------------------------------------------------------------------
-function Artemis:OnSizeChanged()
-  --Artemis.DebugMsg("OnSizeChanged: Called")
-  Artemis:ResizeGui()
-end
-function Artemis:OnDragStart()
-  --Artemis.DebugMsg("OnDragStart: Called")  
-	ArtemisMainFrame:StartMoving()
-end
-function Artemis:OnDragStop()
-  --Artemis.DebugMsg("OnDragStop: Called")
-	ArtemisMainFrame:StopMovingOrSizing()
-	Artemis:SaveAnchors()
-end
--------------------------------------------------------------------------
--------------------------------------------------------------------------
-function Artemis:BtnStartSizeing()
-  --Artemis.DebugMsg("BtnStartSizeing: Called")
-  ArtemisMainFrame:StartSizing()		
-end
-function Artemis:BtnStopSizeing()
-  --Artemis.DebugMsg("BtnStopSizeing: Called")
-	ArtemisMainFrame:StopMovingOrSizing()
-	Artemis:ResizeGui()
-	Artemis:SaveAnchors()
-end
-function Artemis:ResizeGui()
-  --Artemis.DebugMsg("ResizeGui: Called")
-	--ArtemisMainFrame_ScrollChildFrame:SetWidth(ArtemisMainFrame_ScrollFrame:GetWidth())
-end
-function Artemis:SaveAnchors()
-  --Artemis.DebugMsg("SaveAnchors: Called")
-	--GroupBulletinBoardDB.X = GroupBulletinBoardFrame:GetLeft()
-	--GroupBulletinBoardDB.Y = GroupBulletinBoardFrame:GetTop()
-	--GroupBulletinBoardDB.Width = GroupBulletinBoardFrame:GetWidth()
-	--GroupBulletinBoardDB.Height = GroupBulletinBoardFrame:GetHeight()
-end
--------------------------------------------------------------------------
+-- TOOLTIP
 -------------------------------------------------------------------------
 function Artemis:ShowTooltip(self,messageType)
   if( not ArtemisMainFrame:IsShown()) then
@@ -380,116 +523,11 @@ function Artemis:HideTooltip()
 end
 -------------------------------------------------------------------------
 -------------------------------------------------------------------------
-function Artemis:ClickPet(self,petIndex)
-  ArtemisMainDataFrameMCFrame_MyPetModel:ClearModel()
-  --TODO model
-  --TODO XXX
-  SetPetStablePaperdoll(ArtemisMainDataFrameMCFrame_MyPetModel)
-end
 
-function Artemis:ShowTooltipPet(self,petIndex)
-  local message = "Artemis"
-  if( petIndex == nil) then
-    petIndex = 1
-  end
-  local petarr = ArtemisDBChar.stable[petIndex] 
-  local name, family, level, icon, loyalty, happiness, petFoodList = Artemis:ParsePetArray(petarr)	
-  
-  if icon == nil then
-    icon = "Interface\\AddOns\\StableSnapshot\\Icons\\Default.png"
-  end  
-  name = Artemis:SetStringOrDefault(name,"No Pet")
 
-  --local message = string.format("Pet %s Level: %s Family: %s Special: %s loyalty: %s happiness: %s petFoodList: %s", name, level, family, specialAbility, loyalty , happiness, petFoodList);
-  
-  GameTooltip:SetOwner(ArtemisMainDataFrameMCFrame, "ANCHOR_BOTTOM", 0,0	)
-	GameTooltip:AddLine(string.format("Pet: %s\n",name)  ,.8,.8,.8,1,false)
-  GameTooltip:AddLine(string.format("Level: %s",level)  ,.8,.8,.8,1,false)
-  GameTooltip:AddLine(string.format("Family: %s",family)  ,.8,.8,.8,1,false)
-  GameTooltip:AddLine(string.format("Loyalty: %s",loyalty)  ,.8,.8,.8,1,false)
-  GameTooltip:AddLine(string.format("Happiness: %s",tostring(happiness) )  ,.8,.8,.8,1,false)
-  
-  local petFoodString = ""
-  if( petFoodList ~= nil and petFoodList ~= "" ) then
-    for i,v in pairs(petFoodList) do
-        if (v ~= nil and v ~= "") then
-            petFoodString = petFoodString .. string.lower(v) .. ", " 
-        end
-    end
-  elseif( petFoodList ~= nil ) then
-    petFoodString = petFoodList
-  end
-  GameTooltip:AddLine(string.format("PetFoodList: %s",tostring(petFoodString))  ,.8,.8,.8,1,false)
-
-	GameTooltip:Show()
-end
-function Artemis:HideTooltipPet()
-	GameTooltip:Hide()
-end
 -------------------------------------------------------------------------
+-- ADDON Methods
 -------------------------------------------------------------------------
-              
-function Artemis:OnUpdateDataFrame()  
-  --Artemis.DebugMsg("OnUpdate: Called")
-  --TODO How often is this called?
-end
-
-function Artemis:OnLoadDataFrame()
-end
-
-function Artemis:OnEventDataFrame(event, ...)
-  --Artemis.DebugMsg("OnEvent: Called")
-	local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg, arg9 = ...
-	if event == "ADDON_LOADED" and arg1 == "ArtemisMainDataFrame" then
-    Artemis.DebugMsg("OnEvent: ADDON_LOADED (DataFrame)")
-		--ArtemisMainDataFrame:UnregisterEvent("ADDON_LOADED")
-		--Artemis:Init()
-  elseif event == "PLAYER_LOGOUT" then
-    --
-    --ArtemisMainDataFrame:UnregisterEvent("PET_STABLE_SHOW")
-	elseif event == "PET_STABLE_SHOW" then
-    --Artemis:DoStableMasterEvent()
-  else
-    --TODO How often is this called?
-    --Artemis:LoadAmmoCount()
-  end
-end
-
-function Artemis:OnLoadDataFrame()
-  Artemis.DebugMsg("OnLoadDataFrame: Called")
-  ArtemisMainDataFrame:RegisterForDrag("LeftButton");  -- DRAG
-  -- Initalize options
-  --
-	--print("v"..Artemis.version.." loaded")
-end
-
-function Artemis:OnDragStartDataFrame()
-  --Artemis.DebugMsg("OnDragStartDataFrame: Called")  
-	ArtemisMainDataFrame:StartMoving()
-end
-function Artemis:OnDragStopDataFrame()
-  --Artemis.DebugMsg("OnDragStopDataFrame: Called")
-	ArtemisMainDataFrame:StopMovingOrSizing()
-	Artemis:SaveAnchorsDataFrame()
-end
-
-function Artemis:SaveAnchorsDataFrame()
-  --Artemis.DebugMsg("SaveAnchors: Called")
-	--GroupBulletinBoardDB.X = GroupBulletinBoardFrame:GetLeft()
-	--GroupBulletinBoardDB.Y = GroupBulletinBoardFrame:GetTop()
-	--GroupBulletinBoardDB.Width = GroupBulletinBoardFrame:GetWidth()
-	--GroupBulletinBoardDB.Height = GroupBulletinBoardFrame:GetHeight()
-end
-
-function Artemis:ShowTooltipDataFrame(self,messageType)
-  --
-end
-function Artemis:HideTooltipDataFrame(self)  
-	--GameTooltip:Hide()
-end
--------------------------------------------------------------------------
--------------------------------------------------------------------------
-
 function Artemis:BtnSettings()
 	--Options:Open()	
 end
@@ -497,15 +535,12 @@ function Artemis:ToggleOptions()
 	--Options:Open()
 end
 function Artemis:ToggleStable()
-	--Options:Open()
   Artemis:ShowHideDataWindow()
 end
--------------------------------------------------------------------------
--------------------------------------------------------------------------
-function Artemis:ResetStable()
-  ArtemisDBChar.stable = {}		
-end
 
+-------------------------------------------------------------------------
+--AMMO DATA
+-------------------------------------------------------------------------
 function Artemis:LoadAmmoCount()
   local slotId, textureName  = GetInventorySlotInfo("AmmoSlot");  
   Artemis.view.ammoSlot = slotId
@@ -536,7 +571,13 @@ function Artemis:LoadAmmoCount()
     textWpnDur:SetText( "n/a" )    
     textWpnDur:SetTextColor(0,255,0);
   end
-  
+end
+
+-------------------------------------------------------------------------
+--STABLE DATA
+-------------------------------------------------------------------------
+function Artemis:ResetStable()
+  ArtemisDBChar.stable = {}		
 end
 
 function Artemis:DoStableMasterEvent()
@@ -552,8 +593,8 @@ function Artemis:DoStableMasterEvent()
 		Artemis:ScanStable()
 	end
 end
--------------------------------------------------------------------------
--------------------------------------------------------------------------
+
+-- Finds data for CURRENT PET
 function Artemis:ScanCurrentPet()
   Artemis.DebugMsg("ScanCurrentPet: Called")
  -- Current Pet is index ZERO  
@@ -572,6 +613,7 @@ function Artemis:ScanCurrentPet()
   return petarr2
 end
 
+--
 function Artemis:ScanPetAtIndex(index)
   --
   local icon, name, level, family, loyalty = GetStablePetInfo(index)
@@ -720,6 +762,31 @@ function Artemis:ShowStable()
 	end
 	Artemis.DebugMsg("ShowStable Done")
 end
+
+-- 
+function Artemis:UpdatePetHappiness()
+  if(UnitExists("pet")) then
+  end
+end
+
+function Artemis:CheckPetChanged()
+  if(UnitExists("pet")) then
+    local newGUID = UnitGUID("pet")
+    if(Artemis.view.PET_GUID == nil) then
+      Artemis.view.PET_GUID = newGUID
+    end
+    if( newGUID ~= Artemis.view.PET_GUID) then
+      Artemis:PetChangedCallback(newGUID)
+    end
+  end
+end
+  
+function Artemis:PetChangedCallback(newGUID)
+	Artemis.DebugMsg("PetChangedCallback Called")
+  Artemis.view.PET_GUID = newGUID
+  -- update view?
+	Artemis.DebugMsg("PetChangedCallback Done")
+end
 -------------------------------------------------------------------------
 -------------------------------------------------------------------------
 function Artemis:SetupMCFrame()
@@ -785,7 +852,5 @@ function Artemis:SetupMCFrame()
   
 	Artemis.DebugMsg("SetupMCFrame Done")
 end
-
-
 -------------------------------------------------------------------------
 -------------------------------------------------------------------------

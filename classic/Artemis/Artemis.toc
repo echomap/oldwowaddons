@@ -15,4 +15,5 @@
 ## SavedVariables: ArtemisDB
 ## SavedVariablesPerCharacter: ArtemisDBChar
 Localization\enUS.lua
+bindings.xml
 Artemis.xml
