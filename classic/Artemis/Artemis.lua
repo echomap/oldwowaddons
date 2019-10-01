@@ -19,6 +19,7 @@ Artemis = {
     --menuDisplayName = "Artemis",
     view            = {
         debug = false,
+        debuglvl = 1,
         maxPets  = 3,
     },
     --ArtemisDB/ArtemisDBChar
@@ -27,8 +28,8 @@ Artemis = {
 -------------------------------------------------------------------------
 -- UTILS
 -------------------------------------------------------------------------
-function Artemis.DebugMsg(msg)
-  if( msg ~= nil and msg ~= "" and Artemis.view.debug ) then 
+function Artemis.DebugMsg(msg,level)
+  if( msg ~= nil and msg ~= "" and Artemis.view.debug ) then
     print("Artemis " .. msg )
   end
 end
@@ -82,22 +83,23 @@ end
 
 function Artemis:ShowWindow()  
 	ArtemisMainFrame:Show()
-  local hasUI, isHunterPet = HasPetUI();
-  if( hasUI and isHunterPet ) then
-    ArtemisMainFrame_HappinessFrame:Show() --TODO not showing?
-  end
   --if has ammo and ranged weapon TODO
   ArtemisMainFrame_AmmoFrame:Show()
   ArtemisMainFrame_wpnDurFrame:Show()
+  local hasUI, isHunterPet = HasPetUI();
+  if( hasUI and isHunterPet ) then
+    ArtemisMainFrame_HappinessFrame:Show() --TODO not showing sometimes?
+  end
+  --ArtemisMainFrame_HappinessFrame:Show()
 	--Artemis_UpdateList()
   -- TODOcontent/tabs
 end
 
 function Artemis:HideWindow()
 	ArtemisMainFrame:Hide()
-  ArtemisMainFrame_HappinessFrame:Hide()
   ArtemisMainFrame_AmmoFrame:Hide()
   ArtemisMainFrame_wpnDurFrame:Hide()
+  ArtemisMainFrame_HappinessFrame:Hide()
 end
 
 --GUI close button clicked
@@ -118,8 +120,9 @@ function Artemis:OnUpdate()
   Artemis:SetupDataWindow()
 end
 
-function Artemis:OnEvent(event, ...)	
-  Artemis.DebugMsg("OnEvent: Called")
+function Artemis:OnEvent(event, ...)
+  Artemis.DebugMsg("OnEvent: Called w/event="..tostring(event) )
+  Artemis.DebugMsg("OnEvent: arg1 = "..tostring(arg1) )
 	local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg, arg9 = ...
 	if event == "ADDON_LOADED" and arg1 == "ArtemisMainFrame" then
     Artemis.DebugMsg("OnEvent: ADDON_LOADED")
@@ -135,6 +138,8 @@ function Artemis:OnEvent(event, ...)
     Artemis:CheckPetChanged()
   elseif event == "UNIT_HAPPINESS" then
     --TODO check... values? arg1??
+    -- pet Artemis.DebugMsg("OnEvent: arg1 = "..tostring(arg1) )
+    -- nil Artemis.DebugMsg("OnEvent: arg2 = "..tostring(arg2) )
     Artemis:UpdatePetHappiness()
   else
     --TODO How often is this called?
@@ -193,10 +198,10 @@ function Artemis:ResizeGui()
 end
 function Artemis:SaveAnchors()
   --Artemis.DebugMsg("SaveAnchors: Called")
-	--GroupBulletinBoardDB.X = GroupBulletinBoardFrame:GetLeft()
-	--GroupBulletinBoardDB.Y = GroupBulletinBoardFrame:GetTop()
-	--GroupBulletinBoardDB.Width = GroupBulletinBoardFrame:GetWidth()
-	--GroupBulletinBoardDB.Height = GroupBulletinBoardFrame:GetHeight()
+	--ArtemisDBChar.X = ArtemisMainFrame:GetLeft()
+	--ArtemisDBChar.Y = ArtemisMainFrame:GetTop()
+	--ArtemisDBChar.Width = ArtemisMainFrame:GetWidth()
+	--ArtemisDBChar.Height = ArtemisMainFrame:GetHeight()
 end
 
 function Artemis:OnSizeChanged()
@@ -223,6 +228,7 @@ function Artemis:InitDataWindow()
 end
 
 function Artemis:SetupDataWindow() 
+  --[[
 	--Artemis.DebugMsg("SetupDataWindow: Called")
   local hasUI, isHunterPet = HasPetUI();
   if( hasUI and isHunterPet ) then
@@ -253,6 +259,7 @@ function Artemis:SetupDataWindow()
   else
     --TODO reset data?
   end-- has pet
+  --]]
 end
 
 function Artemis:ShowDataWindow()
@@ -302,6 +309,10 @@ function Artemis:ShowTooltipPet(self,petIndex)
   if( petIndex == nil) then
     petIndex = 1
   end
+  if(ArtemisDBChar.stable==nil) then
+    return
+  end
+  
   local petarr = ArtemisDBChar.stable[petIndex] 
   local name, family, level, icon, loyalty, happiness, petFoodList = Artemis:ParsePetArray(petarr)	
   
@@ -384,10 +395,10 @@ end
 
 function Artemis:SaveAnchorsDataFrame()
   --Artemis.DebugMsg("SaveAnchors: Called")
-	--GroupBulletinBoardDB.X = GroupBulletinBoardFrame:GetLeft()
-	--GroupBulletinBoardDB.Y = GroupBulletinBoardFrame:GetTop()
-	--GroupBulletinBoardDB.Width = GroupBulletinBoardFrame:GetWidth()
-	--GroupBulletinBoardDB.Height = GroupBulletinBoardFrame:GetHeight()
+	--ArtemisDBChar.X = ArtemisMainFrame:GetLeft()
+	--ArtemisDBChar.Y = ArtemisMainFrame:GetTop()
+	--ArtemisDBChar.Width = ArtemisMainFrame:GetWidth()
+	--ArtemisDBChar.Height = ArtemisMainFrame:GetHeight()
 end
 
 function Artemis:ShowTooltipDataFrame(self,messageType)
@@ -582,16 +593,23 @@ end
 
 function Artemis:DoStableMasterEvent()
 	Artemis.PrintMsg("You have opened the stable!")
-  --If has one pet... scan the others
-	local icon, name, level, family, loyalty = GetStablePetInfo(1)
-	Artemis.DebugMsg("DoStableOpened name: " .. tostring(name) .. "' family: '" ..tostring(family).. "'" )
-	if icon == nil and name == nil and family == nil then
-		Artemis:ResetStable()
-    Artemis.PrintMsg("You have no pets at this time?")
-	else 
-		-- Loop through all pets in the Stable and store them
-		Artemis:ScanStable()
-	end
+  
+  local localizedClass, englishClass = UnitClass("player");
+  Artemis.DebugMsg("ShowStable englishClass: " .. englishClass .. "'" )
+  if englishClass == 'HUNTER' then
+    --If has one pet... scan the others
+    local icon, name, level, family, loyalty = GetStablePetInfo(1)
+    Artemis.DebugMsg("DoStableOpened name: " .. tostring(name) .. "' family: '" ..tostring(family).. "'" )
+    if icon == nil and name == nil and family == nil then
+      Artemis:ResetStable()
+      Artemis.PrintMsg("You have no pets at this time?")
+    else 
+      -- Loop through all pets in the Stable and store them
+      Artemis:ScanStable()
+    end
+  else
+    Artemis.PrintMsg("You are not a hunter and can't stable pets.")
+  end
 end
 
 -- Finds data for CURRENT PET
@@ -766,11 +784,49 @@ end
 -- 
 function Artemis:UpdatePetHappiness()
   if(UnitExists("pet")) then
+    Artemis.DebugMsg("UpdatePetHappiness Called w/pet")
+    
+    local hasUI, isHunterPet = HasPetUI();
+    --Artemis.PrintMsg("UpdatePetHappiness hasUI=".. tostring(hasUI) )
+    --Artemis.PrintMsg("UpdatePetHappiness isHunterPet=".. tostring(isHunterPet) )
+    if( hasUI and isHunterPet ) then
+      Artemis:ScanCurrentPet()
+      local happiness, damagePercentage, loyaltyRate = GetPetHappiness()
+      local icon, name, level, family, loyalty = GetStablePetInfo(1)
+      if(name~=nil) then
+        --ArtemisMainFrame_HappinessFrame_textPetHappiness:SetText(loyaltyRate)
+        --local happiness, damagePercentage, loyaltyRate = GetPetHappiness()
+        local happy = ({"Unhappy", "Content", "Happy"})[happiness]
+        local hText = "Unknown"
+        textPetHappiness:SetTextColor(0,255,0) -- green
+        if(happy~=nil) then
+          hText = string.format("Pet is... %s", happy)
+          --TODO set text color
+          if(happiness==1) then
+            textPetHappiness:SetTextColor(125,125,125) 
+          elseif(happiness==2) then
+            textPetHappiness:SetTextColor(0,125,125) --yellow
+          elseif(happiness==3) then
+            textPetHappiness:SetTextColor(0,255,0) --green
+          else
+            textPetHappiness:SetTextColor(0,125,125)--yellow
+          end
+        end
+        textPetHappiness:SetText(hText)
+      end
+      if ( not ArtemisMainFrame_HappinessFrame:IsShown()) then 
+        ArtemisMainFrame_HappinessFrame:Show()
+      end
+    else
+      --TODO reset data?
+    end-- has pet
+ 
   end
 end
 
 function Artemis:CheckPetChanged()
   if(UnitExists("pet")) then
+    Artemis.DebugMsg("CheckPetChanged Called w/pet")
     local newGUID = UnitGUID("pet")
     if(Artemis.view.PET_GUID == nil) then
       Artemis.view.PET_GUID = newGUID
@@ -791,7 +847,16 @@ end
 -------------------------------------------------------------------------
 function Artemis:SetupMCFrame()
 	Artemis.DebugMsg("SetupMCFrame Called")
-  -- 1index is 0pet(Current)
+  -- 1index is 0pet(Current)  
+  local hasUI, isHunterPet = HasPetUI();
+  if( hasUI and isHunterPet ) then
+    if( ArtemisDBChar.stable == nil) then 
+      ArtemisDBChar.stable = {}
+    end
+  else
+    return
+  end
+    
   Artemis:ScanCurrentPet()
   local petarr = ArtemisDBChar.stable[1] 
 	local name, family, level, icon, specialAbility, defaultSpec, talent = Artemis:ParsePetArray(petarr)
