@@ -245,7 +245,7 @@
       <!-- Header -->
       
       <!-- Button/Tabs -->
-      <Frame name="ArtemisMainDataFrameButtonFrame" parent="UIParent" hidden="true" frameStrata="HIGH" >
+      <Frame name="ArtemisMainDataFrameButtonFrame" parent="ArtemisMainDataFrame" hidden="true" frameStrata="HIGH" >
         <Size><AbsDimension x="24" y="24"/></Size>
         <Anchors>
           <Anchor point="TOPLEFT" relativeTo="ArtemisMainDataFrame" relativePoint="TOPLEFT">
@@ -286,7 +286,7 @@
       <!-- left side menu -->
       
       <!-- Main content-->
-      <Frame name="ArtemisMainDataFrameMCFrame" parent="UIParent" hidden="true" frameStrata="HIGH" >
+      <Frame name="ArtemisMainDataFrameMCFrame" parent="ArtemisMainDataFrame" hidden="true" frameStrata="HIGH" >
         <Size><AbsDimension x="24" y="24"/></Size>
         <Anchors>
           <Anchor point="TOPLEFT" relativeTo="ArtemisMainDataFrameButtonFrame" relativePoint="BOTTOMLEFT">

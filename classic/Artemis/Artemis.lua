@@ -72,13 +72,26 @@ function Artemis:ShowHide()
       Artemis:ShowWindow()
 		end
 	end
+    
 	--DEFAULT_CHAT_FRAME:AddMessage(tostring(arg1).." was clicked.")
   --TODO frames/tabs
 end
 
+--Called the first time showhide is called
 function Artemis:SetupWindow()
-  --TODO ArtemisMainFrame:SetScript("OnEscapePressed", function(self) self:Hide() end)
+  if( not Artemis.view.setupmain ) then 
+    ArtemisMainFrame:RegisterEvent("PLAYER_LOGOUT"); -- Fired when about to log out
+    ArtemisMainFrame:RegisterForDrag("LeftButton");  -- DRAG
+    
+    ArtemisMainFrame:RegisterEvent("PET_STABLE_SHOW")
+    ArtemisMainFrame:RegisterEvent("PET_STABLE_UPDATE")
+    
+    ArtemisMainFrame:RegisterUnitEvent("UNIT_PET","player")
+    ArtemisMainFrame:RegisterUnitEvent("UNIT_HAPPINESS","pet")
+  end  
+  Artemis:UpdatePetHappiness()
   Artemis.view.setupmain = true
+  ArtemisDBChar.enable = true --- uuuuu
 end
 
 function Artemis:ShowWindow()  
@@ -115,6 +128,9 @@ end
 
 function Artemis:OnUpdate()
   --Artemis.DebugMsg("OnUpdate: Called")
+  if( not ArtemisDBChar.enable ) then
+    return
+  end
   --TODO How often is this called? too often probably?
   Artemis:LoadAmmoCount()
   Artemis:SetupDataWindow()
@@ -122,6 +138,9 @@ end
 
 function Artemis:OnEvent(event, ...)
   Artemis.DebugMsg("OnEvent: Called w/event="..tostring(event) )
+  if( not ArtemisDBChar.enable) then
+    return
+  end
   Artemis.DebugMsg("OnEvent: arg1 = "..tostring(arg1) )
 	local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg, arg9 = ...
 	if event == "ADDON_LOADED" and arg1 == "ArtemisMainFrame" then
@@ -138,7 +157,7 @@ function Artemis:OnEvent(event, ...)
     Artemis:CheckPetChanged()
   elseif event == "UNIT_HAPPINESS" then
     --TODO check... values? arg1??
-    -- pet Artemis.DebugMsg("OnEvent: arg1 = "..tostring(arg1) )
+    Artemis.DebugMsg("OnEvent: arg1 = "..tostring(arg1) ) -- "pet"
     -- nil Artemis.DebugMsg("OnEvent: arg2 = "..tostring(arg2) )
     Artemis:UpdatePetHappiness()
   else
@@ -149,15 +168,51 @@ end
 
 function Artemis:OnUnLoad()
   Artemis.DebugMsg("OnUnLoad: Called")
+  ArtemisMainFrame:UnregisterEvent("ADDON_LOADED")
+  --ArtemisMainFrame:UnregisterEvent("LeftButton");  -- DRAG
   ArtemisMainFrame:UnregisterEvent("PET_STABLE_SHOW")
   ArtemisMainFrame:UnregisterEvent("PET_STABLE_UPDATE")
-  ArtemisMainFrame:UnregisterEvent(" UNIT_PET")
-  ArtemisMainFrame:UnregisterEvent("UNIT_HAPPINESS")
+  ArtemisMainFrame:UnregisterEvent("UNIT_PET")
+  ArtemisMainFrame:UnregisterEvent("UNIT_HAPPINESS")  
+    
+  Artemis.view.setupmain = false
   Artemis.DebugMsg("OnUnLoad: Done")
 end
 
 function Artemis:OnLoad()
   Artemis.DebugMsg("OnLoad: Called")
+  
+  if( ArtemisDBChar~=nil and ArtemisDBChar.enable~=nil and ArtemisDBChar.enable == false ) then
+      return
+  end
+  
+  -- Initalize Saved Variables
+	if not ArtemisDB then ArtemisDB = {} end -- fresh DB
+	if not ArtemisDBChar then 
+    -- fresh DB
+    ArtemisDBChar = {} 
+    ArtemisDBChar.stable = {}
+    --if hunter and not set/unset then enable
+    local localizedClass, englishClass = UnitClass("player");
+    if englishClass == 'HUNTER' then
+      if( ArtemisDBChar.enable == nil ) then
+        ArtemisDBChar.enable = true
+      end
+    end    
+  end 
+  
+  --StableSnapshot:addSlideIcon() --create ldb launcher button
+  
+	--StableSnapshot:addSlideIcon() --create ldb launcher button
+  if ArtemisDBChar.enable then
+    Artemis:ShowWindow()    
+    --Artemis:UpdatePetHappiness()
+  end
+  
+  if( not ArtemisDBChar.enable ) then
+    return
+  end
+  
   ArtemisMainFrame:RegisterEvent("ADDON_LOADED");  -- Fired when saved variables are loaded
   ArtemisMainFrame:RegisterEvent("PLAYER_LOGOUT"); -- Fired when about to log out
   ArtemisMainFrame:RegisterForDrag("LeftButton");  -- DRAG
@@ -167,18 +222,7 @@ function Artemis:OnLoad()
   
   ArtemisMainFrame:RegisterUnitEvent("UNIT_PET","player")
   ArtemisMainFrame:RegisterUnitEvent("UNIT_HAPPINESS","pet")
-
-	--StableSnapshot:addSlideIcon() --create ldb launcher button
   
-  -- Initalize Saved Variables
-	if not ArtemisDB then ArtemisDB = {} end -- fresh DB
-	if not ArtemisDBChar then ArtemisDBChar = {} end -- fresh DB
-  
-  localizedClass, englishClass = UnitClass("player");
-  if englishClass == 'HUNTER' then
-    Artemis:ShowWindow()
-  end
-    
 	print("v"..Artemis.version.." loaded")
 end
 
@@ -228,6 +272,8 @@ function Artemis:InitDataWindow()
 end
 
 function Artemis:SetupDataWindow() 
+  --ArtemisMainFrame:SetScript("OnEscapePressed", function(self) Artemis:HideWindow() end)
+  tinsert( UISpecialFrames, ArtemisMainDataFrame:GetName() )
   --[[
 	--Artemis.DebugMsg("SetupDataWindow: Called")
   local hasUI, isHunterPet = HasPetUI();
@@ -297,11 +343,15 @@ function Artemis:BtnCloseDataFrame()
 end
 
 
-function Artemis:ClickPet(self,petIndex)
+function Artemis:ClickPet(petIndex)
   ArtemisMainDataFrameMCFrame_MyPetModel:ClearModel()
-  --TODO model
-  --TODO XXX
-  SetPetStablePaperdoll(ArtemisMainDataFrameMCFrame_MyPetModel)
+  if(ArtemisDBChar.stable==nil) then
+    return
+  end
+  if( petIndex < #ArtemisDBChar.stable) then
+    ClickStablePet(petIndex-1)
+    SetPetStablePaperdoll(ArtemisMainDataFrameMCFrame_MyPetModel)
+  end
 end
 
 function Artemis:ShowTooltipPet(self,petIndex)
@@ -419,6 +469,7 @@ end
 function Artemis:ShowHelp()
   print("---===ARTEMIS====---")
   print("/artemis <gui/debug/printabilities/printability <name>" )
+  print("/artemis <options> <enable> <on/off>" )
 end
 
 --Commands, help/debug/beta/testdata/deltestdata
@@ -435,6 +486,7 @@ function Artemis.SlashCommandHandler(msg)
       end
     end
   end
+  Artemis.DebugMsg("SlashCommandHandler: ArtemisDBChar.enable = " .. tostring(ArtemisDBChar.enable) )
 
   if #options == 0 then
     Artemis:ShowHelp()
@@ -443,9 +495,10 @@ function Artemis.SlashCommandHandler(msg)
   elseif options[1] == "debug" then
     Artemis.view.debug = not Artemis.view.debug
     Artemis.DebugMsg("Debug = " .. tostring(Artemis.view.debug) )
+    ArtemisDBChar.debug = Artemis.view.debug
   elseif options[1] == "options" then
     -- TODO Show Options
-	elseif options[1] == "gui" then
+	elseif options[1] == "gui" then    
     Artemis:ShowHide()
   elseif options[1] == "printabilities" or options[1] == "1" then
     Artemis:GetAbilitiesBase() 
@@ -457,25 +510,11 @@ function Artemis.SlashCommandHandler(msg)
     end
   elseif options[1] == "searchabilities" then
     Artemis:SearchAbilities(options[2]) --,options[3])--,maxLvl)
+  elseif (options[1] == "options" and #options == 3) then
+    Artemis:DoOptionsSetUnset(options[2],options[3])
   else
     Artemis:ShowHelp()
   end
-  --[[
-  if msg == "debug" then
-		--
-  elseif msg == "options" then
-		--
-  elseif msg == "gui" then
-		Artemis:ShowHide()
-  elseif msg == "printabilities" then
-      --
-  elseif msg == "printability" then
-    local arg2 = ""
-		--
-	else 
-		Artemis:ShowHelp()
-	end	
-  --]]--
 end
 
 SlashCmdList["Artemis"] = function(msg)
@@ -547,6 +586,28 @@ function Artemis:ToggleOptions()
 end
 function Artemis:ToggleStable()
   Artemis:ShowHideDataWindow()
+end
+
+function Artemis:DoOptionsSetUnset(optionName,optionValue)
+    if(optionName==nil or optionValue==nil) then
+      return
+    end
+    if(optionValue~="on" or optionValue~="off") then
+      return
+    end
+    if(optionName=="enable" and optionValue=="off") then
+      ArtemisDBChar.enable = false
+      Artemis.OnUnLoad()
+    elseif(optionName=="enable" and optionValue=="on") then
+      ArtemisDBChar.enable = true
+    elseif(optionName=="xxx") then
+      
+    end
+    
+    if(not ArtemisDBChar.enable) then
+      ArtemisDBChar.debug = false
+    end
+    
 end
 
 -------------------------------------------------------------------------
