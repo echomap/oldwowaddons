@@ -1162,7 +1162,7 @@ Artemis.Abilities = {
     ["Text"] = "Increases armor.",
     ["AbilityFamily"] = "natural armor",
     ["AbilityLevel"] = 6,
-  } 
+  } ,
   ["natural armor 7"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 42 ,

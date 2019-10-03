@@ -142,6 +142,9 @@ function Artemis:OnEvent(event, ...)
     return
   end
   Artemis.DebugMsg("OnEvent: arg1 = "..tostring(arg1) )
+  if( arg2 ~= nil) then
+    Artemis.DebugMsg("OnEvent: arg2 = "..tostring(arg2) )
+  end
 	local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg, arg9 = ...
 	if event == "ADDON_LOADED" and arg1 == "ArtemisMainFrame" then
     Artemis.DebugMsg("OnEvent: ADDON_LOADED")
@@ -274,38 +277,6 @@ end
 function Artemis:SetupDataWindow() 
   --ArtemisMainFrame:SetScript("OnEscapePressed", function(self) Artemis:HideWindow() end)
   tinsert( UISpecialFrames, ArtemisMainDataFrame:GetName() )
-  --[[
-	--Artemis.DebugMsg("SetupDataWindow: Called")
-  local hasUI, isHunterPet = HasPetUI();
-  if( hasUI and isHunterPet ) then
-    Artemis:ScanCurrentPet()
-    local happiness, damagePercentage, loyaltyRate = GetPetHappiness()
-    local icon, name, level, family, loyalty = GetStablePetInfo(1)
-    if(name~=nil) then
-    --ArtemisMainFrame_HappinessFrame_textPetHappiness:SetText(loyaltyRate)
-      local happiness, damagePercentage, loyaltyRate = GetPetHappiness()
-      local happy = ({"Unhappy", "Content", "Happy"})[happiness]
-      local hText = "Unknown"
-      textPetHappiness:SetTextColor(0,255,0) -- green
-      if(happy~=nil) then
-        hText = string.format("Pet is... %s", happy)
-        --TODO set text color
-        if(happiness==1) then
-          textPetHappiness:SetTextColor(125,125,125) 
-        elseif(happiness==2) then
-          textPetHappiness:SetTextColor(0,125,125) --yellow
-        elseif(happiness==3) then
-          textPetHappiness:SetTextColor(0,255,0) --green
-        else
-          textPetHappiness:SetTextColor(0,125,125)--yellow
-        end
-      end
-      textPetHappiness:SetText(hText)
-    end
-  else
-    --TODO reset data?
-  end-- has pet
-  --]]
 end
 
 function Artemis:ShowDataWindow()
@@ -342,7 +313,7 @@ function Artemis:BtnCloseDataFrame()
 	Artemis:HideDataWindow()
 end
 
-
+--
 function Artemis:ClickPet(petIndex)
   ArtemisMainDataFrameMCFrame_MyPetModel:ClearModel()
   if(ArtemisDBChar.stable==nil) then
@@ -351,6 +322,8 @@ function Artemis:ClickPet(petIndex)
   if( petIndex < #ArtemisDBChar.stable) then
     ClickStablePet(petIndex-1)
     SetPetStablePaperdoll(ArtemisMainDataFrameMCFrame_MyPetModel)
+  else
+    ArtemisMainDataFrameMCFrame_MyPetModel:ClearModel()
   end
 end
 
@@ -363,9 +336,11 @@ function Artemis:ShowTooltipPet(self,petIndex)
     return
   end
   
-  local petarr = ArtemisDBChar.stable[petIndex] 
-  local name, family, level, icon, loyalty, happiness, petFoodList = Artemis:ParsePetArray(petarr)	
-  
+  local petarr = ArtemisDBChar.stable[petIndex]   
+  if(petarr==nil) then
+    return
+  end
+   local name, family, level, icon, loyalty, happiness, petFoodList = Artemis:ParsePetArray(petarr)	
   if icon == nil then
     icon = "Interface\\AddOns\\StableSnapshot\\Icons\\Default.png"
   end  
@@ -677,19 +652,25 @@ end
 function Artemis:ScanCurrentPet()
   Artemis.DebugMsg("ScanCurrentPet: Called")
  -- Current Pet is index ZERO  
-  Artemis:ScanPetAtIndex(0)
-  local petarr = ArtemisDBChar.stable[1]
-  --
-  local happiness, damagePercentage, loyaltyRate = GetPetHappiness()
-  local currXP, nextXP = GetPetExperience()
-  local petFoodList = { GetPetFoodTypes() };
-  --
-  -- { name, family, level, icon, loyalty, happiness, petFoodList, currXP, nextXP }
-  --TODO rate is a number, translate to words??
-  local petarr2 =  { petarr[1], petarr[2], petarr[3], petarr[4], loyaltyRate, happiness, petFoodList, currXP, nextXP }   
-  ArtemisDBChar.stable[1] = petarr2
+ 
+  local hasUI, isHunterPet = HasPetUI();
+  if( hasUI and isHunterPet ) then
+    Artemis.DebugMsg("ScanCurrentPet: scanning...")
+    Artemis:ScanPetAtIndex(0)
+    local petarr = ArtemisDBChar.stable[1]
+    --
+    local happiness, damagePercentage, loyaltyRate = GetPetHappiness()
+    local currXP, nextXP = GetPetExperience()
+    local petFoodList = { GetPetFoodTypes() };
+    --
+    -- { name, family, level, icon, loyalty, happiness, petFoodList, currXP, nextXP }
+    --TODO rate is a number, translate to words??
+    local petarr2 =  { petarr[1], petarr[2], petarr[3], petarr[4], loyaltyRate, happiness, petFoodList, currXP, nextXP }   
+    ArtemisDBChar.stable[1] = petarr2
+    Artemis.DebugMsg("ScanCurrentPet: Done")
+    return petarr2
+  end
   Artemis.DebugMsg("ScanCurrentPet: Done")
-  return petarr2
 end
 
 --
@@ -705,8 +686,8 @@ function Artemis:ScanPetAtIndex(index)
   --petFoodList =  Artemis:SetStringOrDefault(petFoodList,"")
     
     
-  Artemis.DebugMsg("ScanPetAtIndex, index = " .. index .." icon=" .. tostring(icon) .. " name="..name.." level="..level.." family=" .. family.. " loyalty="..loyalty .. " happiness="..happiness .. " petFoodList="..tostring(petFoodList)
-  );
+  Artemis.DebugMsg("ScanPetAtIndex, index = " .. index .." icon=" .. tostring(icon) .. " name="..name.." level="..level.." family=" .. family.. " loyalty="..loyalty .. " happiness="..happiness)
+  --.. " petFoodList="..tostring(petFoodList) )
   
   local petarr = {}
   petarr =  { name, family, level, icon, loyalty, happiness, petFoodList }
@@ -914,29 +895,28 @@ function Artemis:SetupMCFrame()
     if( ArtemisDBChar.stable == nil) then 
       ArtemisDBChar.stable = {}
     end
-  else
-    return
   end
-    
-  Artemis:ScanCurrentPet()
-  local petarr = ArtemisDBChar.stable[1] 
-	local name, family, level, icon, specialAbility, defaultSpec, talent = Artemis:ParsePetArray(petarr)
-    
-  -- 
-  if icon == nil then
-    icon = "Interface\\AddOns\\StableSnapshot\\Icons\\Default.png"
-  end  
-  name = Artemis:SetStringOrDefault(name,"No Pet")
-
-	if name == nil then
-		Artemis.DebugMsg("PrintPet: cant find current pet ")
-  end  
-  --Artemis.DebugMsg("PrintPet: icon = ".. tostring(icon) )
-
-  --
-  --ArtemisMainDataFrameMCFrame_MyCurrentPet:SetMouseOverTexture(icon)
-  ArtemisMainDataFrameMCFrame_MyCurrentPet:SetNormalTexture(icon)
   
+  Artemis:ScanCurrentPet()
+  if(#ArtemisDBChar.stable > 0) then
+    local petarr = ArtemisDBChar.stable[1] 
+    local name, family, level, icon, specialAbility, defaultSpec, talent = Artemis:ParsePetArray(petarr)    
+    -- 
+    if icon == nil then
+      icon = "Interface\\AddOns\\StableSnapshot\\Icons\\Default.png"
+    end  
+    name = Artemis:SetStringOrDefault(name,"No Pet")
+
+    if name == nil then
+      Artemis.DebugMsg("PrintPet: cant find current pet ")
+    end  
+    --Artemis.DebugMsg("PrintPet: icon = ".. tostring(icon) )
+
+    --
+    --ArtemisMainDataFrameMCFrame_MyCurrentPet:SetMouseOverTexture(icon)
+    ArtemisMainDataFrameMCFrame_MyCurrentPet:SetNormalTexture(icon)
+  
+  end
   --
   icon = nil
   name = nil
