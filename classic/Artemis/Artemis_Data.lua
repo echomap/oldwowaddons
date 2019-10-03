@@ -56,40 +56,40 @@ Artemis.Abilities_Base = {
   ["prowl"] = {
       ["trainer"] = false , ["MaxLevel"] = 3 ,
     } ,
-  ["Scorpid Poison"] = {
+  ["scorpid Poison"] = {
       ["trainer"] = false , ["MaxLevel"] = 4 ,
     } ,
-  ["Screech"] = {
+  ["screech"] = {
       ["trainer"] = false , ["MaxLevel"] = 4 ,
     } ,
-  ["Shell Shield"] = {
+  ["shell shield"] = {
       ["trainer"] = false , ["MaxLevel"] = 1 ,
     } ,
-  ["Thunderstomp"] = {
+  ["thunderstomp"] = {
       ["trainer"] = false , ["MaxLevel"] = 3 ,
     } ,
-  ["Arcane Resistance"] = {
+  ["arcane resistance"] = {
       ["trainer"] = true , ["MaxLevel"] = 0 ,
     } ,
-  ["Fire Resistance"] = {
+  ["fire resistance"] = {
       ["trainer"] = true , ["MaxLevel"] = 0 ,
     } ,
-  ["Frost Resistance"] = {
+  ["frost resistance"] = {
       ["trainer"] = true , ["MaxLevel"] = 0 ,
     } ,
-  ["Great Stamina"] = {
+  ["great stamina"] = {
       ["trainer"] = true , ["MaxLevel"] = 10 ,
     } ,
-  ["Growl"] = {
+  ["growl"] = {
       ["trainer"] = true , ["MaxLevel"] = 7 ,
     } ,
-  ["Natural Armor"] = {
+  ["natural armor"] = {
       ["trainer"] = true , ["MaxLevel"] = 10 ,
     } ,
-  ["Nature Resistance"] = {
+  ["nature resistance"] = {
       ["trainer"] = true , ["MaxLevel"] = 5 ,
     } ,
-  ["Shadow Resistance"] = {
+  ["shadow resistance"] = {
       ["trainer"] = true , ["MaxLevel"] = 5 ,
     } ,
 }
@@ -98,28 +98,28 @@ Artemis.Abilities_Base = {
 Artemis.Ability_List = {
   "bite 1", "bite 2", "bite 3", "bite 4", "bite 5", "bite 6", "bite 7", "bite 8",
   "charge 1","charge 2","charge 3","charge 4","charge 5","charge 6",
-  "Claw 1","Claw 2","Claw 3","Claw 4","Claw 5","Claw 6","Claw 7","Claw 8",
-  "Cower 1","Cower 2","Cower 3","Cower 4","Cower 5","Cower 6",
-  "Dash 1","Dash 2","Dash 3",
-  "Dive 1","Dive 2","Dive 3",
-  "Furious Howl 1","Furious Howl 2","Furious Howl 3","Furious Howl 4",
-  "Lightning Breath 1","Lightning Breath 2","Lightning Breath 3","Lightning Breath 4",
-      "Lightning Breath 5","Lightning Breath 6",
-  "Prowl 1", "Prowl 2", "Prowl 3",
-  "Scorpid Poison 1", "Scorpid Poison 2", "Scorpid Poison 3", "Scorpid Poison 4",
-  "Screech 1", "Screech 2", "Screech 3", "Screech 4",
-  "Shell Shield 1",
-  "Thunderstomp 1","Thunderstomp 2","Thunderstomp 3",
-  "Arcane Resistance 1", "Arcane Resistance 2", "Arcane Resistance 3", "Arcane Resistance 4", "Arcane Resistance 5",
-  "Fire Resistance 1", "Fire Resistance 2", "Fire Resistance 3", "Fire Resistance 4", "Fire Resistance 5",
-  "Frost Resistance 1", "Frost Resistance 2", "Frost Resistance 3", "Frost Resistance 4", "Frost Resistance 5",
-  "Great Stamina 1", "Great Stamina 2", "Great Stamina 3", "Great Stamina 4", "Great Stamina 5",
-      "Great Stamina 6", "Great Stamina 7", "Great Stamina 8", "Great Stamina 9", "Great Stamina 10",
-  "Growl 1", "Growl 2", "Growl 3", "Growl 4", "Growl 5", "Growl 6", "Growl 7",
-  "Natural Armor 1","Natural Armor 2","Natural Armor 3","Natural Armor 4","Natural Armor 5",
-      "Natural Armor 6","Natural Armor 7","Natural Armor 8","Natural Armor 9","Natural Armor 10",
-  "Nature Resistance 1", "Nature Resistance 2", "Nature Resistance 3", "Nature Resistance 4", "Nature Resistance 5",
-  "Shadow Resistance 1", "Shadow Resistance 2", "Shadow Resistance 3", "Shadow Resistance 4", "Shadow Resistance 5",
+  "claw 1","claw 2","claw 3","claw 4","claw 5","claw 6","claw 7","claw 8",
+  "cower 1","cower 2","cower 3","cower 4","cower 5","cower 6",
+  "dash 1","dash 2","dash 3",
+  "dive 1","dive 2","dive 3",
+  "furious howl 1","furious howl 2","furious howl 3","furious howl 4",
+  "lightning breath 1","lightning breath 2","lightning breath 3","lightning breath 4",
+      "lightning breath 5","lightning breath 6",
+  "prowl 1", "prowl 2", "prowl 3",
+  "scorpid poison 1", "scorpid poison 2", "scorpid poison 3", "scorpid poison 4",
+  "screech 1", "screech 2", "screech 3", "screech 4",
+  "shell shield 1",
+  "thunderstomp 1","thunderstomp 2","thunderstomp 3",
+  "arcane resistance 1", "arcane resistance 2", "arcane resistance 3", "arcane resistance 4", "arcane resistance 5",
+  "fire resistance 1", "fire resistance 2", "fire resistance 3", "fire resistance 4", "fire resistance 5",
+  "frost resistance 1", "frost resistance 2", "frost resistance 3", "frost resistance 4", "frost resistance 5",
+  "great stamina 1", "great stamina 2", "great stamina 3", "great stamina 4", "great stamina 5",
+      "great stamina 6", "great stamina 7", "great stamina 8", "great stamina 9", "great stamina 10",
+  "growl 1", "growl 2", "growl 3", "growl 4", "growl 5", "growl 6", "growl 7",
+  "natural armor 1","natural armor 2","natural armor 3","natural armor 4","natural armor 5",
+      "natural armor 6","natural armor 7","natural armor 8","natural armor 9","natural armor 10",
+  "nature resistance 1", "nature resistance 2", "nature resistance 3", "nature resistance 4", "nature resistance 5",
+  "shadow resistance 1", "shadow resistance 2", "shadow resistance 3", "shadow resistance 4", "shadow resistance 5",
 }
 
 --
@@ -131,7 +131,6 @@ Artemis.AbilityFamily = {
    ["Text"]   = "Bite the enemy, causing damage.",
    ["Text_P"] = "Bite the enemy, causing %s to %s damage.",
   },
-  
   ["charge"] = {
     ["trainer"] = false ,
     ["CanLearnText"] = "Can be learned by: Boars",
@@ -276,7 +275,6 @@ Artemis.AbilityFamily = {
     ["Text_P"] = "Shakes the ground with thundering force, doing Nature damage to all enemies within 8 yards.",       
     ["NumRanks"] = 3,
   },
-  
 }
 
 --
@@ -285,492 +283,1036 @@ Artemis.Abilities = {
     ["trainer"] = false ,
     ["MinPetLevel"] = 1 ,
     ["CostTP"] = 1 ,
-    ["Str1"] = 7 ,
-    ["Str2"] = 9 ,
+    ["Params"] = { 7,9 },
     ["Text"] = "Bite the enemy, causing 7 to 9 damage.",
-    ["AbilityFamily"] = "Bite",
+    ["AbilityFamily"] = "bite",
     ["AbilityLevel"] = 1,
-    ["AbilityValue"] = 7,
   } ,
   ["bite 2"] = {
     ["trainer"] = false ,
     ["MinPetLevel"] = 8 ,
     ["CostTP"] = 4 ,
+    ["Params"] = { 16,18 },
     ["Text"] = "Bite the enemy, causing 16 to 18 damage.",
-    ["AbilityFamily"] = "Bite",
+    ["AbilityFamily"] = "bite",
     ["AbilityLevel"] = 2,
-    ["AbilityValue"] = 16,
   } ,
   ["bite 3"] = {
     ["trainer"] = false ,
     ["MinPetLevel"] = 16 ,
     ["CostTP"] = 7 ,
+    ["Params"] = { 24,28 },
     ["Text"] = "Bite the enemy, causing 24 to 28 damage.",
-    ["AbilityFamily"] = "Bite",
+    ["AbilityFamily"] = "bite",
     ["AbilityLevel"] = 3,
-    ["AbilityValue"] = 24,
   } ,
-  ["Bite 4"] = {
+  ["bite 4"] = {
     ["trainer"] = false ,
     ["MinPetLevel"] = 24 ,
     ["CostTP"] = 10 ,
     ["Text"] = "Bite the enemy, causing 31 to 37 damage.",
-    ["AbilityFamily"] = "Bite",
+    ["AbilityFamily"] = "bite",
     ["AbilityLevel"] = 4,
-    ["AbilityValue"] = 31,
   } ,
-  ["Bite 5"] = {
+  ["bite 5"] = {
     ["trainer"] = false ,
     ["MinPetLevel"] = 32 ,
     ["CostTP"] = 13 ,
     ["Text"] = "Bite the enemy, causing 40 to 48 damage.",
-    ["AbilityFamily"] = "Bite",
+    ["AbilityFamily"] = "bite",
     ["AbilityLevel"] = 5,
-    ["AbilityValue"] = 40,
   } ,
-  ["Bite 6"] = {
+  ["bite 6"] = {
     ["trainer"] = false ,
     ["MinPetLevel"] = 40 ,
     ["CostTP"] = 17 ,
     ["Text"] = "Bite the enemy, causing 49 to 59 damage.",
-    ["AbilityFamily"] = "Bite",
+    ["AbilityFamily"] = "bite",
     ["AbilityLevel"] = 6,
-    ["AbilityValue"] = 49,
   } ,
-  ["Bite 7"] = {
+  ["bite 7"] = {
     ["trainer"] = false ,
     ["MinPetLevel"] = 48 ,
     ["CostTP"] = 21 ,
     ["Text"] = "Bite the enemy, causing 66 to 80 damage.",
-    ["AbilityFamily"] = "Bite",
+    ["AbilityFamily"] = "bite",
     ["AbilityLevel"] = 7,
-    ["AbilityValue"] = 66,
   } ,
-  ["Bite 8"] = {
+  ["bite 8"] = {
     ["trainer"] = false ,
     ["MinPetLevel"] = 56 ,
     ["CostTP"] = 25,
     ["Text"] = "Bite the enemy, causing 81 to 99 damage.",
-    ["AbilityFamily"] = "Bite",
+    ["AbilityFamily"] = "bite",
     ["AbilityLevel"] = 8,
-    ["AbilityValue"] = 81,
   },
 
-  ["Charge 1"] = {
+  ["charge 1"] = {
     ["trainer"] = false ,
     ["MinPetLevel"] = 1 ,
     ["CostTP"] = 5 ,
-    ["Text"] = " Charges an enemy, immobilizes it for 1 sec, and adds 50 melee attack power to the boar's next attack.",
-    ["AbilityFamily"] = "Charge",
+    ["Params"] = { 50 },
+    ["Text"] = "Charges an enemy, immobilizes it for 1 sec, and adds 50 melee attack power to the boar's next attack.",
+    ["AbilityFamily"] = "charge",
     ["AbilityLevel"] = 1,
   } ,
-  ["Charge 2"] = {
+  ["charge 2"] = {
     ["trainer"] = false ,
     ["MinPetLevel"] = 12 ,
     ["CostTP"] = 9 ,
-    ["Text"] = " Charges an enemy, immobilizes it for 1 sec, and adds 100 melee attack power to the boar's next attack.",
-    ["AbilityFamily"] = "Charge",
+    ["Text"] = "Charges an enemy, immobilizes it for 1 sec, and adds 100 melee attack power to the boar's next attack.",
+    ["AbilityFamily"] = "charge",
     ["AbilityLevel"] = 2,
   } ,
-  ["Charge 3"] = {
+  ["charge 3"] = {
     ["trainer"] = false ,
     ["MinPetLevel"] = 24 ,
     ["CostTP"] = 13 ,
-    ["Text"] = " Charges an enemy, immobilizes it for 1 sec, and adds 180 melee attack power to the boar's next attack.",
-    ["AbilityFamily"] = "Charge",
+    ["Text"] = "Charges an enemy, immobilizes it for 1 sec, and adds 180 melee attack power to the boar's next attack.",
+    ["AbilityFamily"] = "charge",
     ["AbilityLevel"] = 3,
   } ,
-  ["Charge 4"] = {
+  ["charge 4"] = {
     ["trainer"] = false ,
     ["MinPetLevel"] = 36 ,
     ["CostTP"] = 17 ,
-    ["Text"] = " Charges an enemy, immobilizes it for 1 sec, and adds 250 melee attack power to the boar's next attack.",
-    ["AbilityFamily"] = "Charge",
+    ["Text"] = "Charges an enemy, immobilizes it for 1 sec, and adds 250 melee attack power to the boar's next attack.",
+    ["AbilityFamily"] = "charge",
     ["AbilityLevel"] = 4,
   } ,
-  ["Charge 5"] = {
+  ["charge 5"] = {
     ["trainer"] = false ,
     ["MinPetLevel"] = 48 ,
     ["CostTP"] = 21 ,
-    ["Text"] = " Charges an enemy, immobilizes it for 1 sec, and adds 390 melee attack power to the boar's next attack.",
-    ["AbilityFamily"] = "Charge",
+    ["Text"] = "Charges an enemy, immobilizes it for 1 sec, and adds 390 melee attack power to the boar's next attack.",
+    ["AbilityFamily"] = "charge",
     ["AbilityLevel"] = 5,
   } ,
-  ["Charge 6"] = {
+  ["charge 6"] = {
     ["trainer"] = false ,
     ["MinPetLevel"] = 60 ,
     ["CostTP"] = 25 ,
-    ["Text"] = " Charges an enemy, immobilizes it for 1 sec, and adds 550 melee attack power to the boar's next attack.",
-    ["AbilityFamily"] = "Charge",
+    ["Text"] = "Charges an enemy, immobilizes it for 1 sec, and adds 550 melee attack power to the boar's next attack.",
+    ["AbilityFamily"] = "charge",
     ["AbilityLevel"] = 6,
   } ,
-  --[[	
-  ["Claw"] = {
+  
+  ["claw 1"] = {
     ["trainer"] = false ,
+    ["MinPetLevel"] = 1 ,
+    ["CostTP"] = 1 ,
+    ["Params"] = { 4,6 },
+    ["Text"] = "Claw the enemy, causing 4 to 6 damage.",
+    ["AbilityFamily"] = "claw",
+    ["AbilityLevel"] = 1,
   } ,
-  ["Cower"] = {
+  ["claw 2"] = {
     ["trainer"] = false ,
+    ["MinPetLevel"] =  8,
+    ["CostTP"] = 4 ,
+    ["Params"] = { 8,12 },
+    ["Text"] = "Claw the enemy, causing 8 to 12 damage.",
+    ["AbilityFamily"] = "claw",
+    ["AbilityLevel"] = 2,
   } ,
-  ["Dash"] = {
+  ["claw 3"] = {
     ["trainer"] = false ,
+    ["MinPetLevel"] = 16 ,
+    ["CostTP"] = 7 ,
+    ["Params"] = { 12,16 },
+    ["Text"] = "Claw the enemy, causing damage.",
+    ["AbilityFamily"] = "claw",
+    ["AbilityLevel"] = 3,
   } ,
-  ["Dive"] = {
+  ["claw 4"] = {
     ["trainer"] = false ,
+    ["MinPetLevel"] = 24 ,
+    ["CostTP"] = 10 ,
+    ["Params"] = { 16,22 },
+    ["Text"] = "Claw the enemy, causing damage.",
+    ["AbilityFamily"] = "claw",
+    ["AbilityLevel"] = 4,
   } ,
-  ["Furious Howl"] = {
+  ["claw 5"] = {
     ["trainer"] = false ,
+    ["MinPetLevel"] = 32 ,
+    ["CostTP"] = 13 ,
+    ["Params"] = { 21,29 },
+    ["Text"] = "Claw the enemy, causing damage.",
+    ["AbilityFamily"] = "claw",
+    ["AbilityLevel"] = 5,
   } ,
-  ["Lightning Breath"] = {
+  ["claw 6"] = {
     ["trainer"] = false ,
+    ["MinPetLevel"] = 40 ,
+    ["CostTP"] = 17 ,
+    ["Params"] = { 26,36 },
+    ["Text"] = "Claw the enemy, causing damage.",
+    ["AbilityFamily"] = "claw",
+    ["AbilityLevel"] = 6,
   } ,
-  ["Prowl"] = {
+  ["claw 7"] = {
     ["trainer"] = false ,
+    ["MinPetLevel"] = 48 ,
+    ["CostTP"] = 21 ,
+    ["Params"] = { 36,49 },
+    ["Text"] = "Claw the enemy, causing damage.",
+    ["AbilityFamily"] = "claw",
+    ["AbilityLevel"] = 7,
   } ,
-  ["Scorpid Poison"] = {
+  ["claw 8"] = {
     ["trainer"] = false ,
+    ["MinPetLevel"] = 56 ,
+    ["CostTP"] = 25 ,
+    ["Params"] = { 43,59 },
+    ["Text"] = "Claw the enemy, causing damage.",
+    ["AbilityFamily"] = "claw",
+    ["AbilityLevel"] = 8,
   } ,
-  ["Screech"] = {
+  
+  ["cower 1"] = {
     ["trainer"] = false ,
+    ["MinPetLevel"] = 5 ,
+    ["CostTP"] = 8 ,
+    ["Params"] = { 30 },
+    ["Text"] = "Cower, causing no damage but lowering your pet's threat, making the enemy less likely to attack your pet.",
+    ["AbilityFamily"] = "cower",
+    ["AbilityLevel"] = 1,
   } ,
-  ["Shell Shield"] = {
+  ["cower 2"] = {
     ["trainer"] = false ,
+    ["MinPetLevel"] =  15,
+    ["CostTP"] = 10 ,
+    ["Params"] = { 55 },
+    ["Text"] = "Cower, causing no damage but lowering your pet's threat, making the enemy less likely to attack your pet.",
+    ["AbilityFamily"] = "cower",
+    ["AbilityLevel"] = 2,
   } ,
-  ["Thunderstomp"] = {
+  ["cower 3"] = {
     ["trainer"] = false ,
+    ["MinPetLevel"] = 25 ,
+    ["CostTP"] = 12 ,
+    ["Params"] = { 85 },
+    ["Text"] = "Cower, causing no damage but lowering your pet's threat, making the enemy less likely to attack your pet.",
+    ["AbilityFamily"] = "cower",
+    ["AbilityLevel"] = 3,
   } ,
---]]
-
-  ["Arcane Resistance 1"] = {
+  ["cower 4"] = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] = 35 ,
+    ["CostTP"] = 14 ,
+    ["Params"] = { 125 },
+    ["Text"] = "Cower, causing no damage but lowering your pet's threat, making the enemy less likely to attack your pet.",
+    ["AbilityFamily"] = "cower",
+    ["AbilityLevel"] = 4,
+  } ,
+  ["cower 5"] = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] = 45 ,
+    ["CostTP"] = 14 ,
+    ["Params"] = { 175 },
+    ["Text"] = "Cower, causing no damage but lowering your pet's threat, making the enemy less likely to attack your pet.",
+    ["AbilityFamily"] = "cower",
+    ["AbilityLevel"] = 5,
+  } ,
+  ["cower 6"] = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] = 55 ,
+    ["CostTP"] = 18 ,
+    ["Params"] = { 225 },
+    ["Text"] = "Cower, causing no damage but lowering your pet's threat, making the enemy less likely to attack your pet.",
+    ["AbilityFamily"] = "cower",
+    ["AbilityLevel"] = 6,
+  } ,
+  
+  ["dash 1"] = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] = 30 ,
+    ["CostTP"] = 15 ,
+    ["Params"] = { 40 },
+    ["Text"] = "Increases movement speed for 15 seconds.",
+    ["AbilityFamily"] = "dash",
+    ["AbilityLevel"] = 1,
+  } ,
+  ["dash 2"] = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] =  40,
+    ["CostTP"] = 20 ,
+    ["Params"] = { 60 },
+    ["Text"] = "Increases movement speed for 15 seconds.",
+    ["AbilityFamily"] = "dash",
+    ["AbilityLevel"] = 2,
+  } ,
+  ["dash 3"] = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] = 50 ,
+    ["CostTP"] = 25 ,
+    ["Params"] = { 80 },
+    ["Text"] = "Increases movement speed for 15 seconds.",
+    ["AbilityFamily"] = "dash",
+    ["AbilityLevel"] = 3,
+  } ,
+    
+  ["dive 1"] = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] = 30 ,
+    ["CostTP"] = 15 ,
+    ["Params"] = { 40 },
+    ["Text"] = "Increases movement speed for 15 seconds.",
+    ["AbilityFamily"] = "dive",
+    ["AbilityLevel"] = 1,
+  } ,
+  ["dive 2"] = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] =  40,
+    ["CostTP"] = 20 ,
+    ["Params"] = { 60 },
+    ["Text"] = "Increases movement speed for 15 seconds.",
+    ["AbilityFamily"] = "dive",
+    ["AbilityLevel"] = 2,
+  } ,
+  ["dive 3"] = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] = 50 ,
+    ["CostTP"] = 25 ,
+    ["Params"] = { 80 },
+    ["Text"] = "Increases movement speed for 15 seconds.",
+    ["AbilityFamily"] = "dive",
+    ["AbilityLevel"] = 3,
+  } ,
+    
+  ["furious howl 1"] = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] = 10 ,
+    ["CostTP"] = 10 ,
+    ["Params"] = { 9,11 },
+    ["Text"] = "Party members within 15 yards receive extra damage to their next physical attack. Lasts 10 seconds.",
+    ["AbilityFamily"] = "furious howl",
+    ["AbilityLevel"] = 1,
+  } ,
+  ["furious howl 2"] = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] =  24,
+    ["CostTP"] = 15 ,
+    ["Params"] = { 18,22 },
+    ["Text"] = "Party members within 15 yards receive extra damage to their next physical attack. Lasts 10 seconds.",
+    ["AbilityFamily"] = "furious howl",
+    ["AbilityLevel"] = 2,
+  } ,
+  ["furious howl 3"] = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] = 40 ,
+    ["CostTP"] = 20 ,
+    ["Params"] = { 28,34 },
+    ["Text"] = "Party members within 15 yards receive extra damage to their next physical attack. Lasts 10 seconds.",
+    ["AbilityFamily"] = "furious howl",
+    ["AbilityLevel"] = 3,
+  } ,
+  ["furious howl 4"] = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] = 56 ,
+    ["CostTP"] = 25 ,
+    ["Params"] = { 45,57 },
+    ["Text"] = "Party members within 15 yards receive extra damage to their next physical attack. Lasts 10 seconds.",
+    ["AbilityFamily"] = "furious howl",
+    ["AbilityLevel"] = 4,
+  } ,
+    
+    
+  ["lightning breath 1"] = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] = 1 ,
+    ["CostTP"] = 1 ,
+    ["Params"] = { 11,13 },
+    ["Text"] = "Breathes lightning, instantly dealing Nature damage to a single target.",
+    ["AbilityFamily"] = "lightning breath",
+    ["AbilityLevel"] = 1,
+  } ,
+  ["lightning breath 2"] = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] =  12,
+    ["CostTP"] = 5 ,
+    ["Params"] = { 21,23 },
+    ["Text"] = "Breathes lightning, instantly dealing Nature damage to a single target.",
+    ["AbilityFamily"] = "lightning breath",
+    ["AbilityLevel"] = 2,
+  } ,
+  ["lightning breath 3"] = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] = 24 ,
+    ["CostTP"] = 10 ,
+    ["Params"] = { 36,40 },
+    ["Text"] = "Breathes lightning, instantly dealing Nature damage to a single target.",
+    ["AbilityFamily"] = "lightning breath",
+    ["AbilityLevel"] = 3,
+  } ,
+  ["lightning breath 4"] = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] = 36 ,
+    ["CostTP"] = 15 ,
+    ["Params"] = { 51,59 },
+    ["Text"] = "Breathes lightning, instantly dealing Nature damage to a single target.",
+    ["AbilityFamily"] = "lightning breath",
+    ["AbilityLevel"] = 4,
+  } ,
+  ["lightning breath 5"] = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] = 48 ,
+    ["CostTP"] = 20 ,
+    ["Params"] = { 78,90 },
+    ["Text"] = "Breathes lightning, instantly dealing Nature damage to a single target.",
+    ["AbilityFamily"] = "lightning breath",
+    ["AbilityLevel"] = 5,
+  } ,
+  ["lightning breath 6"] = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] = 60 ,
+    ["CostTP"] = 25 ,
+    ["Params"] = { 99,1113 },
+    ["Text"] = "Breathes lightning, instantly dealing Nature damage to a single target.",
+    ["AbilityFamily"] = "lightning breath",
+    ["AbilityLevel"] = 6,
+  } ,
+    
+  ["prowl 1"] = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] = 30 ,
+    ["CostTP"] = 15 ,
+    ["Params"] = { 50,20 },
+    ["Text"] = "Puts your pet in stealth mode, but slows its movement speed. The first attack from stealth receives a bonus to damage. Lasts until cancelled.",
+    ["AbilityFamily"] = "prowl",
+    ["AbilityLevel"] = 1,
+  } ,
+  ["prowl 2"] = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] = 40,
+    ["CostTP"] = 20 ,
+    ["Params"] = { 45,35 },
+    ["Text"] = "Puts your pet in stealth mode, but slows its movement speed. The first attack from stealth receives a bonus to damage. Lasts until cancelled.",
+    ["AbilityFamily"] = "prowl",
+    ["AbilityLevel"] = 2,
+  } ,
+  ["prowl 3"] = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] = 50 ,
+    ["CostTP"] = 25 ,
+    ["Params"] = { 40,50 },
+    ["Text"] = "Puts your pet in stealth mode, but slows its movement speed. The first attack from stealth receives a bonus to damage. Lasts until cancelled.",
+    ["AbilityFamily"] = "prowl",
+    ["AbilityLevel"] = 3,
+  } ,
+  
+  ["scorpid poison 1"] = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] = 8 ,
+    ["CostTP"] = 10 ,
+    ["Params"] = { 10 },
+    ["Text"] = "Puts your pet in stealth mode, but slows its movement speed. The first attack from stealth receives a bonus to damage. Lasts until cancelled.",
+    ["AbilityFamily"] = "scorpid poison",
+    ["AbilityLevel"] = 1,
+  } ,
+  ["scorpid poison 2"] = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] = 24,
+    ["CostTP"] = 15 ,
+    ["Params"] = { 15 },
+    ["Text"] = "Puts your pet in stealth mode, but slows its movement speed. The first attack from stealth receives a bonus to damage. Lasts until cancelled.",
+    ["AbilityFamily"] = "scorpid poison",
+    ["AbilityLevel"] = 2,
+  } ,
+  ["scorpid poison 3"] = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] = 40 ,
+    ["CostTP"] = 20 ,
+    ["Params"] = { 30 },
+    ["Text"] = "Puts your pet in stealth mode, but slows its movement speed. The first attack from stealth receives a bonus to damage. Lasts until cancelled.",
+    ["AbilityFamily"] = "scorpid poison",
+    ["AbilityLevel"] = 3,
+  } ,
+  ["scorpid poison 4"] = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] = 56 ,
+    ["CostTP"] = 25 ,
+    ["Params"] = { 40 },
+    ["Text"] = "Puts your pet in stealth mode, but slows its movement speed. The first attack from stealth receives a bonus to damage. Lasts until cancelled.",
+    ["AbilityFamily"] = "scorpid poison",
+    ["AbilityLevel"] = 4,
+  } ,
+  
+  ["screech 1"] = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] = 8 ,
+    ["CostTP"] = 10 ,
+    ["Params"] = { 7,9,25 },
+    ["Text"] = "Blasts a single enemy for damage and lowers the melee attack power of all enemies in melee range. Effect lasts 4 sec.",
+    ["AbilityFamily"] = "screech",
+    ["AbilityLevel"] = 1,
+  } ,
+  ["screech 2"] = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] = 24,
+    ["CostTP"] = 15 ,
+    ["Params"] = { 12,16,50 },
+    ["Text"] = "Blasts a single enemy for damage and lowers the melee attack power of all enemies in melee range. Effect lasts 4 sec.",
+    ["AbilityFamily"] = "screech",
+    ["AbilityLevel"] = 2,
+  } ,
+  ["screech 3"] = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] = 48 ,
+    ["CostTP"] = 15 ,
+    ["Params"] = { 19,25,75 },
+    ["Text"] = "Blasts a single enemy for damage and lowers the melee attack power of all enemies in melee range. Effect lasts 4 sec.",
+    ["AbilityFamily"] = "screech",
+    ["AbilityLevel"] = 3,
+  } ,
+  ["screech 4"] = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] = 56 ,
+    ["CostTP"] = 25 ,
+    ["Params"] = { 26,46,100 },
+    ["Text"] = "Blasts a single enemy for damage and lowers the melee attack power of all enemies in melee range. Effect lasts 4 sec.",
+    ["AbilityFamily"] = "screech",
+    ["AbilityLevel"] = 4,
+  } ,
+  
+  ["shell shield 1"] = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] = 20 ,
+    ["CostTP"] = 15 ,
+    ["Params"] = { 50,43,12 },
+    ["Text"] = "Reduces all damage your pet takes by 50%, but increases the time between your pet's attacks by 43%. Lasts 12 sec.",
+    ["AbilityFamily"] = "shell shield",
+    ["AbilityLevel"] = 1,
+  } ,
+  
+  ["thunderstomp 1"] = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] = 30 ,
+    ["CostTP"] = 15 ,
+    ["Params"] = { 67,77,9 },
+    ["Text"] = "Shakes the ground with thundering force, doing Nature damage to all enemies within 8 yards.",
+    ["AbilityFamily"] = "thunderstomp",
+    ["AbilityLevel"] = 1,
+  } , 
+  ["thunderstomp 2"] = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] = 40 ,
+    ["CostTP"] = 20 ,
+    ["Params"] = { 87,99,8 },
+    ["Text"] = "Shakes the ground with thundering force, doing Nature damage to all enemies within 8 yards.",
+    ["AbilityFamily"] = "thunderstomp",
+    ["AbilityLevel"] = 2,
+  } ,
+    ["thunderstomp 3"] = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] = 50 ,
+    ["CostTP"] = 25 ,
+    ["Params"] = { 115,133,8 },
+    ["Text"] = "Shakes the ground with thundering force, doing Nature damage to all enemies within 8 yards.",
+    ["AbilityFamily"] = "thunderstomp",
+    ["AbilityLevel"] = 3,
+  } ,
+  
+  
+  ["arcane resistance 1"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 20 ,
     ["CostTP"] = 5 ,
+    ["AbilityFamily"] = "arcane resistance",
+    ["Params"] = { 30 },
     ["Text"] = "Increases Arcane Resistance by 30. Can be learned from trainers.",
     ["AbilityLevel"] = 1,
   } ,
-  ["Arcane Resistance 2"] = {
+  ["arcane resistance 2"] = {
     ["trainer"] = true ,
-    ["MinPetLevel"] = 20 ,
+    ["MinPetLevel"] = 30 ,
     ["CostTP"] = 15 ,
+    ["AbilityFamily"] = "arcane resistance",
+    ["Params"] = { 60 },
     ["Text"] = "Increases Arcane Resistance by 60. Can be learned from trainers.",
     ["AbilityLevel"] = 2,
   } ,
-  ["Arcane Resistance 3"] = {
+  ["arcane resistance 3"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 30 ,
     ["CostTP"] = 45 ,
+    ["AbilityFamily"] = "arcane resistance",
+    ["Params"] = { 90 },
     ["Text"] = "Increases Arcane Resistance by 90. Can be learned from trainers.",
     ["AbilityLevel"] = 3,
   } ,
-  ["Arcane Resistance 4"] = {
+  ["arcane resistance 4"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 50 ,
     ["CostTP"] = 90 ,
+    ["AbilityFamily"] = "arcane resistance",
+    ["Params"] = { 120 },
     ["Text"] = "Increases Arcane Resistance by 120. Can be learned from trainers.",
     ["AbilityLevel"] = 4,
   } ,
-  ["Arcane Resistance 5"] = {
+  ["arcane resistance 5"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 60 ,
     ["CostTP"] = 105 ,
+    ["AbilityFamily"] = "arcane resistance",
+    ["Params"] = { 140 },
     ["Text"] = "Increases Arcane Resistance by 140. Can be learned from trainers.",
     ["AbilityLevel"] = 5,
   } ,
-  ["Fire Resistance 1"] = {
+  
+  ["fire resistance 1"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 20 ,
     ["CostTP"] = 5 ,
+    ["AbilityFamily"] = "fire resistance",
+    ["Params"] = { 30 },
     ["Text"] = "Increases Fire Resistance by 30. Can be learned from trainers.",
     ["AbilityLevel"] = 1,
   } ,
-  ["Fire Resistance 2"] = {
+  ["fire resistance 2"] = {
     ["trainer"] = true ,
-    ["MinPetLevel"] = 20 ,
+    ["MinPetLevel"] = 30 ,
     ["CostTP"] = 15 ,
+    ["AbilityFamily"] = "fire resistance",
+    ["Params"] = { 60 },
     ["Text"] = "Increases Fire Resistance by 60. Can be learned from trainers.",
     ["AbilityLevel"] = 2,
   } ,
-  ["Fire Resistance 3"] = {
+  ["fire resistance 3"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 30 ,
     ["CostTP"] = 45 ,
+    ["AbilityFamily"] = "fire resistance",
+    ["Params"] = { 90 },
     ["Text"] = "Increases Fire Resistance by 90. Can be learned from trainers.",
     ["AbilityLevel"] = 3,
   } ,
-  ["Fire Resistance 4"] = {
+  ["fire resistance 4"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 50 ,
     ["CostTP"] = 90 ,
+    ["AbilityFamily"] = "fire resistance",
+    ["Params"] = { 120 },
     ["Text"] = "Increases Fire Resistance by 120. Can be learned from trainers.",
     ["AbilityLevel"] = 4,
   } ,
-  ["Fire Resistance 5"] = {
+  ["fire resistance 5"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 60 ,
     ["CostTP"] = 105 ,
+    ["AbilityFamily"] = "fire resistance",
+    ["Params"] = { 140 },
     ["Text"] = "Increases Fire Resistance by 140. Can be learned from trainers.",
     ["AbilityLevel"] = 5,
   } ,
   
-  ["Frost Resistance 1"] = {
+  ["frost resistance 1"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 20 ,
     ["CostTP"] = 5 ,
+    ["AbilityFamily"] = "frost resistance",
+    ["Params"] = { 30 },
     ["Text"] = "Increases Frost Resistance by 30. Can be learned from trainers.",
     ["AbilityLevel"] = 1,
   } ,
-  ["Frost Resistance 2"] = {
+  ["frost resistance 2"] = {
     ["trainer"] = true ,
-    ["MinPetLevel"] = 20 ,
+    ["MinPetLevel"] = 30 ,
     ["CostTP"] = 15 ,
+    ["AbilityFamily"] = "frost resistance",
+    ["Params"] = { 60 },
     ["Text"] = "Increases Frost Resistance by 60. Can be learned from trainers.",
     ["AbilityLevel"] = 2,
   } ,
-  ["Frost Resistance 3"] = {
+  ["frost resistance 3"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 30 ,
     ["CostTP"] = 45 ,
+    ["AbilityFamily"] = "frost resistance",
+    ["Params"] = { 90 },
     ["Text"] = "Increases Frost Resistance by 90. Can be learned from trainers.",
     ["AbilityLevel"] = 3,
   } ,
-  ["Frost Resistance 4"] = {
+  ["frost resistance 4"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 50 ,
     ["CostTP"] = 90 ,
+    ["AbilityFamily"] = "frost resistance",
+    ["Params"] = { 120 },
     ["Text"] = "Increases Frost Resistance by 120. Can be learned from trainers.",
     ["AbilityLevel"] = 4,
   } ,
-  ["Frost Resistance 5"] = {
+  ["frost resistance 5"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 60 ,
     ["CostTP"] = 105 ,
+    ["AbilityFamily"] = "frost resistance",
+    ["Params"] = { 140 },
     ["Text"] = "Increases Frost Resistance by 140. Can be learned from trainers.",
     ["AbilityLevel"] = 5,
   } ,
   
-  ["Great Stamina 1"] = {
+  ["great stamina 1"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 10 ,
     ["CostTP"] = 5 ,
+    ["AbilityFamily"] = "great stamina",
+    ["Params"] = { 3 },
     ["Text"] = "Increases Stamina by 3.",
     ["AbilityLevel"] = 1,
-    ["AbilityValue"] = 3,
   },
-  ["Great Stamina 2"] = {
+  ["great stamina 2"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 12 ,
     ["CostTP"] = 10 ,
+    ["AbilityFamily"] = "great stamina",
+    ["Params"] = { 5 },
     ["Text"] = "Increases Stamina by 5.",
     ["AbilityLevel"] = 2,
-    ["AbilityValue"] = 5,
   },
-  ["Great Stamina 3"] = {
+  ["great stamina 3"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 18 ,
     ["CostTP"] = 15 ,
+    ["AbilityFamily"] = "great stamina",
+    ["Params"] = { 7 },
     ["Text"] = "Increases Stamina by 7.",
     ["AbilityLevel"] = 3,
-    ["AbilityValue"] = 7,
   },
-  ["Great Stamina 4"] = {
+  ["great stamina 4"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 24 ,
     ["CostTP"] = 25 ,
+    ["AbilityFamily"] = "great stamina",
+    ["Params"] = { 10 },
     ["Text"] = "Increases Stamina by 10.",
     ["AbilityLevel"] = 4,
-    ["AbilityValue"] = 10,
   } ,
-  ["Great Stamina 5"] = {
+  ["great stamina 5"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 30 ,
     ["CostTP"] = 50 ,
+    ["AbilityFamily"] = "great stamina",
+    ["Params"] = { 13 },
     ["Text"] = "Increases Stamina by 13.",
     ["AbilityLevel"] = 5,
-    ["AbilityValue"] = 13,
   } ,
-  ["Great Stamina 6"] = {
+  ["great stamina 6"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 36 ,
     ["CostTP"] = 75 ,
+    ["AbilityFamily"] = "great stamina",
+    ["Params"] = { 17 },
     ["Text"] = "Increases Stamina by 17.",
     ["AbilityLevel"] = 6,
-    ["AbilityValue"] = 17,
   },
-  ["Great Stamina 7"] = {
+  ["great stamina 7"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 42 ,
     ["CostTP"] = 100 ,
+    ["AbilityFamily"] = "great stamina",
+    ["Params"] = { 21 },
     ["Text"] = "Increases Stamina by 21.",
     ["AbilityLevel"] = 7,
-    ["AbilityValue"] = 21,
   } ,
-  ["Great Stamina 8"] = {
+  ["great stamina 8"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 48 ,
     ["CostTP"] = 125 ,
+    ["AbilityFamily"] = "great stamina",
+    ["Params"] = { 26 },
     ["Text"] = "Increases Stamina by 26.",
     ["AbilityLevel"] = 8,
-    ["AbilityValue"] = 26,
   },
-  ["Great Stamina 9"] = {
+  ["great stamina 9"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 54 ,
     ["CostTP"] = 150 ,
+    ["AbilityFamily"] = "great stamina",
+    ["Params"] = { 32 },
     ["Text"] = "Increases Stamina by 32.",
     ["AbilityLevel"] = 9,
-    ["AbilityValue"] = 32,
   },
-  ["Great Stamina 10"] = {
+  ["great stamina 10"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 60 ,
     ["CostTP"] = 185 ,
+    ["AbilityFamily"] = "great stamina",
+    ["Params"] = { 40 },
     ["Text"] = "Increases Stamina by 40.",
     ["AbilityLevel"] = 10,
-    ["AbilityValue"] = 40,
   },
   
-  ["Growl 1"] = {
+  ["growl 1"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 1 ,
     ["CostTP"] = 0 ,
     ["Text"] = "Taunt the target, generating 50 threat and increasing the likelyhood the creature will focus attacks on your pet.",
-    ["AbilityFamily"] = "Growl",
+    ["Params"] = { 50 },
+    ["AbilityFamily"] = "growl",
     ["AbilityLevel"] = 1,
-    ["AbilityValue"] = 50,
   } ,
-  ["Growl 2"] = {
+  ["growl 2"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 10 ,
     ["CostTP"] = 0 ,
+    ["Params"] = { 110 },
     ["Text"] = "Taunt the target, generating 110 threat and increasing the likelyhood the creature will focus attacks on your pet.",
-    ["AbilityFamily"] = "Growl",
+    ["AbilityFamily"] = "growl",
     ["AbilityLevel"] = 2,
-    ["AbilityValue"] = 110,
   } ,
-  ["Growl 3"] = {
+  ["growl 3"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 20 ,
     ["CostTP"] = 0 ,
-    ["Text"] = "Taunt the target, generating 170 threat and increasing the likelyhood the creature will focus attacks on your pet.",
-    ["AbilityFamily"] = "Growl",
+    ["Params"] = { 110 },
+    ["Text"] = "Taunt the target, generating 110 threat and increasing the likelyhood the creature will focus attacks on your pet.",
+    ["AbilityFamily"] = "growl",
     ["AbilityLevel"] = 3,
-    ["AbilityValue"] = 170,
   } ,
-  ["Growl 4"] = {
+  ["growl 4"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 30 ,
     ["CostTP"] = 0 ,
+    ["Params"] = { 170 },
     ["Text"] = "Taunt the target, generating 170 threat and increasing the likelyhood the creature will focus attacks on your pet.",
-    ["AbilityFamily"] = "Growl",
+    ["AbilityFamily"] = "growl",
     ["AbilityLevel"] = 4,
-    ["AbilityValue"] = 170,
   } ,
-  ["Growl 5"] = {
+  ["growl 5"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 40 ,
     ["CostTP"] = 0 ,
+    ["Params"] = { 240 },
     ["Text"] = "Taunt the target, generating 240 threat and increasing the likelyhood the creature will focus attacks on your pet.",
-    ["AbilityFamily"] = "Growl",
+    ["AbilityFamily"] = "growl",
     ["AbilityLevel"] = 5,
-    ["AbilityValue"] = 240,
   } ,
-  ["Growl 6"] = {
+  ["growl 6"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 50 ,
     ["CostTP"] = 0 ,
+    ["Params"] = { 320 },
     ["Text"] = "Taunt the target, generating 320 threat and increasing the likelyhood the creature will focus attacks on your pet.",
-    ["AbilityFamily"] = "Growl",
+    ["AbilityFamily"] = "growl",
     ["AbilityLevel"] = 6,
-    ["AbilityValue"] = 320,
   } ,
-  ["Growl 7"] = {
+  ["growl 7"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 60 ,
     ["CostTP"] = 0 ,
+    ["Params"] = { 415 },
     ["Text"] = "Taunt the target, generating 415 threat and increasing the likelyhood the creature will focus attacks on your pet.",
-    ["AbilityFamily"] = "Growl",
+    ["AbilityFamily"] = "growl",
     ["AbilityLevel"] = 7,
-    ["AbilityValue"] = 415,
   } ,
   
-  --[[
-  "Natural Armor" = {
+
+  ["natural armor 1"] = {
     ["trainer"] = true ,
+    ["MinPetLevel"] = 1 ,
+    ["CostTP"] = 1 ,
+    ["Text"] = "Increases armor.",
+    ["Params"] = { 50 },
+    ["AbilityFamily"] = "natural armor",
+    ["AbilityLevel"] = 1,
   } ,
-  "Nature Resistance 1" = {
+  ["natural armor 2"] = {
+    ["trainer"] = true ,
+    ["MinPetLevel"] = 12 ,
+    ["CostTP"] =5,
+    ["Params"] = { 100 },
+    ["Text"] = "Increases armor.",
+    ["AbilityFamily"] = "natural armor",
+    ["AbilityLevel"] = 2,
+  } ,
+  ["natural armor 3"] = {
+    ["trainer"] = true ,
+    ["MinPetLevel"] = 18 ,
+    ["CostTP"] = 10 ,
+    ["Params"] = { 160 },
+    ["Text"] = "Increases armor.",
+    ["AbilityFamily"] = "natural armor",
+    ["AbilityLevel"] = 3,
+  } ,
+  ["natural armor 4"] = {
+    ["trainer"] = true ,
+    ["MinPetLevel"] = 24,
+    ["CostTP"] = 15 ,
+    ["Params"] = { 240 },
+    ["Text"] = "Increases armor.",
+    ["AbilityFamily"] = "natural armor",
+    ["AbilityLevel"] = 4,
+  } ,
+  ["natural armor 5"] = {
+    ["trainer"] = true ,
+    ["MinPetLevel"] = 30 ,
+    ["CostTP"] = 25 ,
+    ["Params"] = { 330 },
+    ["Text"] = "Increases armor.",
+    ["AbilityFamily"] = "natural armor",
+    ["AbilityLevel"] = 5,
+  } ,
+  ["natural armor 6"] = {
+    ["trainer"] = true ,
+    ["MinPetLevel"] = 36 ,
+    ["CostTP"] = 50 ,
+    ["Params"] = { 430 },
+    ["Text"] = "Increases armor.",
+    ["AbilityFamily"] = "natural armor",
+    ["AbilityLevel"] = 6,
+  } 
+  ["natural armor 7"] = {
+    ["trainer"] = true ,
+    ["MinPetLevel"] = 42 ,
+    ["CostTP"] = 75 ,
+    ["Params"] = { 550 },
+    ["Text"] = "Increases armor.",
+    ["AbilityFamily"] = "natural armor",
+    ["AbilityLevel"] = 7,
+  } ,
+  ["natural armor 8"] = {
+    ["trainer"] = true ,
+    ["MinPetLevel"] = 48 ,
+    ["CostTP"] = 100 ,
+    ["Params"] = { 675 },
+    ["Text"] = "Increases armor.",
+    ["AbilityFamily"] = "natural armor",
+    ["AbilityLevel"] = 8,
+  } ,
+  ["natural armor 9"] = {
+    ["trainer"] = true ,
+    ["MinPetLevel"] = 54 ,
+    ["CostTP"] = 125 ,
+    ["Params"] = { 810 },
+    ["Text"] = "Increases armor.",
+    ["AbilityFamily"] = "natural armor",
+    ["AbilityLevel"] = 9,
+  } ,
+  ["natural armor 10"] = {
+    ["trainer"] = true ,
+    ["MinPetLevel"] = 60 ,
+    ["CostTP"] = 150 ,
+    ["Params"] = { 1000 },
+    ["Text"] = "Increases armor.",
+    ["AbilityFamily"] = "natural armor",
+    ["AbilityLevel"] = 10,
+  } ,
+  
+  
+  ["nature resistance 1"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 20 ,
     ["CostTP"] = 5 ,
-    ["Text"] = "Increases Nature Resistance by 30. Can be learned from trainers.",
+    ["AbilityFamily"] = "nature resistance",
+    ["Params"] = { 30 },
+    ["Text"] = "Increases Nature Resistance.",
+    ["AbilityLevel"] = 1,
   } ,
-  "Nature Resistance 2" = {
-    ["trainer"] = true ,
-    ["MinPetLevel"] = 20 ,
-    ["CostTP"] = 15 ,
-    ["Text"] = "Increases Nature Resistance by 60. Can be learned from trainers.",
-  } ,
-  "Nature Resistance 3" = {
+  ["nature resistance 2"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 30 ,
-    ["CostTP"] = 45 ,
-    ["Text"] = "Increases Nature Resistance by 90. Can be learned from trainers.",
+    ["CostTP"] = 15 ,
+    ["AbilityFamily"] = "nature resistance",
+    ["Params"] = { 60 },
+    ["Text"] = "Increases Nature Resistance.",
+    ["AbilityLevel"] = 2,
   } ,
-  "Nature Resistance 4" = {
+  ["nature resistance 3"] = {
+    ["trainer"] = true ,
+    ["MinPetLevel"] = 40 ,
+    ["CostTP"] = 45 ,
+    ["AbilityFamily"] = "nature resistance",
+    ["Params"] = { 90 },
+    ["Text"] = "Increases Nature Resistance.",
+    ["AbilityLevel"] = 3,
+  } ,
+  ["nature resistance 4"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 50 ,
     ["CostTP"] = 90 ,
-    ["Text"] = "Increases Nature Resistance by 120. Can be learned from trainers.",
+    ["AbilityFamily"] = "nature resistance",
+    ["Params"] = { 120 },
+    ["Text"] = "Increases Nature Resistance.",
+    ["AbilityLevel"] = 4,
   } ,
-  "Nature Resistance 5" = {
+  ["nature resistance 5"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 60 ,
     ["CostTP"] = 105 ,
-    ["Text"] = "Increases Nature Resistance by 140. Can be learned from trainers.",
+    ["AbilityFamily"] = "nature resistance",
+    ["Params"] = { 140 },
+    ["Text"] = "Increases Nature Resistance.",
+    ["AbilityLevel"] = 5,
   } ,
-  "Shadow Resistance 1" = {
+  
+  ["shadow resistance 1"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 20 ,
     ["CostTP"] = 5 ,
-    ["Text"] = "Increases Shadow Resistance by 30. Can be learned from trainers.",
+    ["AbilityFamily"] = "shadow resistance",
+    ["Params"] = { 30 },
+    ["Text"] = "Increases Shadow Resistance.",
+    ["AbilityLevel"] = 1,
   } ,
-  "Shadow Resistance 2" = {
-    ["trainer"] = true ,
-    ["MinPetLevel"] = 20 ,
-    ["CostTP"] = 15 ,
-    ["Text"] = "Increases Shadow Resistance by 60. Can be learned from trainers.",
-  } ,
-  "Shadow Resistance 3" = {
+  ["shadow resistance 2"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 30 ,
-    ["CostTP"] = 45 ,
-    ["Text"] = "Increases Shadow Resistance by 90. Can be learned from trainers.",
+    ["CostTP"] = 15 ,
+    ["AbilityFamily"] = "shadow resistance",
+    ["Params"] = { 60 },
+    ["Text"] = "Increases Shadow Resistance.",
+    ["AbilityLevel"] = 2,
   } ,
-  "Shadow Resistance 4" = {
+  ["shadow resistance 3"] = {
+    ["trainer"] = true ,
+    ["MinPetLevel"] = 40 ,
+    ["CostTP"] = 45 ,
+    ["AbilityFamily"] = "shadow resistance",
+    ["Params"] = { 90 },
+    ["Text"] = "Increases Shadow Resistance.",
+    ["AbilityLevel"] = 3,
+  } ,
+  ["shadow resistance 4"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 50 ,
     ["CostTP"] = 90 ,
-    ["Text"] = "Increases Shadow Resistance by 120. Can be learned from trainers.",
+    ["AbilityFamily"] = "shadow resistance",
+    ["Params"] = { 120 },
+    ["Text"] = "Increases Shadow Resistance.",
+    ["AbilityLevel"] = 4,
   } ,
-  "Shadow Resistance 5" = {
+  ["shadow resistance 5"] = {
     ["trainer"] = true ,
     ["MinPetLevel"] = 60 ,
     ["CostTP"] = 105 ,
-    ["Text"] = "Increases Shadow Resistance by 140. Can be learned from trainers.",
+    ["AbilityFamily"] = "shadow resistance",
+    ["Params"] = { 140 },
+    ["Text"] = "Increases Shadow Resistance.",
+    ["AbilityLevel"] = 5,
   } ,
-  ]]--
 }
 
 --
 --
 function Artemis:CreateTameListItem(abilityName,subElem,name,family,minlvl,maxlvl,location) 
-  Artemis.Abilities[abilityName][subElem] = {}
+  if(Artemis.Abilities[abilityName] == nil ) then
+    Artemis.Abilities[abilityName] = {}
+  end
+  if( Artemis.Abilities[abilityName][subElem] == nil ) then
+    Artemis.Abilities[abilityName][subElem] = {}
+  end
+  
   Artemis.Abilities[abilityName][subElem][name] = {
-          ["type"] = family,
+          ["type"]   = family,
           ["MinLvl"] = minlvl,
           ["MaxLvl"] = maxlvl, 
           ["location"] = location
   }
 end
 
+--
 --
 function Artemis:CreateTameList()
   Artemis:CreateTameListItem("bite 1","TamingList","Ragged Scavenger","Wolf",2,3,"Tirisfal Glades")
@@ -787,45 +1329,42 @@ function Artemis:CreateTameList()
   Artemis:CreateTameListItem("bite 1","TamingList","Dreadmaw Crocolisk","Crocolisk",5,5,"Durotar")
   
 
-  Artemis:CreateTameListItem("Bite 2","TamingList","Starving Winter Wolf","Wolf",8,9,"Dun Morogh")
-  Artemis:CreateTameListItem("Bite 2","TamingList","Webwood Silkspinner","Spider",8,9,"Teldrassil")
-  Artemis:CreateTameListItem("Bite 2","TamingList","Prowler","Wolf",9,10,"Elwynn Forest")
-  Artemis:CreateTameListItem("Bite 2","TamingList","Vicious Night Web Spider","Spider",9,10,"Tirisfal Glades")
-  Artemis:CreateTameListItem("Bite 2","TamingList","Prairie Wolf Alpha","Wolf",9,10,"Mulgore")
-  Artemis:CreateTameListItem("Bite 2","TamingList","Forest Lurker","Spider",10,11,"Loch Modan")
-  Artemis:CreateTameListItem("Bite 2","TamingList","Coyote","Wolf",10,11,"Westfall")
-  Artemis:CreateTameListItem("Bite 2","TamingList","Giant Webwood Spider","Spider",10,11,"Teldrassil")
-  Artemis:CreateTameListItem("Bite 2","TamingList","Worg","Wolf",10,11,"Silverpine Forest")
-  Artemis:CreateTameListItem("Bite 2","TamingList","Timber","Wolf",10,11,"Dun Morogh")
-  Artemis:CreateTameListItem("Bite 2","TamingList","Coyote Packleader","Wolf",11,12,"Westfall")
-  Artemis:CreateTameListItem("Bite 2","TamingList","Lady Sathrah","Spider",12,12,"Teldrassil")
-  Artemis:CreateTameListItem("Bite 2","TamingList","Loch Crocolisk","Crocolisk",14,15,"Loch Modan")
-  Artemis:CreateTameListItem("Bite 2","TamingList","Tarantula","Spider",15,16,"Redridge Mountains")
-  Artemis:CreateTameListItem("Bite 2","TamingList","Oasis Snapjaw","Turtle",15,16,"Tirisfal")
+  Artemis:CreateTameListItem("bite 2","TamingList","Starving Winter Wolf","Wolf",8,9,"Dun Morogh")
+  Artemis:CreateTameListItem("bite 2","TamingList","Webwood Silkspinner","Spider",8,9,"Teldrassil")
+  Artemis:CreateTameListItem("bite 2","TamingList","Prowler","Wolf",9,10,"Elwynn Forest")
+  Artemis:CreateTameListItem("bite 2","TamingList","Vicious Night Web Spider","Spider",9,10,"Tirisfal Glades")
+  Artemis:CreateTameListItem("bite 2","TamingList","Prairie Wolf Alpha","Wolf",9,10,"Mulgore")
+  Artemis:CreateTameListItem("bite 2","TamingList","Forest Lurker","Spider",10,11,"Loch Modan")
+  Artemis:CreateTameListItem("bite 2","TamingList","Coyote","Wolf",10,11,"Westfall")
+  Artemis:CreateTameListItem("bite 2","TamingList","Giant Webwood Spider","Spider",10,11,"Teldrassil")
+  Artemis:CreateTameListItem("bite 2","TamingList","Worg","Wolf",10,11,"Silverpine Forest")
+  Artemis:CreateTameListItem("bite 2","TamingList","Timber","Wolf",10,11,"Dun Morogh")
+  Artemis:CreateTameListItem("bite 2","TamingList","Coyote Packleader","Wolf",11,12,"Westfall")
+  Artemis:CreateTameListItem("bite 2","TamingList","Lady Sathrah","Spider",12,12,"Teldrassil")
+  Artemis:CreateTameListItem("bite 2","TamingList","Loch Crocolisk","Crocolisk",14,15,"Loch Modan")
+  Artemis:CreateTameListItem("bite 2","TamingList","Tarantula","Spider",15,16,"Redridge Mountains")
+  Artemis:CreateTameListItem("bite 2","TamingList","Oasis Snapjaw","Turtle",15,16,"Tirisfal")
+  
+  Artemis:CreateTameListItem("bite 3","TamingList","Bloodsnout Worg","Wolf",16,17,"Silverpine Forest")
+  Artemis:CreateTameListItem("bite 3","TamingList","Deepmoss Creeper ","Spider",16,17,"Stonetalon Mountains")
+  Artemis:CreateTameListItem("bite 3","TamingList","Wood Lurker","Spider",17,18,"Loch Modan")
+  Artemis:CreateTameListItem("bite 3","TamingList","Deviate Crocolisk","Crocolisk",18,19,"The Wailing Caverns")
+  Artemis:CreateTameListItem("bite 3","TamingList","Shanda the Spinner","Spider",19,19,"Loch Modan")
+  Artemis:CreateTameListItem("bite 3","TamingList","Greater Tarantula","Spider",19,20,"Redridge Mountains")
+  Artemis:CreateTameListItem("bite 3","TamingList","Ghostpaw Runner","Wolf",19,20,"Ashenvale")
+  Artemis:CreateTameListItem("bite 3","TamingList","Deepmoss Webspinner","Spider",16,17,"Stonetalon Mountains")
+  Artemis:CreateTameListItem("bite 3","TamingList","Kresh","Turtle",20,20,"The Wailing Caverns")
+  Artemis:CreateTameListItem("bite 3","TamingList","Forest Moss Creeper","Spider",20,21,"Hillsbrad Foothills")
+  Artemis:CreateTameListItem("bite 3","TamingList","Green Recluse","Spider",21,22,"Duskwood")
+  Artemis:CreateTameListItem("bite 3","TamingList","Besseleth","Spider",21,21,"Stonetalon Mountains")
+  Artemis:CreateTameListItem("bite 3","TamingList","Large Loch Crocolisk","Crocolisk",22,22,"Loch Modan")
+  Artemis:CreateTameListItem("bite 3","TamingList","Chatter","Spider",23,23,"Redridge Mountains")
+  Artemis:CreateTameListItem("bite 3","TamingList","Lupos","Wolf",23,23,"Duskwood")
+  Artemis:CreateTameListItem("bite 3","TamingList","Aku'mai Fisher","Turtle",23,24,"Blackfathom Deeps")
+  Artemis:CreateTameListItem("bite 3","TamingList","Creepthess","Spider",24,24,"Hillsbrad Foothills")
+  
   
 --[[
-  --Artemis:CreateTameListItem("Bite 3","TamingList","Ragged","Wolf",16,17,"Tirisfal")
-  --Artemis:CreateTameListItem("Bite 3","TamingList","Ragged","Wolf",16,17,"Tirisfal")
-Bite 3: Pet Level 16, Cost 7 TP. Bite the enemy, causing 24 to 28 damage. Can be learned by taming:
-
-    Bloodsnout Worg (Wolf, 16-17, Silverpine Forest)
-    Deepmoss Creeper (Spider, 16-17, Stonetalon Mountains)
-    Wood Lurker (Spider, 17-18, Loch Modan)
-    Deviate Crocolisk (Crocolisk, 18-19, The Wailing Caverns)
-    Shanda the Spinner (Spider, 19, Loch Modan)
-    Greater Tarantula (Spider, 19-20, Redridge Mountains)
-    Ghostpaw Runner (Wolf, 19-20, Ashenvale)
-    Deepmoss Webspinner (Spider, 19-20, Stonetalon Mountains)
-    Kresh (Turtle, 20, The Wailing Caverns)
-    Forest Moss Creeper (Spider, 20-21, Hillsbrad Foothills)
-    Green Recluse (Spider, 21-22, Duskwood)
-    Besseleth (Spider, 21, Stonetalon Mountains)
-    Large Loch Crocolisk (Crocolisk, 22, Loch Modan)
-    Chatter (Spider, 23, Redridge Mountains)
-    Lupos (Wolf, 23, Duskwood)
-    Aku'mai Fisher (Turtle, 23-24, Blackfathom Deeps)
-    Creepthess (Spider, 24, Hillsbrad Foothills)
-
 Bite 4: Pet Level 24, Cost 10 TP. Bite the enemy, causing 31 to 37 damage. Can be learned by taming:
 
     Black Ravager (Wolf, 24-25, Duskwood)
@@ -890,27 +1429,27 @@ Bite 8: Pet Level 56, Cost 25 TP. Bite the enemy, causing 81 to 99 damage. Can b
   Artemis:CreateTameListItem("charge 1","TamingList","Young Thistle Boar","Boar",1,2,"Teldrassil")
   Artemis:CreateTameListItem("charge 1","TamingList","Mottled Boar","Boar",1,2,"Durotar")
   Artemis:CreateTameListItem("carge 1","TamingList","Thistle Boar","Boar",2,3,"Teldrassil")
-  Artemis:CreateTameListItem("Charge 1","TamingList","Battleboar","Boar",3,4,"Mulgore")
-  Artemis:CreateTameListItem("Charge 1","TamingList","Small Crag Boar","Boar",3,3,"Dun Morogh")
-  Artemis:CreateTameListItem("Charge 1","TamingList","Bristleback Battleboar","Boar",4,5,"Mulgore")
-  Artemis:CreateTameListItem("Charge 1","TamingList","Crag Boar","Boar",5,6,"Dun Morogh")
-  Artemis:CreateTameListItem("Charge 1","TamingList","Dire Mottled Boar","Boar",6,7,"Durotar")
-  Artemis:CreateTameListItem("Charge 1","TamingList","Large Crag Boar","Boar",1,2,"Dun Morogh")
-  Artemis:CreateTameListItem("Charge 1","TamingList","Stonetusk Boar","Boar",7,8,"Elwynn Forest")
-  Artemis:CreateTameListItem("Charge 1","TamingList","Porcine Entourage","Boar",7,7,"Elwynn Forest")
-  Artemis:CreateTameListItem("Charge 1","TamingList","Elder Crag Boar ","Boar",7,8,"Dun Morogh")
-  Artemis:CreateTameListItem("Charge 1","TamingList","Rockhide Boar","Boar",7,8,"Elwynn Forest")
-  Artemis:CreateTameListItem("Charge 1","TamingList","Elder Mottled Boar","Boar",8,9,"Durotar")
-  Artemis:CreateTameListItem("Charge 1","TamingList","Princess","Boar",9,9,"Elwynn Forest")
-  Artemis:CreateTameListItem("Charge 1","TamingList","Scarred Crag Boar","Boar",9,10,"Dun Morogh")
-  Artemis:CreateTameListItem("Charge 1","TamingList","Mountain Boar","Boar",10,11,"Loch Modan")
-  Artemis:CreateTameListItem("Charge 1","TamingList","Corrupted Mottled Boar","Boar",10,11,"Durotar")
-  Artemis:CreateTameListItem("Charge 1","TamingList","Longsnout","Boar",10,11,"Elwynn Forest")
+  Artemis:CreateTameListItem("charge 1","TamingList","Battleboar","Boar",3,4,"Mulgore")
+  Artemis:CreateTameListItem("charge 1","TamingList","Small Crag Boar","Boar",3,3,"Dun Morogh")
+  Artemis:CreateTameListItem("charge 1","TamingList","Bristleback Battleboar","Boar",4,5,"Mulgore")
+  Artemis:CreateTameListItem("charge 1","TamingList","Crag Boar","Boar",5,6,"Dun Morogh")
+  Artemis:CreateTameListItem("charge 1","TamingList","Dire Mottled Boar","Boar",6,7,"Durotar")
+  Artemis:CreateTameListItem("charge 1","TamingList","Large Crag Boar","Boar",1,2,"Dun Morogh")
+  Artemis:CreateTameListItem("charge 1","TamingList","Stonetusk Boar","Boar",7,8,"Elwynn Forest")
+  Artemis:CreateTameListItem("charge 1","TamingList","Porcine Entourage","Boar",7,7,"Elwynn Forest")
+  Artemis:CreateTameListItem("charge 1","TamingList","Elder Crag Boar ","Boar",7,8,"Dun Morogh")
+  Artemis:CreateTameListItem("charge 1","TamingList","Rockhide Boar","Boar",7,8,"Elwynn Forest")
+  Artemis:CreateTameListItem("charge 1","TamingList","Elder Mottled Boar","Boar",8,9,"Durotar")
+  Artemis:CreateTameListItem("charge 1","TamingList","Princess","Boar",9,9,"Elwynn Forest")
+  Artemis:CreateTameListItem("charge 1","TamingList","Scarred Crag Boar","Boar",9,10,"Dun Morogh")
+  Artemis:CreateTameListItem("charge 1","TamingList","Mountain Boar","Boar",10,11,"Loch Modan")
+  Artemis:CreateTameListItem("charge 1","TamingList","Corrupted Mottled Boar","Boar",10,11,"Durotar")
+  Artemis:CreateTameListItem("charge 1","TamingList","Longsnout","Boar",10,11,"Elwynn Forest")
 
 --[[
   
-  --Artemis:CreateTameListItem("Bite 3","TamingList","Ragged","Wolf",16,17,"Tirisfal")
-  --Artemis:CreateTameListItem("Bite 3","TamingList","Ragged","Wolf",16,17,"Tirisfal")
+  --Artemis:CreateTameListItem("bite 3","TamingList","Ragged","Wolf",16,17,"Tirisfal")
+  --Artemis:CreateTameListItem("bite 3","TamingList","Ragged","Wolf",16,17,"Tirisfal")
   Charge 2: Pet Level 12, Cost 9 TP. Charges an enemy, immobilizes it for 1 sec, and adds 100 melee attack power to the boar's next attack. Can be learned by taming:
 
     Young Goretusk (Boar, 12-13, Westfall)
@@ -995,7 +1534,6 @@ Artemis.Abilities = {
     ["Text"] = "Bite the enemy, causing 7 to 9 damage.",
     ["AbilityFamily"] = "Bite",
     ["AbilityLevel"] = 1,
-    ["AbilityValue"] = 7,
   } ,
 --]]--
   Artemis.DebugMsg("GetAbilitiesBaseList: End")

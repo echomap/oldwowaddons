@@ -1,0 +1,271 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/"> 
+
+
+	<Frame name="ArtemisPetSearchFrame" parent="UIParent" 
+      hidden="true" movable="true" enableMouse="true" frameStrata="HIGH" resizable="true">
+		<Size><AbsDimension x="300" y="300"/></Size>
+		<Anchors>
+			<Anchor point="CENTER"/>
+			<Offset><AbsDimension x="300" y="0"/></Offset>
+		</Anchors>
+    
+		<Backdrop name="$parentBackdrop" bgFile="Interface\TutorialFrame\TutorialFrameBackground" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<EdgeSize>
+				<AbsValue val="16"/>
+			</EdgeSize>
+			<TileSize>
+				<AbsValue val="64"/>
+			</TileSize>
+			<BackgroundInsets>
+				<AbsInset left="5" right="5" top="5" bottom="5"/>
+			</BackgroundInsets>
+		</Backdrop>	
+    
+		<Layers>
+			<Layer level="BACKGROUND">
+      
+        <FontString name="$parentTitle" inherits="GameFontNormal" text="Pet Skills Viewer" maxLines="1" justifyH="LEFT" justifyV="TOP">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="10" y="-10"/>
+							</Offset>
+						</Anchor>
+						<Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT">
+							<Offset>
+								<AbsDimension x="-10" y="-30"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+        
+      </Layer>
+    </Layers>
+      
+    <Frames>
+      
+      <!-- Header -->
+			<Button name="$parentCloseButton" inherits="UIPanelCloseButton">
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativeTo="ArtemisPetSearchFrame" relativePoint="TOPRIGHT"/>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						Artemis:BtnClosePetSearchFrame()
+					</OnClick>
+				</Scripts>
+			</Button>
+      
+			<Button name="$parentSettingsButton" inherits="UIPanelButtonTemplate">
+				<Anchors>
+					<Anchor point="RIGHT" relativeTo="$parentCloseButton" relativePoint="LEFT">
+						<Offset>
+							<AbsDimension x="4" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Size><AbsDimension x="16" y="16"/></Size>
+				<NormalTexture file="Interface\AddOns\Artemis\Media\settings.tga"/>
+				<PushedTexture file="Interface\AddOns\Artemis\Media\settings.tga"/>
+				<Scripts>
+					<OnClick>
+						Artemis:BtnSettings()
+					</OnClick>
+          <OnEnter> Artemis:ShowTooltip(self,"Settings") </OnEnter>
+          <OnLeave> Artemis:HideTooltip(self,"Settings") </OnLeave>					
+				</Scripts>
+			</Button>
+      
+			<Button name="$parentResizeGrip" inherits="UIPanelButtonTemplate">
+				<Anchors>
+					<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" relativeTo="ArtemisPetSearchFrame">
+					</Anchor>
+				</Anchors>
+				<Size><AbsDimension x="16" y="16"/></Size>
+				<NormalTexture file="Interface\AddOns\Artemis\Media\ResizeGrip.tga"/>
+				<PushedTexture file="Interface\AddOns\Artemis\Media\ResizeGrip.tga"/>
+				<Scripts>
+					<OnMouseDown> Artemis:BtnStartSizeingPetSearch() </OnMouseDown>
+					<OnMouseUp>   Artemis:BtnStopSizeingPetSearch()  </OnMouseUp>
+				</Scripts>
+			</Button>
+      <!-- Header -->
+      
+      <!-- Button/Tabs -->
+      <Frame name="ArtemisPetSearchFrameButtonFrame" parent="ArtemisPetSearchFrame" hidden="true" frameStrata="HIGH" >
+        <Size><AbsDimension x="24" y="24"/></Size>
+        <Anchors>
+          <Anchor point="TOPLEFT" relativeTo="ArtemisPetSearchFrame" relativePoint="TOPLEFT">
+            <Offset><AbsDimension x="0" y="-24"/></Offset>
+          </Anchor>
+          <Anchor point="BOTTOMRIGHT" relativeTo="ArtemisPetSearchFrame" relativePoint="TOPRIGHT">
+            <Offset><AbsDimension x="0" y="-64"/></Offset>
+          </Anchor>
+        </Anchors>
+        
+        <Backdrop name="$parentBackdrop" bgFile="Interface\TutorialFrame\TutorialFrameBackground" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+          <EdgeSize>
+            <AbsValue val="16"/>
+          </EdgeSize>
+          <TileSize>
+            <AbsValue val="24"/>
+          </TileSize>
+          <BackgroundInsets>
+            <AbsInset left="5" right="5" top="5" bottom="5"/>
+          </BackgroundInsets>
+        </Backdrop>	
+        
+        <Frames>
+          <Button name="$parentStableButton" inherits="UIPanelButtonTemplate">
+            <Anchors>
+              <Anchor point="LEFT" relativePoint="LEFT" relativeTo="ArtemisPetSearchFrameButtonFrame"/>
+            </Anchors>
+            <Size><AbsDimension x="24" y="24"/></Size>
+            <NormalTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
+            <PushedTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
+            <Scripts>
+            </Scripts>
+          </Button>
+        </Frames>
+      </Frame>
+      <!-- Button/Tabs -->
+      
+      <!-- left side menu -->
+      
+      <!-- Main content-->
+      <Frame name="ArtemisPetSearchFrameMCFrame" parent="ArtemisPetSearchFrame" hidden="true" frameStrata="HIGH" >
+        <Size><AbsDimension x="24" y="24"/></Size>
+        <Anchors>
+          <Anchor point="TOPLEFT" relativeTo="ArtemisPetSearchFrameButtonFrame" relativePoint="BOTTOMLEFT">
+            <Offset><AbsDimension x="0" y="-4"/></Offset>
+          </Anchor>
+          <Anchor point="BOTTOMRIGHT" relativeTo="ArtemisPetSearchFrame" relativePoint="BOTTOMRIGHT">
+            <Offset><AbsDimension x="0" y="-4"/></Offset>
+          </Anchor>
+        </Anchors>
+        
+        <Backdrop name="$parentBackdrop" bgFile="Interface\TutorialFrame\TutorialFrameBackground" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+          <EdgeSize>
+            <AbsValue val="16"/>
+          </EdgeSize>
+          <TileSize>
+            <AbsValue val="24"/>
+          </TileSize>
+          <BackgroundInsets>
+            <AbsInset left="5" right="5" top="5" bottom="5"/>
+          </BackgroundInsets>
+        </Backdrop>	
+        
+      	<Layers>
+          <Layer level="BACKGROUND">
+            <FontString name="$parent_MyCurrentPetText" inherits="GameFontNormalSmall" text="Current Pet:" maxLines="1" justifyH="LEFT" justifyV="TOP">
+              <Color r="0.5" g="0.5" b="1.0"/>
+              <Anchors>
+                <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="ArtemisPetSearchFrameMCFrame">
+                  <Offset><AbsDimension x="8" y="78"/></Offset>
+                </Anchor>
+              </Anchors>
+            </FontString>	
+            <FontString name="$parent_MyStabledPetsText" inherits="GameFontNormalSmall" text="Stabled Pets:" maxLines="1" justifyH="LEFT" justifyV="TOP">
+              <Color r="0.5" g="0.5" b="1.0"/>
+              <Anchors>
+                <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="ArtemisPetSearchFrameMCFrame">
+                  <Offset><AbsDimension x="136" y="78"/></Offset>
+                </Anchor>
+              </Anchors>
+            </FontString>	
+          </Layer>
+        </Layers>
+        
+        <Frames>
+        
+          <!-- TODO Scroll box here for text? or list ??? -->
+          <PlayerModel name="$parent_MyPetModel" >
+             <Anchors>
+              <Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="ArtemisPetSearchFrameMCFrame">
+                <Offset><AbsDimension x="4" y="-10"/></Offset>
+              </Anchor>
+              <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" relativeTo="ArtemisPetSearchFrameMCFrame">
+                <Offset><AbsDimension x="4" y="80"/></Offset>
+              </Anchor>
+            </Anchors>
+          </PlayerModel>
+        
+          <Button name="$parent_MyCurrentPet" inherits="UIPanelButtonTemplate">
+            <Anchors>
+              <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="ArtemisPetSearchFrameMCFrame">
+                <Offset><AbsDimension x="4" y="10"/></Offset>
+              </Anchor>
+            </Anchors>
+            <Size><AbsDimension x="64" y="64"/></Size>
+            <NormalTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
+            <PushedTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
+            <Scripts>	
+            </Scripts>
+          </Button>
+          
+          <Button name="$parent_MyStabledPet1" inherits="UIPanelButtonTemplate">
+            <Anchors>
+              <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parent_MyCurrentPet">
+                <Offset><AbsDimension x="64" y="0"/></Offset>
+              </Anchor>
+            </Anchors>
+            <Size><AbsDimension x="64" y="64"/></Size>
+            <NormalTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
+            <PushedTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
+            <Scripts>	
+            </Scripts>
+          </Button>
+          <Button name="$parent_MyStabledPet2" inherits="UIPanelButtonTemplate">
+            <Anchors>
+              <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parent_MyStabledPet1">
+                <Offset><AbsDimension x="24" y="0"/></Offset>
+              </Anchor>
+            </Anchors>
+            <Size><AbsDimension x="64" y="64"/></Size>
+            <NormalTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
+            <PushedTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
+            <Scripts>
+            </Scripts>
+          </Button>
+          
+        </Frames>
+      </Frame>
+    <!-- Main content-->
+      
+
+      <!-- Status bar
+      <FontString name="$parentStatusText" inherits="GameFontNormalSmall" text="status - bar" maxLines="1" justifyH="LEFT" justifyV="TOP">
+					<Color r="0.5" g="0.5" b="1.0"/>
+					<Anchors>
+						<Anchor point="BOTTOMLEFT">
+							<Offset>
+								<AbsDimension x="10" y="10"/>
+							</Offset>
+						</Anchor>
+						<Anchor point="BOTTOMRIGHT">
+							<Offset>
+								<AbsDimension x="-10" y="10"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+      </FontString>	
+       -->
+       
+    </Frames>
+    
+    <Scripts>
+			<OnUpdate>      Artemis:OnUpdatePetSearchFrame();      </OnUpdate>
+			<OnLoad>        Artemis:OnLoadPetSearchFrame(); self:RegisterForDrag("LeftButton"); </OnLoad>
+			<OnEvent>       Artemis:OnEventPetSearchFrame(event, ...); </OnEvent>
+			<OnDragStart>   Artemis:OnDragStartPetSearchFrame();   </OnDragStart>
+			<OnDragStop>    Artemis:OnDragStopPetSearchFrame();    </OnDragStop>
+			<OnEnter> Artemis:ShowTooltipPetSearch(self) </OnEnter>
+			<OnLeave> Artemis:HideTooltipPetSearch(self) </OnLeave>					
+		</Scripts>
+    
+  </Frame>
+    
+        
+	
+</Ui>
