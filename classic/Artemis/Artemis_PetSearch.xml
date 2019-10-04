@@ -51,7 +51,7 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						Artemis:BtnClosePetSearchFrame()
+						Artemis:BtnClosePetSkillsFrame()
 					</OnClick>
 				</Scripts>
 			</Button>
@@ -85,13 +85,14 @@
 				<NormalTexture file="Interface\AddOns\Artemis\Media\ResizeGrip.tga"/>
 				<PushedTexture file="Interface\AddOns\Artemis\Media\ResizeGrip.tga"/>
 				<Scripts>
-					<OnMouseDown> Artemis:BtnStartSizeingPetSearch() </OnMouseDown>
-					<OnMouseUp>   Artemis:BtnStopSizeingPetSearch()  </OnMouseUp>
+					<OnMouseDown> Artemis:BtnStartSizeingPetSkillsSearch() </OnMouseDown>
+					<OnMouseUp>   Artemis:BtnStopSizeingPetSkillsSearch()  </OnMouseUp>
 				</Scripts>
 			</Button>
       <!-- Header -->
       
-      <!-- Button/Tabs -->
+      
+      <!-- FRAME Button/Tabs -->
       <Frame name="ArtemisPetSearchFrameButtonFrame" parent="ArtemisPetSearchFrame" hidden="true" frameStrata="HIGH" >
         <Size><AbsDimension x="24" y="24"/></Size>
         <Anchors>
@@ -128,11 +129,52 @@
           </Button>
         </Frames>
       </Frame>
-      <!-- Button/Tabs -->
+      <!-- FRAME Button/Tabs -->
       
-      <!-- left side menu -->
+      <!-- FRAME left side menu -->
+      <Frame name="ArtemisPetSearchFrameLeftSideFrame" parent="ArtemisPetSearchFrame" hidden="true" frameStrata="HIGH" >
+        <Size><AbsDimension x="24" y="24"/></Size>
+        <Anchors>
+          <Anchor point="TOPLEFT" relativeTo="ArtemisPetSearchFrameButtonFrame" relativePoint="BOTTOMLEFT">
+            <Offset><AbsDimension x="0" y="0"/></Offset>
+          </Anchor>
+          <Anchor point="BOTTOMRIGHT" relativeTo="ArtemisPetSearchFrame" relativePoint="BOTTOMLEFT">
+            <Offset><AbsDimension x="-240" y="0"/></Offset>
+          </Anchor>
+        </Anchors>
+        
+        <Backdrop name="$parentBackdrop" bgFile="Interface\TutorialFrame\TutorialFrameBackground" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+          <EdgeSize>
+            <AbsValue val="16"/>
+          </EdgeSize>
+          <TileSize>
+            <AbsValue val="24"/>
+          </TileSize>
+          <BackgroundInsets>
+            <AbsInset left="5" right="5" top="5" bottom="5"/>
+          </BackgroundInsets>
+        </Backdrop>	
+        
+        <Frames>
+          <!--todo -->
+                 <!-- TODO Scroll box here for text? or list ??? -->
+          <Frame name="$parentScrollFrame" inherits="FauxScrollFrameTemplate">
+             <Anchors>
+              <Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="ArtemisPetSearchFrameLeftSideFrame">
+                <Offset><AbsDimension x="4" y="-10"/></Offset>
+              </Anchor>
+              <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" relativeTo="ArtemisPetSearchFrameLeftSideFrame">
+                <Offset><AbsDimension x="4" y="80"/></Offset>
+              </Anchor>
+            </Anchors>
+          </Frame>
+          
+        </Frames>
+      </Frame> 
+      <!-- FRAME left side menu -->
       
-      <!-- Main content-->
+      
+      <!-- FRAME Main content-->
       <Frame name="ArtemisPetSearchFrameMCFrame" parent="ArtemisPetSearchFrame" hidden="true" frameStrata="HIGH" >
         <Size><AbsDimension x="24" y="24"/></Size>
         <Anchors>
@@ -180,6 +222,17 @@
         <Frames>
         
           <!-- TODO Scroll box here for text? or list ??? -->
+          <Frame name="$parentScrollFrame" inherits="FauxScrollFrameTemplate">
+             <Anchors>
+              <Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="ArtemisPetSearchFrameMCFrame">
+                <Offset><AbsDimension x="4" y="-10"/></Offset>
+              </Anchor>
+              <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" relativeTo="ArtemisPetSearchFrameMCFrame">
+                <Offset><AbsDimension x="4" y="80"/></Offset>
+              </Anchor>
+            </Anchors>
+          </Frame>
+          <!--
           <PlayerModel name="$parent_MyPetModel" >
              <Anchors>
               <Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="ArtemisPetSearchFrameMCFrame">
@@ -190,6 +243,7 @@
               </Anchor>
             </Anchors>
           </PlayerModel>
+          -->
         
           <Button name="$parent_MyCurrentPet" inherits="UIPanelButtonTemplate">
             <Anchors>
@@ -231,7 +285,7 @@
           
         </Frames>
       </Frame>
-    <!-- Main content-->
+    <!-- FRAME Main content-->
       
 
       <!-- Status bar
@@ -255,13 +309,13 @@
     </Frames>
     
     <Scripts>
-			<OnUpdate>      Artemis:OnUpdatePetSearchFrame();      </OnUpdate>
-			<OnLoad>        Artemis:OnLoadPetSearchFrame(); self:RegisterForDrag("LeftButton"); </OnLoad>
-			<OnEvent>       Artemis:OnEventPetSearchFrame(event, ...); </OnEvent>
-			<OnDragStart>   Artemis:OnDragStartPetSearchFrame();   </OnDragStart>
-			<OnDragStop>    Artemis:OnDragStopPetSearchFrame();    </OnDragStop>
-			<OnEnter> Artemis:ShowTooltipPetSearch(self) </OnEnter>
-			<OnLeave> Artemis:HideTooltipPetSearch(self) </OnLeave>					
+			<OnUpdate>      Artemis:OnUpdatePetSkillsFrame();      </OnUpdate>
+			<OnLoad>        Artemis:OnLoadPetSkillsFrame(); self:RegisterForDrag("LeftButton"); </OnLoad>
+			<OnEvent>       Artemis:OnEventPetSkillsFrame(event, ...); </OnEvent>
+			<OnDragStart>   Artemis:OnDragStartPetSkillsFrame();   </OnDragStart>
+			<OnDragStop>    Artemis:OnDragStopPetSkillsFrame();    </OnDragStop>
+			<OnEnter> Artemis:ShowTooltipPetSkillsSearch(self) </OnEnter>
+			<OnLeave> Artemis:HideTooltipPetSkillsSearch(self) </OnLeave>					
 		</Scripts>
     
   </Frame>

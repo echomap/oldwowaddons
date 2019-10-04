@@ -16,4 +16,5 @@
 ## SavedVariablesPerCharacter: ArtemisDBChar
 Localization\enUS.lua
 bindings.xml
+Artemis_PetSearch.xml
 Artemis.xml

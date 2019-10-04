@@ -12,11 +12,13 @@ dead
 
 
 ## [Unreleased]
+- trying to add pet skill search
 
 ## [1.0.2] - 2019-10-02
 ### Changed
 - Updates data
 - Fix some gui issues
+
 ## [1.0.1] - 2019-10-02
 ### Added
 - New hunter addon, testing via wowinterface forum
