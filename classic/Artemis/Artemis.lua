@@ -507,6 +507,7 @@ function Artemis:ShowTooltip(self,messageType)
   end
   local message = "Artemis"
   if( messageType ~= nil) then
+    
     if( messageType == "Settings") then 
       message = message .. " Settings/Options"
     elseif( messageType == "AmmoCount") then
@@ -530,6 +531,7 @@ function Artemis:ShowTooltip(self,messageType)
     elseif( messageType == "PetHappiness") then
       if( ArtemisDBChar.stable ~= nil ) then
         local petarr = ArtemisDBChar.stable[1] 
+        -- name, family, level, icon, loyalty, happiness, petFoodList, currexp, nextexp
         local name, family, level, icon, loyalty, happiness, petFoodList = Artemis:ParsePetArray(petarr)	
         --local happiness, damagePercentage, loyaltyRate = GetPetHappiness()
         --local happy = ({"Unhappy", "Content", "Happy"})[happiness]
@@ -665,7 +667,7 @@ function Artemis:ScanCurrentPet()
     --
     -- { name, family, level, icon, loyalty, happiness, petFoodList, currXP, nextXP }
     --TODO rate is a number, translate to words??
-    local petarr2 =  { petarr[1], petarr[2], petarr[3], petarr[4], loyaltyRate, happiness, petFoodList, currXP, nextXP }   
+    local petarr2 =  { petarr[1], petarr[2], petarr[3], petarr[4], petarr[5], happiness, petFoodList, currXP, nextXP }   
     ArtemisDBChar.stable[1] = petarr2
     Artemis.DebugMsg("ScanCurrentPet: Done")
     return petarr2
@@ -684,8 +686,7 @@ function Artemis:ScanPetAtIndex(index)
   loyalty =  Artemis:SetStringOrDefault(loyalty,"")
   happiness =  Artemis:SetStringOrDefault(happiness,"")
   --petFoodList =  Artemis:SetStringOrDefault(petFoodList,"")
-    
-    
+  
   Artemis.DebugMsg("ScanPetAtIndex, index = " .. index .." icon=" .. tostring(icon) .. " name="..name.." level="..level.." family=" .. family.. " loyalty="..loyalty .. " happiness="..happiness)
   --.. " petFoodList="..tostring(petFoodList) )
   
@@ -743,7 +744,7 @@ function Artemis:printPet(petarr,index)
 	end
 end
 
--- name, family, level, icon, specialAbility, defaultSpec, loyalty, happiness, petFoodList
+-- name, family, level, icon, loyalty, happiness, petFoodList, currexp, nextexp
 function Artemis:ParsePetArray(petarr) 
 	name = ""
 	family = ""
@@ -898,7 +899,7 @@ function Artemis:SetupMCFrame()
   end
   
   Artemis:ScanCurrentPet()
-  if(#ArtemisDBChar.stable > 0) then
+  if(ArtemisDBChar.stable~=nil and #ArtemisDBChar.stable > 0) then
     local petarr = ArtemisDBChar.stable[1] 
     --return name, family, level, icon, loyalty, happiness, petFoodList
     local name, family, level, icon, loyalty, happiness, petFoodList = Artemis:ParsePetArray(petarr)    
@@ -919,9 +920,9 @@ function Artemis:SetupMCFrame()
   
   end
   --
-  icon = nil
+  icon = "Interface\\AddOns\\StableSnapshot\\Icons\\Default.png"
   name = nil
-  if(#ArtemisDBChar.stable > 1) then
+  if(ArtemisDBChar.stable~=nil and #ArtemisDBChar.stable > 1) then
     petarr = ArtemisDBChar.stable[2] 
     --return name, family, level, icon, loyalty, happiness, petFoodList
     name, family, level, icon, loyalty, happiness, petFoodList = Artemis:ParsePetArray(petarr)
@@ -937,11 +938,12 @@ function Artemis:SetupMCFrame()
   ArtemisMainDataFrameMCFrame_MyStabledPet1:SetNormalTexture(icon)
   
   --
-  icon = nil
+  icon = "Interface\\AddOns\\StableSnapshot\\Icons\\Default.png"
   name = nil
-  if(#ArtemisDBChar.stable > 2) then
-    petarr = ArtemisDBChar.stable[3] 
-    name, family, level, icon, specialAbility, defaultSpec, talent = Artemis:ParsePetArray(petarr)
+  if(ArtemisDBChar.stable~=nil and #ArtemisDBChar.stable > 2) then
+    petarr = ArtemisDBChar.stable[3]
+    --return name, family, level, icon, loyalty, happiness, petFoodList
+    name, family, level, icon, loyalty, happiness, petFoodList = Artemis:ParsePetArray(petarr)
   end
   if icon == nil then
     icon = "Interface\\AddOns\\StableSnapshot\\Icons\\Default.png"
