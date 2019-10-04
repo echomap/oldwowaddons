@@ -900,7 +900,8 @@ function Artemis:SetupMCFrame()
   Artemis:ScanCurrentPet()
   if(#ArtemisDBChar.stable > 0) then
     local petarr = ArtemisDBChar.stable[1] 
-    local name, family, level, icon, specialAbility, defaultSpec, talent = Artemis:ParsePetArray(petarr)    
+    --return name, family, level, icon, loyalty, happiness, petFoodList
+    local name, family, level, icon, loyalty, happiness, petFoodList = Artemis:ParsePetArray(petarr)    
     -- 
     if icon == nil then
       icon = "Interface\\AddOns\\StableSnapshot\\Icons\\Default.png"
@@ -922,7 +923,8 @@ function Artemis:SetupMCFrame()
   name = nil
   if(#ArtemisDBChar.stable > 1) then
     petarr = ArtemisDBChar.stable[2] 
-    name, family, level, icon, specialAbility, defaultSpec, talent = Artemis:ParsePetArray(petarr)
+    --return name, family, level, icon, loyalty, happiness, petFoodList
+    name, family, level, icon, loyalty, happiness, petFoodList = Artemis:ParsePetArray(petarr)
   end
   if icon == nil then
     icon = "Interface\\AddOns\\StableSnapshot\\Icons\\Default.png"
