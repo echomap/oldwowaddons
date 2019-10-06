@@ -9,7 +9,8 @@ UnitIsDead
 UnitIsDeadOrGhost("unit")
 exp
 dead
-
+petexp?
+skills
 
 ## [Unreleased]
 - trying to add pet skill search

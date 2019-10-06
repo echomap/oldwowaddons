@@ -1,6 +1,5 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/"> 
 
-
 	<Frame name="ArtemisPetSearchFrame" parent="UIParent" 
       hidden="true" movable="true" enableMouse="true" frameStrata="HIGH" resizable="true">
 		<Size><AbsDimension x="300" y="300"/></Size>
@@ -94,7 +93,6 @@
       
       <!-- FRAME Button/Tabs -->
       <Frame name="ArtemisPetSearchFrameButtonFrame" parent="ArtemisPetSearchFrame" hidden="true" frameStrata="HIGH" >
-        <Size><AbsDimension x="24" y="24"/></Size>
         <Anchors>
           <Anchor point="TOPLEFT" relativeTo="ArtemisPetSearchFrame" relativePoint="TOPLEFT">
             <Offset><AbsDimension x="0" y="-24"/></Offset>
@@ -104,7 +102,7 @@
           </Anchor>
         </Anchors>
         
-        <Backdrop name="$parentBackdrop" bgFile="Interface\TutorialFrame\TutorialFrameBackground" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+        <Backdrop name="$parentBackdrop" bgFile="Interface\AuctionFrame\UI-AuctionFrame-FilterBg" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
           <EdgeSize>
             <AbsValue val="16"/>
           </EdgeSize>
@@ -139,7 +137,7 @@
             <Offset><AbsDimension x="0" y="0"/></Offset>
           </Anchor>
           <Anchor point="BOTTOMRIGHT" relativeTo="ArtemisPetSearchFrame" relativePoint="BOTTOMLEFT">
-            <Offset><AbsDimension x="-240" y="0"/></Offset>
+            <Offset><AbsDimension x="-80" y="0"/></Offset>
           </Anchor>
         </Anchors>
         
@@ -156,8 +154,20 @@
         </Backdrop>	
         
         <Frames>
+        <!--
+          <Button name="$parentStableButton2" inherits="UIPanelButtonTemplate">
+            <Anchors>
+              <Anchor point="LEFT" relativePoint="LEFT" relativeTo="ArtemisPetSearchFrameLeftSideFrame"/>
+            </Anchors>
+            <Size><AbsDimension x="24" y="24"/></Size>
+            <NormalTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
+            <PushedTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
+            <Scripts>
+            </Scripts>
+          </Button>
+          -->
           <!--todo -->
-                 <!-- TODO Scroll box here for text? or list ??? -->
+           <!-- TODO Scroll box here for text? or list ??? 
           <Frame name="$parentScrollFrame" inherits="FauxScrollFrameTemplate">
              <Anchors>
               <Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="ArtemisPetSearchFrameLeftSideFrame">
@@ -167,125 +177,15 @@
                 <Offset><AbsDimension x="4" y="80"/></Offset>
               </Anchor>
             </Anchors>
-          </Frame>
+          </Frame>-->
           
         </Frames>
-      </Frame> 
+      </Frame>       
       <!-- FRAME left side menu -->
       
       
       <!-- FRAME Main content-->
-      <Frame name="ArtemisPetSearchFrameMCFrame" parent="ArtemisPetSearchFrame" hidden="true" frameStrata="HIGH" >
-        <Size><AbsDimension x="24" y="24"/></Size>
-        <Anchors>
-          <Anchor point="TOPLEFT" relativeTo="ArtemisPetSearchFrameButtonFrame" relativePoint="BOTTOMLEFT">
-            <Offset><AbsDimension x="0" y="-4"/></Offset>
-          </Anchor>
-          <Anchor point="BOTTOMRIGHT" relativeTo="ArtemisPetSearchFrame" relativePoint="BOTTOMRIGHT">
-            <Offset><AbsDimension x="0" y="-4"/></Offset>
-          </Anchor>
-        </Anchors>
-        
-        <Backdrop name="$parentBackdrop" bgFile="Interface\TutorialFrame\TutorialFrameBackground" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
-          <EdgeSize>
-            <AbsValue val="16"/>
-          </EdgeSize>
-          <TileSize>
-            <AbsValue val="24"/>
-          </TileSize>
-          <BackgroundInsets>
-            <AbsInset left="5" right="5" top="5" bottom="5"/>
-          </BackgroundInsets>
-        </Backdrop>	
-        
-      	<Layers>
-          <Layer level="BACKGROUND">
-            <FontString name="$parent_MyCurrentPetText" inherits="GameFontNormalSmall" text="Current Pet:" maxLines="1" justifyH="LEFT" justifyV="TOP">
-              <Color r="0.5" g="0.5" b="1.0"/>
-              <Anchors>
-                <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="ArtemisPetSearchFrameMCFrame">
-                  <Offset><AbsDimension x="8" y="78"/></Offset>
-                </Anchor>
-              </Anchors>
-            </FontString>	
-            <FontString name="$parent_MyStabledPetsText" inherits="GameFontNormalSmall" text="Stabled Pets:" maxLines="1" justifyH="LEFT" justifyV="TOP">
-              <Color r="0.5" g="0.5" b="1.0"/>
-              <Anchors>
-                <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="ArtemisPetSearchFrameMCFrame">
-                  <Offset><AbsDimension x="136" y="78"/></Offset>
-                </Anchor>
-              </Anchors>
-            </FontString>	
-          </Layer>
-        </Layers>
-        
-        <Frames>
-        
-          <!-- TODO Scroll box here for text? or list ??? -->
-          <Frame name="$parentScrollFrame" inherits="FauxScrollFrameTemplate">
-             <Anchors>
-              <Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="ArtemisPetSearchFrameMCFrame">
-                <Offset><AbsDimension x="4" y="-10"/></Offset>
-              </Anchor>
-              <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" relativeTo="ArtemisPetSearchFrameMCFrame">
-                <Offset><AbsDimension x="4" y="80"/></Offset>
-              </Anchor>
-            </Anchors>
-          </Frame>
-          <!--
-          <PlayerModel name="$parent_MyPetModel" >
-             <Anchors>
-              <Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="ArtemisPetSearchFrameMCFrame">
-                <Offset><AbsDimension x="4" y="-10"/></Offset>
-              </Anchor>
-              <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" relativeTo="ArtemisPetSearchFrameMCFrame">
-                <Offset><AbsDimension x="4" y="80"/></Offset>
-              </Anchor>
-            </Anchors>
-          </PlayerModel>
-          -->
-        
-          <Button name="$parent_MyCurrentPet" inherits="UIPanelButtonTemplate">
-            <Anchors>
-              <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="ArtemisPetSearchFrameMCFrame">
-                <Offset><AbsDimension x="4" y="10"/></Offset>
-              </Anchor>
-            </Anchors>
-            <Size><AbsDimension x="64" y="64"/></Size>
-            <NormalTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
-            <PushedTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
-            <Scripts>	
-            </Scripts>
-          </Button>
-          
-          <Button name="$parent_MyStabledPet1" inherits="UIPanelButtonTemplate">
-            <Anchors>
-              <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parent_MyCurrentPet">
-                <Offset><AbsDimension x="64" y="0"/></Offset>
-              </Anchor>
-            </Anchors>
-            <Size><AbsDimension x="64" y="64"/></Size>
-            <NormalTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
-            <PushedTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
-            <Scripts>	
-            </Scripts>
-          </Button>
-          <Button name="$parent_MyStabledPet2" inherits="UIPanelButtonTemplate">
-            <Anchors>
-              <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parent_MyStabledPet1">
-                <Offset><AbsDimension x="24" y="0"/></Offset>
-              </Anchor>
-            </Anchors>
-            <Size><AbsDimension x="64" y="64"/></Size>
-            <NormalTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
-            <PushedTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
-            <Scripts>
-            </Scripts>
-          </Button>
-          
-        </Frames>
-      </Frame>
-    <!-- FRAME Main content-->
+      <!-- FRAME Main content-->
       
 
       <!-- Status bar
@@ -320,6 +220,77 @@
     
   </Frame>
     
-        
-	
+
+	<Button name="AbilityBaseSlotTemplate" virtual="true">
+		<Size>
+			<AbsDimension x="37" y="37"/>
+		</Size>
+		<Layers>
+			<Layer level="BORDER">
+				<Texture name="$parentIconTexture"/>
+			</Layer>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentBackground" file="Interface\Buttons\UI-EmptySlot">
+					<Size>
+						<AbsDimension x="64" y="64"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="-13" y="13"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				
+			</OnLoad>
+			<OnEnter>
+      <!--
+				if (this.tooltip) then
+					GameTooltip:SetOwner(this, "ANCHOR_RIGHT");
+					GameTooltip:SetText(this.tooltip);
+					GameTooltip:AddLine(this.tooltipSubtext, "", 1.0, 1.0, 1.0);
+					GameTooltip:Show();
+				end
+        -->
+			</OnEnter>
+			<OnLeave>
+				<!-- GameTooltip:Hide(); -->
+			</OnLeave>
+			<OnClick>
+				if ( ClickStablePet(this:GetID()) ) then
+					PetStable_Update();
+				end
+			</OnClick>
+			<OnDragStart>
+				<!-- PickupStablePet(this:GetID()); -->
+			</OnDragStart>
+			<OnReceiveDrag>
+				<!-- if ( ClickStablePet(this:GetID()) ) then
+					PetStable_Update();
+				end -->
+			</OnReceiveDrag>
+		</Scripts>
+		<NormalTexture name="$parentNormalTexture" file="Interface\Buttons\UI-Quickslot2">
+			<Size>
+				<AbsDimension x="64" y="64"/>
+			</Size>
+			<Anchors>
+				<Anchor point="CENTER">
+					<Offset>
+						<AbsDimension x="0" y="-1"/>
+					</Offset>
+				</Anchor>
+			</Anchors>
+		</NormalTexture>
+		<PushedTexture file="Interface\Buttons\UI-Quickslot-Depress"/>
+		<HighlightTexture file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD"/>
+		<CheckedTexture file="Interface\Buttons\CheckButtonHilight" alphaMode="ADD"/>
+	</Button>
+	
+
 </Ui>

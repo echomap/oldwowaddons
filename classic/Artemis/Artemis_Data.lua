@@ -4,7 +4,7 @@ Written by : echomap
 --]]
 
 Artemis.Ability_Base_List = {
-  "cite",
+  "bite",
   "charge",
   "claw",
   "cower",

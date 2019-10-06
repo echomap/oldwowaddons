@@ -24,6 +24,7 @@ Artemis = {
     },
     --Saved Variables: ArtemisDB/ArtemisDBChar
 }
+local _, L = ...;
 -------------------------------------------------------------------------
 -- UTILS
 -------------------------------------------------------------------------
@@ -127,6 +128,12 @@ end
 -- Called after ADDON_LOADED via the Main frame, event framework
 function Artemis:InitAddon()
   Artemis.DebugMsg("Init: Called")
+  if( ArtemisDBChar~=nil and ArtemisDBChar.debug) then
+    Artemis.view.debug = ArtemisDBChar.debug
+  end
+    if( ArtemisDBChar~=nil and ArtemisDBChar.enable) then
+    Artemis.view.enable = ArtemisDBChar.enable
+  end  
 end
 
 -- Called via Main frame: update 
@@ -142,13 +149,13 @@ end
 
 -- Main frame : Event framework
 function Artemis:OnEvent(event, ...)
-  Artemis.DebugMsg("OnEvent: Called w/event="..tostring(event) )
+  Artemis.PrintMsg("OnEvent: Called w/event="..tostring(event) )
   if( not ArtemisDBChar.enable) then
     return
   end
-  Artemis.DebugMsg("OnEvent: arg1 = "..tostring(arg1) )
+  Artemis.PrintMsg("OnEvent: arg1 = "..tostring(arg1) )
   if( arg2 ~= nil) then
-    Artemis.DebugMsg("OnEvent: arg2 = "..tostring(arg2) )
+    Artemis.PrintMsg("OnEvent: arg2 = "..tostring(arg2) )
   end
 	local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg, arg9 = ...
 	if event == "ADDON_LOADED" and arg1 == "ArtemisMainFrame" then
@@ -332,11 +339,11 @@ end
 -------------------------------------------------------------------------
 -- Show (or hide) the Stable window display
 function Artemis:ShowHideDataWindow()
-	if ArtemisPetSearchFrame == nil then 
+	if ArtemisMainDataFrame == nil then 
 		Artemis:InitDataWindow()
     Artemis:ShowDataWindow()
 	else
-    if (ArtemisPetSearchFrame:IsShown()) then 
+    if (ArtemisMainDataFrame:IsShown()) then 
       Artemis:HideDataWindow()
     else
       Artemis:SetupDataWindow()
@@ -350,12 +357,12 @@ end
 -- Called the first time showhide is called, or after OnUnLoad() is called
 function Artemis:SetupDataWindow() 
   --ArtemisMainFrame:SetScript("OnEscapePressed", function(self) Artemis:HideWindow() end)
-  tinsert( UISpecialFrames, ArtemisPetSearchFrame:GetName() )
+  tinsert( UISpecialFrames, ArtemisMainDataFrame:GetName() )
 end
 
 -- Show the Stable window: 
 function Artemis:ShowDataWindow()
-	ArtemisPetSearchFrame:Show()
+	ArtemisMainDataFrame:Show()
   ArtemisMainDataFrameButtonFrame:Show()
   
   Artemis:SetupMCFrame()  
@@ -364,7 +371,7 @@ end
 
 -- Hide the Stable window: 
 function Artemis:HideDataWindow()
-	ArtemisPetSearchFrame:Hide()
+	ArtemisMainDataFrame:Hide()
   ArtemisMainDataFrameButtonFrame:Hide()
   ArtemisMainDataFrameMCFrame:Hide()
 end
@@ -386,7 +393,7 @@ end
 
 -- Stable frame : Event framework
 function Artemis:OnEventDataFrame(event, ...)
-  --Artemis.DebugMsg("OnEventDataFrame: Called")
+  Artemis.PrintMsg("OnEventDataFrame: Called")
 	local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg, arg9 = ...
 	if event == "ADDON_LOADED" and arg1 == "ArtemisMainDataFrame" then
     Artemis.DebugMsg("OnEvent: ADDON_LOADED (DataFrame)")
@@ -418,11 +425,11 @@ end
 --
 function Artemis:OnDragStartDataFrame()
   --Artemis.DebugMsg("OnDragStartDataFrame: Called")  
-	ArtemisPetSearchFrame:StartMoving()
+	ArtemisMainDataFrame:StartMoving()
 end
 function Artemis:OnDragStopDataFrame()
   --Artemis.DebugMsg("OnDragStopDataFrame: Called")
-	ArtemisPetSearchFrame:StopMovingOrSizing()
+	ArtemisMainDataFrame:StopMovingOrSizing()
 	Artemis:SaveAnchorsDataFrame()
 end
 function Artemis:SaveAnchorsDataFrame()
@@ -598,7 +605,9 @@ end
 
 -- Called the first time showhide is called, or after OnUnLoad() is called
 function Artemis:SetupPetSkillsWindow() 
-  tinsert( UISpecialFrames, ArtemisPetSearchFrame:GetName() )
+	Artemis.PrintMsg("SetupPetSkillsWindow Called")
+  
+ 	Artemis.PrintMsg("SetupPetSkillsWindow Done")
 end
 
 -- Show the PetSkills window: 
@@ -606,15 +615,21 @@ function Artemis:ShowPetSkillsWindow()
 	ArtemisPetSearchFrame:Show()
   --ArtemisMainDataFrameButtonFrame:Show()
   
-  Artemis:SetupMCFrame()  
-  ArtemisPetSearchFrame:Show()  
+  --Artemis:SetupMCFrame()  
+  ArtemisPetSearchFrameButtonFrame:Show()
+  ArtemisPetSearchFrameLeftSideFrame:Show()
+  Artemis:ShowPetSearchAbilityButtons(true)
 end
 
 -- Hide the PetSkills window: 
 function Artemis:HidePetSkillsWindow()
 	ArtemisPetSearchFrame:Hide()
   --ArtemisMainDataFrameButtonFrame:Hide()
-  ArtemisPetSearchFrame:Hide()
+  
+  ArtemisPetSearchFrameButtonFrame:Hide()
+  ArtemisPetSearchFrameLeftSideFrame:Hide()
+  
+  Artemis:ShowPetSearchAbilityButtons(false)
 end
 
 --GUI close button clicked for PetSkills window
@@ -624,8 +639,8 @@ end
 
 -- Called after ADDON_LOADED via the PetSkills frame, event framework
 function Artemis:InitPetSkillsWindow()
-  -- List all abilities:
-  -- Artemis.Ability_Base_List/Artemis.Abilities_Base
+	Artemis.PrintMsg("InitPetSkillsWindow Called")
+  
   -- ArtemisPetSearchFrameLeftSideFrame
   -- Default first one
   
@@ -644,7 +659,7 @@ end
 
 -- PetSkills frame : Event framework
 function Artemis:OnEventPetSkillsFrame(event, ...)
-  --Artemis.DebugMsg("OnEventPetSkillsFrame: Called")
+  Artemis.PrintMsg("OnEventPetSkillsFrame: Called")
 	local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg, arg9 = ...
 	if event == "ADDON_LOADED" and arg1 == "ArtemisPetSearchFrame" then
     Artemis.DebugMsg("OnEvent: ADDON_LOADED (ArtemisPetSearchFrame)")
@@ -693,7 +708,56 @@ end
 -------------------------------------------------------------------------
 -- Called when showing the PetSkills window: via ShowPetSkillsWindow
 function Artemis:SetupPetSkillsFrame()
-	Artemis.DebugMsg("SetupPetSkillsFrame Called")
+	Artemis.PrintMsg("SetupPetSkillsFrame Called")   
+ 
+ if( ArtemisPetSearchFrameLeftSideFrame.abilityButtonList ~= nil ) then
+   return
+  end
+  --
+  tinsert( UISpecialFrames, ArtemisPetSearchFrame:GetName() )
+  
+  -- List all abilities:
+  -- Artemis.Ability_Base_List/Artemis.Abilities_Base
+  ArtemisPetSearchFrameLeftSideFrame.abilityButtonList = {}
+   
+  local offset = 0
+  local parent = ArtemisPetSearchFrameLeftSideFrame
+  local relativeTo = ArtemisPetSearchFrameLeftSideFrame
+  --local button = nil
+  for i,v in pairs(Artemis.Ability_Base_List) do
+    local button = CreateFrame("Button", "btn"..i, parent, UIPanelButtonTemplate )-- AbilityBaseSlotTemplate )
+    button:SetPoint("TOPLEFT", relativeTo, "TOPLEFT", 0, offset)
+    button:SetFrameStrata("HIGH")
+    button:SetWidth(100)
+    button:SetHeight(50)
+    button:SetSize(100 , 50) -- width, height
+    button:SetText(v)
+    button:Show()
+    table.insert(ArtemisPetSearchFrameLeftSideFrame.abilityButtonList, button)
+    offset = offset + 50
+    relativeTo = button
+    Artemis.DebugMsg("SetupPetSkillsFrame Btn = " ..tostring(v) .. " i = " ..tostring(i))
+  end
+  
+	Artemis.PrintMsg("SetupPetSkillsFrame Done")
+end
+  
+--
+function Artemis:ShowPetSearchAbilityButtons(enabled)
+	Artemis.PrintMsg("ShowPetSearchAbilityButtons Called: enabled=".. tostring(enabled) )
+  if(ArtemisPetSearchFrameLeftSideFrame.abilityButtonList==nil) then
+    Artemis.PrintMsg("ShowPetSearchAbilityButtons no buttons to show")
+    return
+  end
+  for i,v in pairs(ArtemisPetSearchFrameLeftSideFrame.abilityButtonList) do
+    if(enable) then
+      Artemis.PrintMsg("ShowPetSearchAbilityButtons showing: v=".. tostring(v) )
+      v:Show()
+    else
+      Artemis.PrintMsg("ShowPetSearchAbilityButtons hiding: v=".. tostring(v) )
+      v:Hide()
+    end
+  end
 end
 -------------------------------------------------------------------------
 -------------------------------------------------------------------------
@@ -746,6 +810,8 @@ function Artemis.SlashCommandHandler(msg)
     else
       Artemis:GetAbilitiesBase() 
     end
+  elseif options[1] == "petskills" then  
+    Artemis:ShowHidePetSkillsWindow()
   elseif options[1] == "searchabilities" then
     Artemis:SearchAbilities(options[2]) --,options[3])--,maxLvl)
   elseif (options[1] == "options" and #options == 3) then
@@ -946,7 +1012,7 @@ function Artemis:ScanStable()
 		end
 	end --for
 	--Artemis.PrintMsg("Stored: num pets: " .. petnumidx)
-  Artemis.PrintMsg( string.format( L["StableNumPetsMessage"] , haveFilled );
+  Artemis.PrintMsg( string.format( L["StableNumPetsMessage"] , haveFilled ) );
   -- Artemis.PrintMsg( "You have " .. haveFilled .. " pets." )
 	ArtemisDBChar.stable_petnumidx  = petnumidx
 	ArtemisDBChar.stable_havefilled = haveFilled
@@ -1119,11 +1185,15 @@ end
   
 -- Called when pet data seems to be updated
 function Artemis:PetChangedCallback(newGUID)
-	Artemis.DebugMsg("PetChangedCallback Called")
-  Artemis.view.PET_GUID = newGUID
+	Artemis.PrintMsg("PetChangedCallback Called")
+  Artemis.PrintMsg("PetChangedCallback  Artemis.view.PET_GUID= " .. tostring(Artemis.view.PET_GUID) )
+  Artemis.PrintMsg("PetChangedCallback newGUID= " .. tostring(newGUID) )
+  Artemis.viewPET_GUID = newGUID
   
   Artemis.PrintMsg( L["PetUnitChanged"] )
+  Artemis:ScanCurrentPet()
   -- update view?
+  -- re-show view?
 	Artemis.DebugMsg("PetChangedCallback Done")
 end
 -------------------------------------------------------------------------

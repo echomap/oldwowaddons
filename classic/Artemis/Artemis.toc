@@ -6,15 +6,12 @@
 
 ## X-Curse-Project-Name: Artemis
 ## X-Curse-Project-ID: Artemis
-## X-Curse-Repository-ID: wow/Artemis/mainline
 ## X-License: GPL v3
-## X-Embeds: LibStub, Ace3, AceDB, AceGUI, LibDataBroker
-## X-Category: Interface Enhancements
 
 ## DefaultState: enabled
 ## SavedVariables: ArtemisDB
 ## SavedVariablesPerCharacter: ArtemisDBChar
-Localization\enUS.lua
+
 bindings.xml
-Artemis_PetSearch.xml
 Artemis.xml
+Artemis_PetSearch.xml
