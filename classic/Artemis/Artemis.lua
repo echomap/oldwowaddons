@@ -708,7 +708,7 @@ end
 -------------------------------------------------------------------------
 -- Called when showing the PetSkills window: via ShowPetSkillsWindow
 function Artemis:SetupPetSkillsFrame()
-	Artemis.PrintMsg("SetupPetSkillsFrame Called")   
+	Artemis.DebugMsg("SetupPetSkillsFrame Called")   
  
  if( ArtemisPetSearchFrameLeftSideFrame.abilityButtonList ~= nil ) then
    return
@@ -721,40 +721,45 @@ function Artemis:SetupPetSkillsFrame()
   ArtemisPetSearchFrameLeftSideFrame.abilityButtonList = {}
    
   local offset = 0
-  local parent = ArtemisPetSearchFrameLeftSideFrame
+  local parent     = ArtemisPetSearchFrameLeftSideFrame
   local relativeTo = ArtemisPetSearchFrameLeftSideFrame
+  local button = nil
   --local button = nil
   for i,v in pairs(Artemis.Ability_Base_List) do
-    local button = CreateFrame("Button", "btn"..i, parent, UIPanelButtonTemplate )-- AbilityBaseSlotTemplate )
-    button:SetPoint("TOPLEFT", relativeTo, "TOPLEFT", 0, offset)
+    button = CreateFrame("Button", "btn"..i, parent, "UIPanelButtonTemplate" )-- AbilityBaseSlotTemplate )
+    if( parent == relativeTo ) then
+      button:SetPoint("TOPLEFT", relativeTo, "TOPLEFT", 10, offset)
+    else
+      button:SetPoint("TOPLEFT", relativeTo, "BOTTOMLEFT", 0, offset)
+    end
     button:SetFrameStrata("HIGH")
-    button:SetWidth(100)
-    button:SetHeight(50)
-    button:SetSize(100 , 50) -- width, height
+    --button:SetWidth(80)
+    --button:SetHeight(30)
+    button:SetSize(110 , 20) -- width, height
     button:SetText(v)
     button:Show()
-    table.insert(ArtemisPetSearchFrameLeftSideFrame.abilityButtonList, button)
-    offset = offset + 50
+    table.insert( ArtemisPetSearchFrameLeftSideFrame.abilityButtonList, button )
+    --offset = offset + 50
     relativeTo = button
     Artemis.DebugMsg("SetupPetSkillsFrame Btn = " ..tostring(v) .. " i = " ..tostring(i))
   end
   
-	Artemis.PrintMsg("SetupPetSkillsFrame Done")
+	Artemis.DebugMsg("SetupPetSkillsFrame Done")
 end
   
 --
 function Artemis:ShowPetSearchAbilityButtons(enabled)
-	Artemis.PrintMsg("ShowPetSearchAbilityButtons Called: enabled=".. tostring(enabled) )
+	Artemis.DebugMsg("ShowPetSearchAbilityButtons Called: enabled=".. tostring(enabled) )
   if(ArtemisPetSearchFrameLeftSideFrame.abilityButtonList==nil) then
-    Artemis.PrintMsg("ShowPetSearchAbilityButtons no buttons to show")
+    Artemis.DebugMsg("ShowPetSearchAbilityButtons no buttons to show")
     return
   end
   for i,v in pairs(ArtemisPetSearchFrameLeftSideFrame.abilityButtonList) do
-    if(enable) then
-      Artemis.PrintMsg("ShowPetSearchAbilityButtons showing: v=".. tostring(v) )
+    if(enabled) then
+      Artemis.DebugMsg("ShowPetSearchAbilityButtons showing: v=".. tostring(v) )
       v:Show()
     else
-      Artemis.PrintMsg("ShowPetSearchAbilityButtons hiding: v=".. tostring(v) )
+      Artemis.DebugMsg("ShowPetSearchAbilityButtons hiding: v=".. tostring(v) )
       v:Hide()
     end
   end

@@ -2,7 +2,7 @@
 
 	<Frame name="ArtemisPetSearchFrame" parent="UIParent" 
       hidden="true" movable="true" enableMouse="true" frameStrata="HIGH" resizable="true">
-		<Size><AbsDimension x="300" y="300"/></Size>
+		<Size><AbsDimension x="300" y="500"/></Size>
 		<Anchors>
 			<Anchor point="CENTER"/>
 			<Offset><AbsDimension x="300" y="0"/></Offset>
@@ -22,7 +22,6 @@
     
 		<Layers>
 			<Layer level="BACKGROUND">
-      
         <FontString name="$parentTitle" inherits="GameFontNormal" text="Pet Skills Viewer" maxLines="1" justifyH="LEFT" justifyV="TOP">
 					<Anchors>
 						<Anchor point="TOPLEFT">
@@ -37,7 +36,6 @@
 						</Anchor>
 					</Anchors>
 				</FontString>
-        
       </Layer>
     </Layers>
       
@@ -137,7 +135,7 @@
             <Offset><AbsDimension x="0" y="0"/></Offset>
           </Anchor>
           <Anchor point="BOTTOMRIGHT" relativeTo="ArtemisPetSearchFrame" relativePoint="BOTTOMLEFT">
-            <Offset><AbsDimension x="-80" y="0"/></Offset>
+            <Offset><AbsDimension x="-130" y="0"/></Offset>
           </Anchor>
         </Anchors>
         
@@ -154,17 +152,29 @@
         </Backdrop>	
         
         <Frames>
-        <!--
-          <Button name="$parentStableButton2" inherits="UIPanelButtonTemplate">
+           <!--
+          <Button name="$parentPetSKillButton1" inherits="UIPanelButtonTemplate" text="testing1">
             <Anchors>
-              <Anchor point="LEFT" relativePoint="LEFT" relativeTo="ArtemisPetSearchFrameLeftSideFrame"/>
+              <Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="ArtemisPetSearchFrameLeftSideFrame"/>
+              <Offset><AbsDimension x="0" y="0"/></Offset>
             </Anchors>
-            <Size><AbsDimension x="24" y="24"/></Size>
+            <Size><AbsDimension x="70" y="40"/></Size>
+          </Button>
+        
+          <Button name="$parentPetSKillButton2" inherits="UIPanelButtonTemplate" text="testing2">
+            <Anchors>
+              <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentPetSKillButton1"/>
+              <Offset><AbsDimension x="0" y="0"/></Offset>
+            </Anchors>
+            <Size><AbsDimension x="70" y="40"/></Size>
+          </Button>
+          
+       
+            AbilityBaseSlotTemplate
             <NormalTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
             <PushedTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
             <Scripts>
             </Scripts>
-          </Button>
           -->
           <!--todo -->
            <!-- TODO Scroll box here for text? or list ??? 
@@ -185,8 +195,34 @@
       
       
       <!-- FRAME Main content-->
+      <Frame name="ArtemisPetSearchFrameMainDataFrame" parent="ArtemisPetSearchFrame" hidden="true" frameStrata="HIGH" >
+        <Size><AbsDimension x="24" y="24"/></Size>
+        <Anchors>
+          <Anchor point="TOPLEFT" relativeTo="ArtemisPetSearchFrameLeftSideFrame" relativePoint="TOPRIGHT">
+            <Offset><AbsDimension x="0" y="0"/></Offset>
+          </Anchor>
+          <Anchor point="BOTTOMRIGHT" relativeTo="ArtemisPetSearchFrame" relativePoint="BOTTOMLEFT">
+            <Offset><AbsDimension x="0" y="0"/></Offset>
+          </Anchor>
+        </Anchors>
+        
+        <Backdrop name="$parentBackdrop" bgFile="Interface\TutorialFrame\TutorialFrameBackground" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+          <EdgeSize>
+            <AbsValue val="16"/>
+          </EdgeSize>
+          <TileSize>
+            <AbsValue val="24"/>
+          </TileSize>
+          <BackgroundInsets>
+            <AbsInset left="5" right="5" top="5" bottom="5"/>
+          </BackgroundInsets>
+        </Backdrop>	
+        
+        <Frames>
+
+        </Frames>
+      </Frame>       
       <!-- FRAME Main content-->
-      
 
       <!-- Status bar
       <FontString name="$parentStatusText" inherits="GameFontNormalSmall" text="status - bar" maxLines="1" justifyH="LEFT" justifyV="TOP">
