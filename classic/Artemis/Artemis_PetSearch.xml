@@ -166,7 +166,7 @@
         <Size><AbsDimension x="24" y="24"/></Size>
         <Anchors>
           <Anchor point="TOPLEFT" relativeTo="ArtemisPetSearchFrameButtonFrame" relativePoint="BOTTOMLEFT">
-            <Offset><AbsDimension x="-10" y="-10"/></Offset>
+            <Offset><AbsDimension x="-20" y="-10"/></Offset>
           </Anchor>
           <Anchor point="BOTTOMRIGHT" relativeTo="ArtemisPetSearchFrame" relativePoint="BOTTOMLEFT">
             <Offset><AbsDimension x="-130" y="0"/></Offset>
@@ -347,7 +347,7 @@
           <Anchor point="TOPLEFT" relativeTo="ArtemisPetSearchFrameLeftSideFrame" relativePoint="TOPRIGHT">
             <Offset><AbsDimension x="0" y="0"/></Offset>
           </Anchor>
-          <Anchor point="BOTTOMRIGHT" relativeTo="ArtemisPetSearchFrame" relativePoint="BOTTOMLEFT">
+          <Anchor point="BOTTOMRIGHT" relativeTo="ArtemisPetSearchFrame" relativePoint="BOTTOMRIGHT">
             <Offset><AbsDimension x="0" y="0"/></Offset>
           </Anchor>
         </Anchors>
@@ -364,6 +364,24 @@
           </BackgroundInsets>
         </Backdrop>	
         
+            
+        <Layers>
+          <Layer level="BACKGROUND">
+            <FontString name="ArtemisPetSearchFrameMainDataFrameEditBox" inherits="GameFontNormal" text="No text" maxLines="1" justifyH="LEFT" justifyV="TOP">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="ArtemisPetSearchFrameMainDataFrame" relativePoint="TOPLEFT">
+                  <Offset><AbsDimension x="30" y="-20"/></Offset>
+                </Anchor>
+                <Anchor point="BOTTOMRIGHT" relativeTo="ArtemisPetSearchFrameMainDataFrame" relativePoint="BOTTOMRIGHT">
+                  <Offset><AbsDimension x="10" y="10"/></Offset>
+                </Anchor>
+              </Anchors>
+            </FontString>
+          </Layer>
+        </Layers>
+          
+          
+        <!--
         <Frames>
           <EditBox name="ArtemisPetSearchFrameMainDataFrameEditBox" letters="800" multiLine="true" frameStrata="HIGH">
               <Size x="100" y="32" />
@@ -380,9 +398,12 @@
                       <Texture file="Interface\ChatFrame\UI-ChatInputBorder-Left">
                           <Size x="75" y="32" />
                           <Anchors>
-                              <Anchor point="LEFT">
-                                  <Offset x="-10" y="0" />
-                              </Anchor>
+                             <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+                              <Offset><AbsDimension x="-10" y="0"/></Offset>
+                            </Anchor>
+                            <Anchor point="BOTTOMRIGHT" relativeTo="$parent" relativePoint="BOTTOMRIGHT">
+                              <Offset><AbsDimension x="10" y="0"/></Offset>
+                            </Anchor>
                           </Anchors>
                           <TexCoords left="0" right="0.2" top="0" bottom="1.0"/>
                       </Texture>
@@ -404,6 +425,7 @@
               <FontString inherits="ChatFontNormal" />
           </EditBox>
         </Frames>
+        -->
       </Frame>       
       <!-- FRAME Main content-->
 
