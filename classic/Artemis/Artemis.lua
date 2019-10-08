@@ -619,6 +619,9 @@ function Artemis:ShowPetSkillsWindow()
   ArtemisPetSearchFrameButtonFrame:Show()
   ArtemisPetSearchFrameLeftSideFrame:Show()
   Artemis:ShowPetSearchAbilityButtons(true)
+  
+  ArtemisPetSearchFrameMainDataFrame:Show()
+  ArtemisPetSearchFrameMainDataFrameEditBox:Show()
 end
 
 -- Hide the PetSkills window: 
@@ -630,6 +633,9 @@ function Artemis:HidePetSkillsWindow()
   ArtemisPetSearchFrameLeftSideFrame:Hide()
   
   Artemis:ShowPetSearchAbilityButtons(false)
+  
+  ArtemisPetSearchFrameMainDataFrame:Hide()
+  ArtemisPetSearchFrameMainDataFrameEditBox:Hide()
 end
 
 --GUI close button clicked for PetSkills window
@@ -903,22 +909,25 @@ function Artemis.PetSkillsAbilityDropdown_OnClick(indexData)
       local abTrain = abilitySel["trainer"]
        
       local abilityFamily = Artemis.AbilityFamily [Artemis.view.selectPetAbility]
-      abilityFamily["trainer"]
-      abilityFamily["CanLearnText"]
-      abilityFamily["CanLearnList"] 
-      abilityFamily["Text"]  
-      abilityFamily["Text_P"]
+      --abilityFamily["trainer"]
+      --abilityFamily["CanLearnText"]
+      --abilityFamily["CanLearnList"] 
+      --abilityFamily["Text"]  
+      --abilityFamily["Text_P"]
   
       local nameNew = Artemis.view.selectPetAbility .. " " .. tostring(selectedNum)
       Artemis.view.selectPetAbilityDetail = nameNew
+      Artemis.PrintMsg("PetSkillsAbilityDropdown_OnClick nameNew=" .. tostring(nameNew) )
       local abilityDetails = Artemis.Abilities [nameNew]
-      abilityDetails["trainer"]
-      abilityDetails["MinPetLevel"] 
-      abilityDetails["CostTP"] 
-      abilityDetails["Params"] 
-      abilityDetails["Text"] 
-      abilityDetails["AbilityFamily"]
-      abilityDetails["AbilityLevel"] 
+      --abilityDetails["trainer"]
+      --abilityDetails["MinPetLevel"] 
+      --abilityDetails["CostTP"] 
+      --abilityDetails["Params"] 
+      --abilityDetails["Text"] 
+      --abilityDetails["AbilityFamily"]
+      --abilityDetails["AbilityLevel"] 
+      
+      ArtemisPetSearchFrameMainDataFrameEditBox:SetText( abilityDetails["Text"] ) 
       
     end
     
