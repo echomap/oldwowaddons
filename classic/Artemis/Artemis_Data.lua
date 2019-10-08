@@ -3,6 +3,11 @@
 Written by : echomap
 --]]
 
+
+-------------------------------------------------------------------------
+-- DATA
+-------------------------------------------------------------------------
+
 Artemis.Ability_Base_List = {
   "bite",
   "charge",
@@ -360,6 +365,7 @@ Artemis.Abilities = {
     ["trainer"] = false ,
     ["MinPetLevel"] = 12 ,
     ["CostTP"] = 9 ,
+    ["Params"] = { 100 },
     ["Text"] = "Charges an enemy, immobilizes it for 1 sec, and adds 100 melee attack power to the boar's next attack.",
     ["AbilityFamily"] = "charge",
     ["AbilityLevel"] = 2,
@@ -368,6 +374,7 @@ Artemis.Abilities = {
     ["trainer"] = false ,
     ["MinPetLevel"] = 24 ,
     ["CostTP"] = 13 ,
+    ["Params"] = { 180 },
     ["Text"] = "Charges an enemy, immobilizes it for 1 sec, and adds 180 melee attack power to the boar's next attack.",
     ["AbilityFamily"] = "charge",
     ["AbilityLevel"] = 3,
@@ -376,6 +383,7 @@ Artemis.Abilities = {
     ["trainer"] = false ,
     ["MinPetLevel"] = 36 ,
     ["CostTP"] = 17 ,
+    ["Params"] = { 250 },
     ["Text"] = "Charges an enemy, immobilizes it for 1 sec, and adds 250 melee attack power to the boar's next attack.",
     ["AbilityFamily"] = "charge",
     ["AbilityLevel"] = 4,
@@ -384,6 +392,7 @@ Artemis.Abilities = {
     ["trainer"] = false ,
     ["MinPetLevel"] = 48 ,
     ["CostTP"] = 21 ,
+    ["Params"] = { 390 },
     ["Text"] = "Charges an enemy, immobilizes it for 1 sec, and adds 390 melee attack power to the boar's next attack.",
     ["AbilityFamily"] = "charge",
     ["AbilityLevel"] = 5,
@@ -392,6 +401,7 @@ Artemis.Abilities = {
     ["trainer"] = false ,
     ["MinPetLevel"] = 60 ,
     ["CostTP"] = 25 ,
+    ["Params"] = { 550 },
     ["Text"] = "Charges an enemy, immobilizes it for 1 sec, and adds 550 melee attack power to the boar's next attack.",
     ["AbilityFamily"] = "charge",
     ["AbilityLevel"] = 6,
@@ -1293,7 +1303,13 @@ Artemis.Abilities = {
     ["AbilityLevel"] = 5,
   } ,
 }
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
 
+
+-------------------------------------------------------------------------
+-- Functions
+-------------------------------------------------------------------------
 --
 --
 function Artemis:CreateTameListItem(abilityName,subElem,name,family,minlvl,maxlvl,location) 
@@ -1312,6 +1328,26 @@ function Artemis:CreateTameListItem(abilityName,subElem,name,family,minlvl,maxlv
   }
 end
 
+-- input: "Barnabus (Wolf, 38, Badlands)" 
+-- input: "Drywallow Daggermaw (Crocolisk, 40-41, Dustwallow Marsh)"
+-- input: "NAME (FAMILY, L1-L2, LOC)"
+function Artemis:CreateParsedTameListItem(dataString,abilityName)
+  local _, _ name, family, level1, location   = string.find(dataString, "(%s+)%((%s+),%s+(%d),%s+(%s+)%)$" )
+  -- matches? 
+  Artemis.PrintMsg("CPTLI1: name="..tostring(name) .. "family=".. tostring(family) )
+  --minlvl = level1
+  
+  --if not matches... try... 
+  _, _ name, family, minlvl, maxlvl, location = string.find(dataString, "(%s+)%((%s+),%s+(%d)-(%d),%s+(%s+)%)$" )
+  -- matches? 
+  Artemis.PrintMsg("CPTLI2: name="..tostring(name) .. "family=".. tostring(family) )
+  
+  --if has a match, do output
+  --"bite 6","TamingList","XXX","XXX",24,25,"Duskwood"
+  --Artemis:CreateTameListItem(abilityName,"TamingList",name,family,minlvl,maxlvl,location) 
+end  
+
+   
 --
 --
 function Artemis:CreateTameList()
@@ -1328,7 +1364,6 @@ function Artemis:CreateTameList()
   Artemis:CreateTameListItem("bite 1","TamingList","Winter Wolf","Wolf",7,8,"Dun Morogh")
   Artemis:CreateTameListItem("bite 1","TamingList","Dreadmaw Crocolisk","Crocolisk",5,5,"Durotar")
   
-
   Artemis:CreateTameListItem("bite 2","TamingList","Starving Winter Wolf","Wolf",8,9,"Dun Morogh")
   Artemis:CreateTameListItem("bite 2","TamingList","Webwood Silkspinner","Spider",8,9,"Teldrassil")
   Artemis:CreateTameListItem("bite 2","TamingList","Prowler","Wolf",9,10,"Elwynn Forest")
@@ -1363,54 +1398,69 @@ function Artemis:CreateTameList()
   Artemis:CreateTameListItem("bite 3","TamingList","Aku'mai Fisher","Turtle",23,24,"Blackfathom Deeps")
   Artemis:CreateTameListItem("bite 3","TamingList","Creepthess","Spider",24,24,"Hillsbrad Foothills")
   
+  Artemis:CreateTameListItem("bite 4","TamingList","Black Ravager","Wolf",24,25,"Duskwood")  
+  Artemis:CreateTameListItem("bite 4","TamingList","Leech Widow ","Spider",24,24,"Wetlands")
+  Artemis:CreateTameListItem("bite 4","TamingList","Giant Moss Creeper","Spider",24,25,"Hillsbrad Foothills")
+  Artemis:CreateTameListItem("bite 4","TamingList","Ghamoo-ra","Turtle",25,25,"Blackfathom Deeps")
+  Artemis:CreateTameListItem("bite 4","TamingList","Giant Wetlands Crocolisk ","Turtle",24,25,"Wetlands")
+  Artemis:CreateTameListItem("bite 4","TamingList","Black Ravager Mastiff","Wolf",24,25,"Duskwood")
+  Artemis:CreateTameListItem("bite 4","TamingList","Aku'mai Snapjaw","Turtle",24,25,"Blackfathom Deeps")
+  Artemis:CreateTameListItem("bite 4","TamingList","Elder Moss Creeper","Spider",26,27,"Hillsbrad Foothills")
+  Artemis:CreateTameListItem("bite 4","TamingList","Naraxis","Spider",27,27,"Duskwood")
+  Artemis:CreateTameListItem("bite 4","TamingList","Ghostpaw Alpha ","Wolf",27,28,"Ashenvale")
+  Artemis:CreateTameListItem("bite 4","TamingList","Wildthorn Lurker","Spider",28,29,"Ashenvale")
+  Artemis:CreateTameListItem("bite 4","TamingList","Snapjaw","Turtle",30,31,"Hillsbrad Foothills")
+
+  Artemis:CreateTameListItem("bite 5","TamingList","Plains Creeper","Spider",32,33,"Arathi Highlands")
+  Artemis:CreateTameListItem("bite 5","TamingList","Sparkleshell Snapper","Turtle",34,35," Thousand Needles")
+  Artemis:CreateTameListItem("bite 5","TamingList","Darkfang Spider","Spider",35,36,"Dustwallow Marsh")
+  Artemis:CreateTameListItem("bite 5","TamingList","Crag Coyote","Wolf",35,36,"Badlands")
+  Artemis:CreateTameListItem("bite 5","TamingList","Drywallow Crocolisk","Crocolisk",35,36,"Dustwallow Marsh")
+  Artemis:CreateTameListItem("bite 5","TamingList","Giant Plains Creeper","Spider",35,36,"Arathi Highlands")
+  Artemis:CreateTameListItem("bite 5","TamingList","Mudrock Tortoise","Turtle",36,37,"Dustwallow Marsh")
+  Artemis:CreateTameListItem("bite 5","TamingList","Darkfang Lurker","Spider",36,37,"Dustwallow Marsh")
+  Artemis:CreateTameListItem("bite 5","TamingList","Mottled Drywallow","Crocolisk",38,39,"Dustwallow Marsh")
+  Artemis:CreateTameListItem("bite 5","TamingList","Darkfang Creeper","Spider",38,39,"Dustwallow Marsh")
+
+  Artemis:CreateParsedTameListItem("Barnabus (Wolf, 38, Badlands)")
+  Artemis:CreateParsedTameListItem("Ripscale (Crocolisk, 39, Dustwallow Marsh)")
+  Artemis:CreateParsedTameListItem("Drywallow Daggermaw (Crocolisk, 40-41, Dustwallow Marsh)")
   
+   
+   
 --[[
-Bite 4: Pet Level 24, Cost 10 TP. Bite the enemy, causing 31 to 37 damage. Can be learned by taming:
-
-    Black Ravager (Wolf, 24-25, Duskwood)
-    Leech Widow (Spider, 24, Wetlands)
-    Giant Moss Creeper (Spider, 24-25, Hillsbrad Foothills)
-    Ghamoo-ra (Turtle, 25, Blackfathom Deeps)
-    Giant Wetlands Crocolisk (Crocolisk, 25-26, Wetlands)
-    Black Ravager Mastiff (Wolf, 25-26, Duskwood)
-    Aku'mai Snapjaw (Turtle, 26-27, Blackfathom Deeps)
-    Elder Moss Creeper (Spider, 26-27, Hillsbrad Foothills)
-    Naraxis (Spider, 27, Duskwood)
-    Ghostpaw Alpha (Wolf, 27-28, Ashenvale)
-    Wildthorn Lurker (Spider, 28-29, Ashenvale)
-    Snapjaw (Turtle, 30-31, Hillsbrad Foothills)
-
-Bite 5: Pet Level 32, Cost 13 TP. Bite the enemy, causing 40 to 48 damage. Can be learned by taming:
-
-    Plains Creeper (Spider, 32-33, Arathi Highlands)
-    Sparkleshell Snapper (Turtle, 34-35, Thousand Needles)
-    Darkfang Spider (Spider, 35-36, Dustwallow Marsh)
-    Crag Coyote (Wolf, 35-36, Badlands)
-    Drywallow Crocolisk (Crocolisk, 35-36, Dustwallow Marsh)
-    Giant Plains Creeper (Spider, 35-36, Arathi Highlands)
-    Mudrock Tortoise (Turtle, 36-37, Dustwallow Marsh)
-    Darkfang Lurker (Spider, 36-37, Dustwallow Marsh)
-    Mottled Drywallow Crocolisk (Crocolisk, 38-39, Dustwallow Marsh)
-    Darkfang Creeper (Spider, 38-39, Dustwallow Marsh)
-
 Bite 6: Pet Level 40, Cost 17 TP. Bite the enemy, causing 49 to 59 damage. Can be learned by taming:
 
+    Artemis:CreateTameListItem("bite 6","TamingList","XXX","XXX",24,25,"Duskwood")
     Barnabus (Wolf, 38, Badlands)
+    Artemis:CreateTameListItem("bite 6","TamingList","XXX","XXX",24,25,"Duskwood")
     Ripscale (Crocolisk, 39, Dustwallow Marsh)
+    Artemis:CreateTameListItem("bite 6","TamingList","XXX","XXX",24,25,"Duskwood")
     Drywallow Daggermaw (Crocolisk, 40-41, Dustwallow Marsh)
+    Artemis:CreateTameListItem("bite 6","TamingList","XXX","XXX",24,25,"Duskwood")
     Longtooth Runner (Wolf, 40-41, Feralas)
+    Artemis:CreateTameListItem("bite 6","TamingList","XXX","XXX",24,25,"Duskwood")
     Deathstrike Tarantula (Spider, 40-41, Swamp of Sorrows)
+    Artemis:CreateTameListItem("bite 6","TamingList","XXX","XXX",24,25,"Duskwood")
     Sawtooth Snapper (Crocolisk, 41-42, Swamp of Sorrows)
+    Artemis:CreateTameListItem("bite 6","TamingList","XXX","XXX",24,25,"Duskwood")
     Mudrock Snapjaw (Turtle, 41-42, Dustwallow Marsh)
+    Artemis:CreateTameListItem("bite 6","TamingList","XXX","XXX",24,25,"Duskwood")
     Old Cliff Jumper (Wolf, 42, The Hinterlands)
+    Artemis:CreateTameListItem("bite 6","TamingList","XXX","XXX",24,25,"Duskwood")
     Snarler (Wolf, 42, Feralas)
+    Artemis:CreateTameListItem("bite 6","TamingList","XXX","XXX",24,25,"Duskwood")
     Deadmire (Crocolisk, 45, Dustwallow Marsh)
+    Artemis:CreateTameListItem("bite 6","TamingList","XXX","XXX",24,25,"Duskwood")
     Timberweb Recluse (Spider, 47-48, Azshara)
+    Artemis:CreateTameListItem("bite 6","TamingList","XXX","XXX",24,25,"Duskwood")
     Felpaw Wolf (Wolf, 47-48, Felwood)
+    Artemis:CreateTameListItem("bite 6","TamingList","XXX","XXX",24,25,"Duskwood")
     Death Howl (Wolf, 49, Felwood)
 
 Bite 7: Pet Level 48, Cost 21 TP. Bite the enemy, causing 66 to 80 damage. Can be learned by taming:
 
+    Artemis:CreateTameListItem("bite 7","TamingList","XXX","XXX",24,25,"Duskwood")
     Rekk'tilac (Spider, 48, Searing Gorge)
     Saltwater Snapjaw (Turtle, 49-50, The Hinterlands)
     Vilebranch Raiding Wolf (Wolf, 50-51, The Hinterlands)
