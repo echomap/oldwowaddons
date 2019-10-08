@@ -149,13 +149,13 @@ end
 
 -- Main frame : Event framework
 function Artemis:OnEvent(event, ...)
-  Artemis.PrintMsg("OnEvent: Called w/event="..tostring(event) )
+  Artemis.DebugMsg("OnEvent: Called w/event="..tostring(event) )
   if( not ArtemisDBChar.enable) then
     return
   end
-  Artemis.PrintMsg("OnEvent: arg1 = "..tostring(arg1) )
+  Artemis.DebugMsg("OnEvent: arg1 = "..tostring(arg1) )
   if( arg2 ~= nil) then
-    Artemis.PrintMsg("OnEvent: arg2 = "..tostring(arg2) )
+    Artemis.DebugMsg("OnEvent: arg2 = "..tostring(arg2) )
   end
 	local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg, arg9 = ...
 	if event == "ADDON_LOADED" and arg1 == "ArtemisMainFrame" then
@@ -619,6 +619,9 @@ function Artemis:ShowPetSkillsWindow()
   ArtemisPetSearchFrameButtonFrame:Show()
   ArtemisPetSearchFrameLeftSideFrame:Show()
   Artemis:ShowPetSearchAbilityButtons(true)
+  
+  ArtemisPetSearchFrameMainDataFrame:Show()
+  ArtemisPetSearchFrameMainDataFrameEditBox:Show()
 end
 
 -- Hide the PetSkills window: 
@@ -630,6 +633,9 @@ function Artemis:HidePetSkillsWindow()
   ArtemisPetSearchFrameLeftSideFrame:Hide()
   
   Artemis:ShowPetSearchAbilityButtons(false)
+  
+  ArtemisPetSearchFrameMainDataFrame:Hide()
+  ArtemisPetSearchFrameMainDataFrameEditBox:Hide()
 end
 
 --GUI close button clicked for PetSkills window
@@ -699,10 +705,13 @@ function Artemis:SaveAnchorsPetSkillsFrame()
   --
 end
 function Artemis:BtnStartSizeingPetSkillsSearch()
-  --
+  ArtemisPetSearchFrame:StartSizing()		
 end
 function Artemis:BtnStopSizeingPetSkillsSearch()
-  --
+  --Artemis.DebugMsg("BtnStopSizeing: Called")
+	ArtemisPetSearchFrame:StopMovingOrSizing()
+	--Artemis:ResizeGui()
+	--Artemis:SaveAnchors()
 end
 -------------------------------------------------------------------------
 -------------------------------------------------------------------------
@@ -710,12 +719,43 @@ end
 function Artemis:SetupPetSkillsFrame()
 	Artemis.DebugMsg("SetupPetSkillsFrame Called")   
  
- if( ArtemisPetSearchFrameLeftSideFrame.abilityButtonList ~= nil ) then
-   return
-  end
+ 
+ --if( ArtemisPetSearchFrameLeftSideFrame.abilityButtonList ~= nil ) then
+  --  return
+  --end
   --
-  tinsert( UISpecialFrames, ArtemisPetSearchFrame:GetName() )
+  ArtemisPetSearchFrameLeftSideFrame:Show()
+
+  --
+  if( Artemis.view.firstSetup == nil or not Artemis.view.firstSetup) then
+    tinsert( UISpecialFrames, ArtemisPetSearchFrame:GetName() )  
+    ArtemisPetSearchFrameLeftSideFrame.abilityList = {}
+    --[[
+    local parent     = ArtemisPetSearchFrameLeftSideFrame
+    local relativeTo = ArtemisPetSearchFrameLeftSideFrame
+    local fontString = nil
+    for i,v in pairs(Artemis.Ability_Base_List) do
+      --ArtemisPetSearchFrameLeftSideFrame
+      fontString = ArtemisPetSearchFrameLeftSideFrame:CreateFontString("ability"..tostring(i), "ARTWORK", "GameFontHighlightSmall")
+      fontString:SetText(v)
+        -- [name [, layer [, inheritsFrom ] ] ] )
+      if( parent == relativeTo ) then
+        fontString:SetPoint("TOPLEFT", relativeTo, "TOPLEFT", 10, offset)
+      else
+        fontString:SetPoint("TOPLEFT", relativeTo, "BOTTOMLEFT", 0, offset)
+      end
+      --fontString:SetSize(110 , 20) -- width, height
+      table.insert( ArtemisPetSearchFrameLeftSideFrame.abilityList, fontString )
+      --offset = offset + 50
+      relativeTo = fontString
+      Artemis.DebugMsg("SetupPetSkillsFrame Btn = " ..tostring(v) .. " i = " ..tostring(i))
+    end
+    --]]
+    Artemis.view.firstSetup = true
+  end -- first time
   
+  
+  --[[
   -- List all abilities:
   -- Artemis.Ability_Base_List/Artemis.Abilities_Base
   ArtemisPetSearchFrameLeftSideFrame.abilityButtonList = {}
@@ -743,13 +783,55 @@ function Artemis:SetupPetSkillsFrame()
     relativeTo = button
     Artemis.DebugMsg("SetupPetSkillsFrame Btn = " ..tostring(v) .. " i = " ..tostring(i))
   end
+  --]]
   
 	Artemis.DebugMsg("SetupPetSkillsFrame Done")
 end
+
+function Artemis:OnPetSkillsAbilityValueChanged(value, userInput)  
+	Artemis.PrintMsg("OnPetSkillsAbilityValueChanged Called")
+  Artemis.PrintMsg("OnPetSkillsAbilityValueChanged Done")
+end
+
+--https://wow.gamepedia.com/Making_a_scrollable_list_using_FauxScrollFrameTemplate
+function Artemis.PetSkillsAbilityScrollBar_Update()
+  --FauxScrollFrame_Update(ArtemisPetSearchFrameLeftSideFrame,50,5,16);
+  -- 50 is max entries, 5 is number of lines, 16 is pixel height of each line
+  --Artemis.PrintMsg("PetSkillsAbilityScrollBar_Update called")
+  if(Artemis.view.MyModData == nil) then
+    Artemis.PrintMsg("PetSkillsAbilityScrollBar_Update create moddata")
+    Artemis.view.MyModData = {}
+    
+    for i,v in pairs(Artemis.Ability_Base_List) do
+      Artemis.view.MyModData[i] = v
+    end
+    --for i=1,50 do
+    --  Artemis.view.MyModData[i] = "Test ".. tostring(i) -- math.random(100)
+    --end
+  end
   
---
+  local line; -- 1 through 5 of our window to scroll
+  local lineplusoffset; -- an index into our data calculated from the scroll offset
+  FauxScrollFrame_Update(ArtemisPetSearchFrameLeftSideFrame,50,5,16);
+  --Artemis.PrintMsg("PetSkillsAbilityScrollBar_Update reset data")
+  for line=1,10 do
+    lineplusoffset = line + FauxScrollFrame_GetOffset(ArtemisPetSearchFrameLeftSideFrame);
+    if lineplusoffset <= #Artemis.Ability_Base_List then
+      getglobal("MyModEntry"..line):SetText(Artemis.view.MyModData[lineplusoffset]);
+      getglobal("MyModEntry"..line).moddata = Artemis.view.MyModData[lineplusoffset]
+      getglobal("MyModEntry"..line):Show();
+    else
+      getglobal("MyModEntry"..line):Hide();
+    end
+  end
+ end
+ 
+
+--used??
 function Artemis:ShowPetSearchAbilityButtons(enabled)
 	Artemis.DebugMsg("ShowPetSearchAbilityButtons Called: enabled=".. tostring(enabled) )
+  
+  --[[
   if(ArtemisPetSearchFrameLeftSideFrame.abilityButtonList==nil) then
     Artemis.DebugMsg("ShowPetSearchAbilityButtons no buttons to show")
     return
@@ -763,7 +845,95 @@ function Artemis:ShowPetSearchAbilityButtons(enabled)
       v:Hide()
     end
   end
+  --]]
 end
+
+--used??
+function Artemis:PetSkillsAbilityButtonClicked(index)
+  --Artemis.PrintMsg("PetSkillsAbilityButtonClicked: Called");
+  --Artemis.PrintMsg("PetSkillsAbilityButtonClicked: data: " .. tostring(self.moddata) )
+  --Artemis.PrintMsg("PetSkillsAbilityButtonClicked: idx: " .. tostring(index) )  
+  local lineoffset = FauxScrollFrame_GetOffset(ArtemisPetSearchFrameLeftSideFrame)
+  --Artemis.PrintMsg("PetSkillsAbilityButtonClicked: off1: " .. tostring(lineoffset) )
+  --Artemis.PrintMsg("PetSkillsAbilityButtonClicked: off2: " .. tostring(lineoffset+index) )  
+  --Artemis.PrintMsg("PetSkillsAbilityButtonClicked: text: " .. tostring(Artemis.view.MyModData[lineoffset+index]) )
+  local kData = Artemis.view.MyModData[ lineoffset+index ]
+  
+  Artemis.view.selectPetAbility = kData;
+  
+  --local dropdown = CreateFrame("Frame", "Test_DropDown", UIParent, "UIDropDownMenuTemplate");
+  --UIDropDownMenu_Initialize(dropdown, Artemis.PetSkills_DropDown_Initialize, "MENU");
+  --ToggleDropDownMenu(level, value, dropDownFrame, anchorName, xOffset, yOffset)
+  ToggleDropDownMenu(1, nil, MyDropDownMenu, "ArtemisPetSearchFrameButtonFrame", 0, 0);
+
+end
+
+function Artemis.PetSkillsAbilityDropdown_OnLoad()
+  Artemis.PrintMsg("PetSkillsAbilityDropdown_OnLoad Called")
+  Artemis.PrintMsg("PetSkillsAbilityDropdown_OnLoad kData=" .. tostring(Artemis.view.selectPetAbility) )
+  
+  local abilitySel = Artemis.Abilities_Base[Artemis.view.selectPetAbility]
+  if(abilitySel==nil) then
+    return
+  end
+  
+  local abMax = abilitySel["MaxLevel"]
+  local nMax = tonumber(abMax)
+  for index=1, nMax do
+    --
+    info            = {};
+    info.text       = index -- "This is an option in the menu.";
+    info.value      = index -- "OptionVariable";
+    info.func       =  Artemis.PetSkillsAbilityDropdown_OnClick 
+             -- can also be done as function() FunctionCalledWhenOptionIsClicked() end;
+    -- Add the above information to the options menu as a button.
+    UIDropDownMenu_AddButton(info);
+    --
+  end
+end
+
+
+function Artemis.PetSkillsAbilityDropdown_OnClick(indexData)
+    Artemis.PrintMsg("PetSkillsAbilityDropdown_OnClick called")
+    --indexData=" .. tostring(indexData) )
+    --[[for i,v in pairs(indexData) do
+      Artemis.PrintMsg("PetSkillsAbilityDropdown_OnClick i=" .. tostring(i) )
+      Artemis.PrintMsg("PetSkillsAbilityDropdown_OnClick v=" .. tostring(v) )
+    end --]]--   
+    if(indexData~=nil) then
+      local selectedNum = indexData.value
+      Artemis.PrintMsg("PetSkillsAbilityDropdown_OnClick selectedNum=" .. tostring(selectedNum) )
+      local abilitySel = Artemis.Abilities_Base[Artemis.view.selectPetAbility]
+      local abMax = abilitySel["MaxLevel"]
+      local nMax = tonumber(abMax)
+      local abTrain = abilitySel["trainer"]
+       
+      local abilityFamily = Artemis.AbilityFamily [Artemis.view.selectPetAbility]
+      --abilityFamily["trainer"]
+      --abilityFamily["CanLearnText"]
+      --abilityFamily["CanLearnList"] 
+      --abilityFamily["Text"]  
+      --abilityFamily["Text_P"]
+  
+      local nameNew = Artemis.view.selectPetAbility .. " " .. tostring(selectedNum)
+      Artemis.view.selectPetAbilityDetail = nameNew
+      Artemis.PrintMsg("PetSkillsAbilityDropdown_OnClick nameNew=" .. tostring(nameNew) )
+      local abilityDetails = Artemis.Abilities [nameNew]
+      --abilityDetails["trainer"]
+      --abilityDetails["MinPetLevel"] 
+      --abilityDetails["CostTP"] 
+      --abilityDetails["Params"] 
+      --abilityDetails["Text"] 
+      --abilityDetails["AbilityFamily"]
+      --abilityDetails["AbilityLevel"] 
+      
+      ArtemisPetSearchFrameMainDataFrameEditBox:SetText( abilityDetails["Text"] ) 
+      
+    end
+    
+end
+
+
 -------------------------------------------------------------------------
 -------------------------------------------------------------------------
 

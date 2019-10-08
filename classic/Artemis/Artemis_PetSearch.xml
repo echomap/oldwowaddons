@@ -1,8 +1,20 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/"> 
 
+  <Button name="MyModEntryTemplate" virtual="true">
+    <Size>
+      <AbsDimension x="150" y="16" />
+    </Size>
+    <NormalFont style="GameFontHighlightLeft"/>
+    <Scripts>
+      <OnClick> Artemis:PetSkillsAbilityButtonClicked() </OnClick>
+      <OnEnter>  </OnEnter>
+      <OnLeave>  </OnLeave>			
+    </Scripts>
+  </Button>
+  
 	<Frame name="ArtemisPetSearchFrame" parent="UIParent" 
       hidden="true" movable="true" enableMouse="true" frameStrata="HIGH" resizable="true">
-		<Size><AbsDimension x="300" y="500"/></Size>
+		<Size><AbsDimension x="300" y="400"/></Size>
 		<Anchors>
 			<Anchor point="CENTER"/>
 			<Offset><AbsDimension x="300" y="0"/></Offset>
@@ -113,26 +125,48 @@
         </Backdrop>	
         
         <Frames>
-          <Button name="$parentStableButton" inherits="UIPanelButtonTemplate">
+        
+          <Frame name="MyDropDownMenu" inherits="UIDropDownMenuTemplate" id="1" parent="ArtemisPetSearchFrameButtonFrame">
             <Anchors>
               <Anchor point="LEFT" relativePoint="LEFT" relativeTo="ArtemisPetSearchFrameButtonFrame"/>
             </Anchors>
-            <Size><AbsDimension x="24" y="24"/></Size>
-            <NormalTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
-            <PushedTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
             <Scripts>
+              <OnLoad>
+                UIDropDownMenu_Initialize(self, Artemis.PetSkillsAbilityDropdown_OnLoad, "MENU");
+              </OnLoad>
             </Scripts>
-          </Button>
+          </Frame>
+          
+          <!--
+          <Button name="MyDropDownMenuButton">
+            <Anchors>
+              <Anchor point="LEFT" relativePoint="LEFT" relativeTo="ArtemisPetSearchFrameButtonFrame"/>
+            </Anchors>
+               <Scripts>
+                   <OnLoad>
+                       UIDropDownMenu_Initialize(self, Artemis.PetSkillsAbilityDropdown_OnLoad);
+                   </OnLoad>
+               
+                   <OnClick>
+                      Artemis:PetSkillsAbilityDropdown_OnClick();
+                   </OnClick>
+               </Scripts>
+           </Button>
+           -->
+           
         </Frames>
       </Frame>
       <!-- FRAME Button/Tabs -->
       
       <!-- FRAME left side menu -->
-      <Frame name="ArtemisPetSearchFrameLeftSideFrame" parent="ArtemisPetSearchFrame" hidden="true" frameStrata="HIGH" >
+      
+      <ScrollFrame name="ArtemisPetSearchFrameLeftSideFrame" inherits="FauxScrollFrameTemplate" parent="ArtemisPetSearchFrame" hidden="true" frameStrata="HIGH" >
+        <Size x="144" y="17"/> >
+        <HitRectInsets left="0" right="-10" top="0" bottom="0"/>
         <Size><AbsDimension x="24" y="24"/></Size>
         <Anchors>
           <Anchor point="TOPLEFT" relativeTo="ArtemisPetSearchFrameButtonFrame" relativePoint="BOTTOMLEFT">
-            <Offset><AbsDimension x="0" y="0"/></Offset>
+            <Offset><AbsDimension x="-20" y="-10"/></Offset>
           </Anchor>
           <Anchor point="BOTTOMRIGHT" relativeTo="ArtemisPetSearchFrame" relativePoint="BOTTOMLEFT">
             <Offset><AbsDimension x="-130" y="0"/></Offset>
@@ -151,46 +185,158 @@
           </BackgroundInsets>
         </Backdrop>	
         
-        <Frames>
-           <!--
-          <Button name="$parentPetSKillButton1" inherits="UIPanelButtonTemplate" text="testing1">
-            <Anchors>
-              <Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="ArtemisPetSearchFrameLeftSideFrame"/>
-              <Offset><AbsDimension x="0" y="0"/></Offset>
-            </Anchors>
-            <Size><AbsDimension x="70" y="40"/></Size>
-          </Button>
+        <Scripts>
+          <OnVerticalScroll>
+            FauxScrollFrame_OnVerticalScroll(self, offset, 16, Artemis.PetSkillsAbilityScrollBar_Update);
+          </OnVerticalScroll>
+          <OnShow>
+            Artemis.PetSkillsAbilityScrollBar_Update()
+          </OnShow>
+        </Scripts>
         
-          <Button name="$parentPetSKillButton2" inherits="UIPanelButtonTemplate" text="testing2">
-            <Anchors>
-              <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentPetSKillButton1"/>
-              <Offset><AbsDimension x="0" y="0"/></Offset>
-            </Anchors>
-            <Size><AbsDimension x="70" y="40"/></Size>
-          </Button>
-          
-       
-            AbilityBaseSlotTemplate
-            <NormalTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
-            <PushedTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
-            <Scripts>
-            </Scripts>
-          -->
-          <!--todo -->
-           <!-- TODO Scroll box here for text? or list ??? 
-          <Frame name="$parentScrollFrame" inherits="FauxScrollFrameTemplate">
+         <Frames>
+          <Button name="MyModEntry1" inherits="MyModEntryTemplate" >
              <Anchors>
-              <Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="ArtemisPetSearchFrameLeftSideFrame">
-                <Offset><AbsDimension x="4" y="-10"/></Offset>
-              </Anchor>
-              <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" relativeTo="ArtemisPetSearchFrameLeftSideFrame">
-                <Offset><AbsDimension x="4" y="80"/></Offset>
-              </Anchor>
-            </Anchors>
-          </Frame>-->
-          
+               <Anchor point="TOPLEFT" relativeTo="ArtemisPetSearchFrameLeftSideFrame" relativePoint="TOPLEFT">
+                 <Offset>
+                   <AbsDimension x="8" y="0"/>
+                 </Offset>
+                </Anchor>
+             </Anchors>
+             <Scripts>
+                <OnClick> Artemis:PetSkillsAbilityButtonClicked(1) </OnClick>
+                <OnEnter>  </OnEnter>
+                <OnLeave>  </OnLeave>			
+              </Scripts>
+           </Button>
+           <Button name="MyModEntry2" inherits="MyModEntryTemplate">
+             <Anchors>
+               <Anchor point="TOPLEFT" relativeTo="MyModEntry1" relativePoint="BOTTOMLEFT"/>
+             </Anchors>
+             <Scripts>
+                <OnClick> Artemis:PetSkillsAbilityButtonClicked(2) </OnClick>
+                <OnEnter>  </OnEnter>
+                <OnLeave>  </OnLeave>			
+              </Scripts>
+           </Button>
+           <Button name="MyModEntry3" inherits="MyModEntryTemplate">
+             <Anchors>
+               <Anchor point="TOPLEFT" relativeTo="MyModEntry2" relativePoint="BOTTOMLEFT"/>
+             </Anchors>
+             <Scripts>
+                <OnClick> Artemis:PetSkillsAbilityButtonClicked(3) </OnClick>
+                <OnEnter>  </OnEnter>
+                <OnLeave>  </OnLeave>			
+              </Scripts>
+           </Button>
+           <Button name="MyModEntry4" inherits="MyModEntryTemplate">
+             <Anchors>
+               <Anchor point="TOPLEFT" relativeTo="MyModEntry3" relativePoint="BOTTOMLEFT"/>
+             </Anchors>
+             <Scripts>
+                <OnClick> Artemis:PetSkillsAbilityButtonClicked(4) </OnClick>
+                <OnEnter>  </OnEnter>
+                <OnLeave>  </OnLeave>			
+              </Scripts>
+           </Button>
+           <Button name="MyModEntry5" inherits="MyModEntryTemplate">
+             <Anchors>
+               <Anchor point="TOPLEFT" relativeTo="MyModEntry4" relativePoint="BOTTOMLEFT"/>
+             </Anchors>
+             <Scripts>
+                <OnClick> Artemis:PetSkillsAbilityButtonClicked(5) </OnClick>
+                <OnEnter>  </OnEnter>
+                <OnLeave>  </OnLeave>			
+              </Scripts>
+           </Button>
+          <Button name="MyModEntry6" inherits="MyModEntryTemplate">
+             <Anchors>
+               <Anchor point="TOPLEFT" relativeTo="MyModEntry5" relativePoint="BOTTOMLEFT"/>
+             </Anchors>
+             <Scripts>
+                <OnClick> Artemis:PetSkillsAbilityButtonClicked(6) </OnClick>
+                <OnEnter>  </OnEnter>
+                <OnLeave>  </OnLeave>			
+              </Scripts>
+           </Button>
+            <Button name="MyModEntry7" inherits="MyModEntryTemplate">
+             <Anchors>
+               <Anchor point="TOPLEFT" relativeTo="MyModEntry6" relativePoint="BOTTOMLEFT"/>
+             </Anchors>
+             <Scripts>
+                <OnClick> Artemis:PetSkillsAbilityButtonClicked(7) </OnClick>
+                <OnEnter>  </OnEnter>
+                <OnLeave>  </OnLeave>			
+              </Scripts>
+           </Button>
+           <Button name="MyModEntry8" inherits="MyModEntryTemplate">
+             <Anchors>
+               <Anchor point="TOPLEFT" relativeTo="MyModEntry7" relativePoint="BOTTOMLEFT"/>
+             </Anchors>
+             <Scripts>
+                <OnClick> Artemis:PetSkillsAbilityButtonClicked(8) </OnClick>
+                <OnEnter>  </OnEnter>
+                <OnLeave>  </OnLeave>			
+              </Scripts>
+           </Button>
+           <Button name="MyModEntry9" inherits="MyModEntryTemplate">
+             <Anchors>
+               <Anchor point="TOPLEFT" relativeTo="MyModEntry8" relativePoint="BOTTOMLEFT"/>
+             </Anchors>
+             <Scripts>
+                <OnClick> Artemis:PetSkillsAbilityButtonClicked(9) </OnClick>
+                <OnEnter>  </OnEnter>
+                <OnLeave>  </OnLeave>			
+              </Scripts>
+           </Button>
+           <Button name="MyModEntry10" inherits="MyModEntryTemplate">
+             <Anchors>
+               <Anchor point="TOPLEFT" relativeTo="MyModEntry9" relativePoint="BOTTOMLEFT"/>
+             </Anchors>
+             <Scripts>
+                <OnClick> Artemis:PetSkillsAbilityButtonClicked(10) </OnClick>
+                <OnEnter>  </OnEnter>
+                <OnLeave>  </OnLeave>			
+              </Scripts>
+           </Button>
         </Frames>
-      </Frame>       
+      </ScrollFrame>
+
+      <!--
+      <Slider name="ArtemisPetSearchFrameLeftSideFrame" parent="ArtemisPetSearchFrame" hidden="true" frameStrata="HIGH" orientation="VERTICAL" enableMouse="true" >
+    <Size x="144" y="17"/> >
+        <HitRectInsets left="0" right="-10" top="0" bottom="0"/>
+        <Size><AbsDimension x="24" y="24"/></Size>
+        <Anchors>
+          <Anchor point="TOPLEFT" relativeTo="ArtemisPetSearchFrameButtonFrame" relativePoint="BOTTOMLEFT">
+            <Offset><AbsDimension x="-10" y="-10"/></Offset>
+          </Anchor>
+          <Anchor point="BOTTOMRIGHT" relativeTo="ArtemisPetSearchFrame" relativePoint="BOTTOMLEFT">
+            <Offset><AbsDimension x="-130" y="0"/></Offset>
+          </Anchor>
+        </Anchors>
+        
+       <Backdrop bgFile="Interface\Buttons\UI-SliderBar-Background"
+        edgeFile="Interface\Buttons\UI-SliderBar-Border" tile="true">
+          <EdgeSize val="8"/>
+          <TileSize val="8"/>
+          <BackgroundInsets left="3" right="3" top="6" bottom="6"/>
+        </Backdrop>
+        <ThumbTexture name="$parentThumb" file="Interface\Buttons\UI-SliderBar-Button-Horizontal">
+          <Size x="32" y="32"/>
+        </ThumbTexture>
+        
+        <Frames>
+        </Frames>
+        
+        <Scripts>
+          <OnValueChanged>  
+            Artemis:OnPetSkillsAbilityValueChanged(value, userInput)
+          </OnValueChanged>
+        </Scripts>
+        
+      </Slider>
+      -->
       <!-- FRAME left side menu -->
       
       
@@ -201,7 +347,7 @@
           <Anchor point="TOPLEFT" relativeTo="ArtemisPetSearchFrameLeftSideFrame" relativePoint="TOPRIGHT">
             <Offset><AbsDimension x="0" y="0"/></Offset>
           </Anchor>
-          <Anchor point="BOTTOMRIGHT" relativeTo="ArtemisPetSearchFrame" relativePoint="BOTTOMLEFT">
+          <Anchor point="BOTTOMRIGHT" relativeTo="ArtemisPetSearchFrame" relativePoint="BOTTOMRIGHT">
             <Offset><AbsDimension x="0" y="0"/></Offset>
           </Anchor>
         </Anchors>
@@ -218,9 +364,68 @@
           </BackgroundInsets>
         </Backdrop>	
         
+            
+        <Layers>
+          <Layer level="BACKGROUND">
+            <FontString name="ArtemisPetSearchFrameMainDataFrameEditBox" inherits="GameFontNormal" text="No text" maxLines="1" justifyH="LEFT" justifyV="TOP">
+              <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="ArtemisPetSearchFrameMainDataFrame" relativePoint="TOPLEFT">
+                  <Offset><AbsDimension x="30" y="-20"/></Offset>
+                </Anchor>
+                <Anchor point="BOTTOMRIGHT" relativeTo="ArtemisPetSearchFrameMainDataFrame" relativePoint="BOTTOMRIGHT">
+                  <Offset><AbsDimension x="10" y="10"/></Offset>
+                </Anchor>
+              </Anchors>
+            </FontString>
+          </Layer>
+        </Layers>
+          
+          
+        <!--
         <Frames>
-
+          <EditBox name="ArtemisPetSearchFrameMainDataFrameEditBox" letters="800" multiLine="true" frameStrata="HIGH">
+              <Size x="100" y="32" />
+              <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="ArtemisPetSearchFrameMainDataFrame" relativePoint="TOPLEFT">
+                  <Offset><AbsDimension x="0" y="0"/></Offset>
+                </Anchor>
+                <Anchor point="BOTTOMRIGHT" relativeTo="ArtemisPetSearchFrameMainDataFrame" relativePoint="BOTTOMRIGHT">
+                  <Offset><AbsDimension x="0" y="0"/></Offset>
+                </Anchor>
+              </Anchors>
+              <Layers>
+                  <Layer level="BACKGROUND">
+                      <Texture file="Interface\ChatFrame\UI-ChatInputBorder-Left">
+                          <Size x="75" y="32" />
+                          <Anchors>
+                             <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+                              <Offset><AbsDimension x="-10" y="0"/></Offset>
+                            </Anchor>
+                            <Anchor point="BOTTOMRIGHT" relativeTo="$parent" relativePoint="BOTTOMRIGHT">
+                              <Offset><AbsDimension x="10" y="0"/></Offset>
+                            </Anchor>
+                          </Anchors>
+                          <TexCoords left="0" right="0.2" top="0" bottom="1.0"/>
+                      </Texture>
+                      <Texture file="Interface\ChatFrame\UI-ChatInputBorder-Right">
+                          <Size x="75" y="32" />
+                          <Anchors>
+                              <Anchor point="RIGHT">
+                                  <Offset x="10" y="0" />
+                              </Anchor>
+                          </Anchors>
+                          <TexCoords left="0.7" right="1.0" top="0" bottom="1.0"/>
+                      </Texture>
+                  </Layer>
+              </Layers>
+              <Scripts>
+                  <OnLoad>
+                  </OnLoad>
+              </Scripts>
+              <FontString inherits="ChatFontNormal" />
+          </EditBox>
         </Frames>
+        -->
       </Frame>       
       <!-- FRAME Main content-->
 
@@ -255,8 +460,7 @@
 		</Scripts>
     
   </Frame>
-    
-
+  
 	<Button name="AbilityBaseSlotTemplate" virtual="true">
 		<Size>
 			<AbsDimension x="37" y="37"/>
@@ -327,6 +531,5 @@
 		<HighlightTexture file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD"/>
 		<CheckedTexture file="Interface\Buttons\CheckButtonHilight" alphaMode="ADD"/>
 	</Button>
-	
-
+	
 </Ui>
