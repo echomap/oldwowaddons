@@ -820,7 +820,8 @@ function Artemis.PetSkillsAbilityScrollBar_Update()
   end
  end
  
---
+
+--used??
 function Artemis:ShowPetSearchAbilityButtons(enabled)
 	Artemis.DebugMsg("ShowPetSearchAbilityButtons Called: enabled=".. tostring(enabled) )
   
@@ -841,6 +842,7 @@ function Artemis:ShowPetSearchAbilityButtons(enabled)
   --]]
 end
 
+--used??
 function Artemis:PetSkillsAbilityButtonClicked(index)
   --Artemis.PrintMsg("PetSkillsAbilityButtonClicked: Called");
   --Artemis.PrintMsg("PetSkillsAbilityButtonClicked: data: " .. tostring(self.moddata) )
@@ -860,70 +862,6 @@ function Artemis:PetSkillsAbilityButtonClicked(index)
 
 end
 
- -- creating test data structure
- local Test1_Data = {
-   ["level1_test_1"] = {
-     [1] = { ["name"] = "sublevel 1"; },
-     [2] = {	["name"] = "sublevel 2"; },
-   },
-   ["level1_test_2"] = {
-     [1] = {	["name"] = "sublevel A"; },
-     [2] = {	["name"] = "sublevel B"; },
-   }
- }
- 
- -- menu create function
- function Artemis.PetSkills_DropDown_Initialize(self,level)
-   level = level or 1;
-   if (level == 1) then
-     for key, subarray in pairs(Test1_Data) do
-       local info = UIDropDownMenu_CreateInfo();
-       info.hasArrow = true; -- creates submenu
-       info.notCheckable = true;
-       info.text = key;
-       info.value = {
-         ["Level1_Key"] = key;
-       };
-       UIDropDownMenu_AddButton(info, level);
-     end -- for key, subarray
-   end -- if level 1
-
-   if (level == 2) then
-     -- getting values of first menu
-     local Level1_Key = UIDROPDOWNMENU_MENU_VALUE["Level1_Key"];
-     subarray = Test1_Data[Level1_Key];
-     for key, subsubarray in pairs(subarray) do
-       local info = UIDropDownMenu_CreateInfo();
-       info.hasArrow = false; -- no submenues this time
-       info.notCheckable = true;
-       info.text = subsubarray["name"];
-       -- use info.func to set a function to be called at "click"
-       info.value = {
-         ["Level1_Key"] = Level1_Key;
-         ["Sublevel_Key"] = key;
-       };
-       UIDropDownMenu_AddButton(info, level);
-     end -- for key,subsubarray
-   end -- if level 2
- end -- function Test1_DropDown_Initialize
- 
---[[
-function Artemis:PetSkillsAbilityDropdown_OnClick()
-  ToggleDropDownMenu(1, nil, MyDropDownMenu, MyDropDownMenuButton, 0, 0);
-end
-
-function Artemis.MyDropDownMenu_OnLoad()
-  info            = {};
-  info.text       = "This is an option in the menu.";
-  info.value      = "OptionVariable";
-  --TODO info.func       = FunctionCalledWhenOptionIsClicked 
-           -- can also be done as function() FunctionCalledWhenOptionIsClicked() end;
-
-  -- Add the above information to the options menu as a button.
-  UIDropDownMenu_AddButton(info);
- end
---]]
-
 function Artemis.PetSkillsAbilityDropdown_OnLoad()
   Artemis.PrintMsg("PetSkillsAbilityDropdown_OnLoad Called")
   Artemis.PrintMsg("PetSkillsAbilityDropdown_OnLoad kData=" .. tostring(Artemis.view.selectPetAbility) )
@@ -940,13 +878,50 @@ function Artemis.PetSkillsAbilityDropdown_OnLoad()
     info            = {};
     info.text       = index -- "This is an option in the menu.";
     info.value      = index -- "OptionVariable";
-    --TODO info.func       = FunctionCalledWhenOptionIsClicked 
+    info.func       =  Artemis.PetSkillsAbilityDropdown_OnClick 
              -- can also be done as function() FunctionCalledWhenOptionIsClicked() end;
     -- Add the above information to the options menu as a button.
     UIDropDownMenu_AddButton(info);
     --
   end
+end
+
+
+function Artemis.PetSkillsAbilityDropdown_OnClick(indexData)
+    Artemis.PrintMsg("PetSkillsAbilityDropdown_OnClick called")
+    --indexData=" .. tostring(indexData) )
+    --[[for i,v in pairs(indexData) do
+      Artemis.PrintMsg("PetSkillsAbilityDropdown_OnClick i=" .. tostring(i) )
+      Artemis.PrintMsg("PetSkillsAbilityDropdown_OnClick v=" .. tostring(v) )
+    end --]]--   
+    if(indexData~=nil) then
+      local selectedNum = indexData.value
+      Artemis.PrintMsg("PetSkillsAbilityDropdown_OnClick selectedNum=" .. tostring(selectedNum) )
+      local abilitySel = Artemis.Abilities_Base[Artemis.view.selectPetAbility]
+      local abMax = abilitySel["MaxLevel"]
+      local nMax = tonumber(abMax)
+      local abTrain = abilitySel["trainer"]
+       
+      local abilityFamily = Artemis.AbilityFamily [Artemis.view.selectPetAbility]
+      abilityFamily["trainer"]
+      abilityFamily["CanLearnText"]
+      abilityFamily["CanLearnList"] 
+      abilityFamily["Text"]  
+      abilityFamily["Text_P"]
   
+      local nameNew = Artemis.view.selectPetAbility .. " " .. tostring(selectedNum)
+      Artemis.view.selectPetAbilityDetail = nameNew
+      local abilityDetails = Artemis.Abilities [nameNew]
+      abilityDetails["trainer"]
+      abilityDetails["MinPetLevel"] 
+      abilityDetails["CostTP"] 
+      abilityDetails["Params"] 
+      abilityDetails["Text"] 
+      abilityDetails["AbilityFamily"]
+      abilityDetails["AbilityLevel"] 
+      
+    end
+    
 end
 
 
