@@ -724,6 +724,12 @@ function Artemis:SetupPetSkillsFrame()
   --  return
   --end
   --
+  --
+  if( not Artemis.view.tameListCreated ) then
+    Artemis:CreateTameList()
+    Artemis.view.tameListCreated = true
+  end
+  
   ArtemisPetSearchFrameLeftSideFrame:Show()
 
   --
@@ -894,7 +900,7 @@ end
 
 
 function Artemis.PetSkillsAbilityDropdown_OnClick(indexData)
-    Artemis.PrintMsg("PetSkillsAbilityDropdown_OnClick called")
+    Artemis.DebugMsg("PetSkillsAbilityDropdown_OnClick called")
     --indexData=" .. tostring(indexData) )
     --[[for i,v in pairs(indexData) do
       Artemis.PrintMsg("PetSkillsAbilityDropdown_OnClick i=" .. tostring(i) )
@@ -902,7 +908,7 @@ function Artemis.PetSkillsAbilityDropdown_OnClick(indexData)
     end --]]--   
     if(indexData~=nil) then
       local selectedNum = indexData.value
-      Artemis.PrintMsg("PetSkillsAbilityDropdown_OnClick selectedNum=" .. tostring(selectedNum) )
+      Artemis.DebugMsg("PetSkillsAbilityDropdown_OnClick selectedNum=" .. tostring(selectedNum) )
       local abilitySel = Artemis.Abilities_Base[Artemis.view.selectPetAbility]
       local abMax = abilitySel["MaxLevel"]
       local nMax = tonumber(abMax)
@@ -917,7 +923,7 @@ function Artemis.PetSkillsAbilityDropdown_OnClick(indexData)
   
       local nameNew = Artemis.view.selectPetAbility .. " " .. tostring(selectedNum)
       Artemis.view.selectPetAbilityDetail = nameNew
-      Artemis.PrintMsg("PetSkillsAbilityDropdown_OnClick nameNew=" .. tostring(nameNew) )
+      Artemis.DebugMsg("PetSkillsAbilityDropdown_OnClick nameNew=" .. tostring(nameNew) )
       local abilityDetails = Artemis.Abilities [nameNew]
       --abilityDetails["trainer"]
       --abilityDetails["MinPetLevel"] 
@@ -926,8 +932,23 @@ function Artemis.PetSkillsAbilityDropdown_OnClick(indexData)
       --abilityDetails["Text"] 
       --abilityDetails["AbilityFamily"]
       --abilityDetails["AbilityLevel"] 
+      local TamingList = abilityDetails["TamingList"]
+     
+      --
+      local textAll = abilityDetails["Text"] --.. " " .. TamingList
+      if(TamingList~=nil) then
+        textAll = textAll.. "\n"
+        for i,v in pairs(TamingList) do
+          textAll = textAll.. " name: " ..i.. "  lvl: " ..v["MinLvl"].. " - " .. v["MaxLvl"].. "\n"
+          textAll = textAll.. "  location:" .. v["location"] .. "\n"
+          --v["type"]   = family,
+          --v["MinLvl"] = minlvl,
+          --v["MaxLvl"] = maxlvl, 
+          --v["location"] = location
+        end
+      end
       
-      ArtemisPetSearchFrameMainDataFrameEditBox:SetText( abilityDetails["Text"] ) 
+      ArtemisPetSearchFrameMainDataFrameEditBox:SetText( textAll ) 
       
     end
     

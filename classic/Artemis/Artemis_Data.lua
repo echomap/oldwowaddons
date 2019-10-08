@@ -1331,23 +1331,27 @@ end
 -- input: "Barnabus (Wolf, 38, Badlands)" 
 -- input: "Drywallow Daggermaw (Crocolisk, 40-41, Dustwallow Marsh)"
 -- input: "NAME (FAMILY, L1-L2, LOC)"
-function Artemis:CreateParsedTameListItem(dataString,abilityName)
-  local _, _ name, family, level1, location   = string.find(dataString, "(%s+)%((%s+),%s+(%d),%s+(%s+)%)$" )
-  -- matches? 
-  Artemis.PrintMsg("CPTLI1: name="..tostring(name) .. "family=".. tostring(family) )
-  --minlvl = level1
+function Artemis:CreateParsedTameListItem(abilityName,dataString)
+  --Artemis.PrintMsg("CPTLI0: dataString="..tostring(dataString) )
   
-  --if not matches... try... 
-  _, _ name, family, minlvl, maxlvl, location = string.find(dataString, "(%s+)%((%s+),%s+(%d)-(%d),%s+(%s+)%)$" )
+  local name, family, level1, location = string.match(dataString, "(.+)%((.+)%,%s-(%d+)%,(.+)%)" )
+  --Artemis.PrintMsg("CPTLI1: name="..tostring(name) .. " family=".. tostring(family) )
   -- matches? 
-  Artemis.PrintMsg("CPTLI2: name="..tostring(name) .. "family=".. tostring(family) )
-  
-  --if has a match, do output
-  --"bite 6","TamingList","XXX","XXX",24,25,"Duskwood"
-  --Artemis:CreateTameListItem(abilityName,"TamingList",name,family,minlvl,maxlvl,location) 
+  if( name ~= nil) then
+    --minlvl = level1
+    Artemis:CreateTameListItem(abilityName,"TamingList",name,family,level1,level1,location)
+  else
+    --if not matches... try... 
+    if( name ~= nil) then
+      name, family, minlvl, maxlvl, location = string.match( dataString, "(.+)%((.+)%,%s-(%d+)%-(%d+)%,(.+)%)" )
+      -- matches? 
+      --Artemis.PrintMsg("CPTLI2: name="..tostring(name) .. " family=".. tostring(family) )
+      
+      Artemis:CreateTameListItem(abilityName,"TamingList",name,family,minlvl,maxlvl,location)
+    end
+  end
 end  
 
-   
 --
 --
 function Artemis:CreateTameList()
@@ -1422,9 +1426,9 @@ function Artemis:CreateTameList()
   Artemis:CreateTameListItem("bite 5","TamingList","Mottled Drywallow","Crocolisk",38,39,"Dustwallow Marsh")
   Artemis:CreateTameListItem("bite 5","TamingList","Darkfang Creeper","Spider",38,39,"Dustwallow Marsh")
 
-  Artemis:CreateParsedTameListItem("Barnabus (Wolf, 38, Badlands)")
-  Artemis:CreateParsedTameListItem("Ripscale (Crocolisk, 39, Dustwallow Marsh)")
-  Artemis:CreateParsedTameListItem("Drywallow Daggermaw (Crocolisk, 40-41, Dustwallow Marsh)")
+  Artemis:CreateParsedTameListItem("bite6", "Barnabus (Wolf, 38, Badlands)")
+  Artemis:CreateParsedTameListItem("bite6", "Ripscale (Crocolisk, 39, Dustwallow Marsh)")
+  Artemis:CreateParsedTameListItem("bite6", "Drywallow Daggermaw (Crocolisk, 40-41, Dustwallow Marsh)")
   
    
    
