@@ -875,8 +875,8 @@ function Artemis:PetSkillsAbilityButtonClicked(index)
 end
 
 function Artemis.PetSkillsAbilityDropdown_OnLoad()
-  Artemis.PrintMsg("PetSkillsAbilityDropdown_OnLoad Called")
-  Artemis.PrintMsg("PetSkillsAbilityDropdown_OnLoad kData=" .. tostring(Artemis.view.selectPetAbility) )
+  Artemis.DebugMsg("PetSkillsAbilityDropdown_OnLoad Called")
+  Artemis.DebugMsg("PetSkillsAbilityDropdown_OnLoad kData=" .. tostring(Artemis.view.selectPetAbility) )
   
   local abilitySel = Artemis.Abilities_Base[Artemis.view.selectPetAbility]
   if(abilitySel==nil) then
