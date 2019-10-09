@@ -341,47 +341,60 @@
       
       
       <!-- FRAME Main content-->
-      <Frame name="ArtemisPetSearchFrameMainDataFrame" parent="ArtemisPetSearchFrame" hidden="true" frameStrata="HIGH" >
+      <ScrollFrame name="ArtemisPetSearchFrameMainDataFrame" inherits="UIPanelScrollFrameTemplate" parent="ArtemisPetSearchFrame" hidden="true" frameStrata="HIGH" >
         <Size><AbsDimension x="24" y="24"/></Size>
         <Anchors>
           <Anchor point="TOPLEFT" relativeTo="ArtemisPetSearchFrameButtonFrame" relativePoint="BOTTOMLEFT">
             <Offset><AbsDimension x="20" y="-10"/></Offset>
           </Anchor>
           <Anchor point="BOTTOMRIGHT" relativeTo="ArtemisPetSearchFrame" relativePoint="BOTTOMRIGHT">
-            <Offset><AbsDimension x="-20" y="10"/></Offset>
+            <Offset><AbsDimension x="-20" y="20"/></Offset>
           </Anchor>
         </Anchors>
         
-        <Backdrop name="$parentBackdrop" bgFile="Interface\TutorialFrame\TutorialFrameBackground" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
-          <EdgeSize>
-            <AbsValue val="16"/>
-          </EdgeSize>
-          <TileSize>
-            <AbsValue val="24"/>
-          </TileSize>
-          <BackgroundInsets>
-            <AbsInset left="5" right="5" top="5" bottom="5"/>
-          </BackgroundInsets>
-        </Backdrop>	
-        
-        <Layers>
-          <Layer level="BACKGROUND">
-            <FontString name="ArtemisPetSearchFrameMainDataFrameEditBox" inherits="GameFontNormal"
-                  text="No text" justifyH="LEFT" justifyV="TOP" 
-                  canWordWrap="true" CanNonSpaceWrap="WRAP">
+        <ScrollChild>
+							<Frame name="ArtemisPetSearchFrameScrollChildFrame">
               <Anchors>
-                <Anchor point="TOPLEFT" relativeTo="ArtemisPetSearchFrameMainDataFrame" relativePoint="TOPLEFT">
+                <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
                   <Offset><AbsDimension x="10" y="-10"/></Offset>
                 </Anchor>
-                <Anchor point="BOTTOMRIGHT" relativeTo="ArtemisPetSearchFrameMainDataFrame" relativePoint="BOTTOMRIGHT">
+                <Anchor point="BOTTOMRIGHT" relativeTo="$parent" relativePoint="BOTTOMRIGHT">
                   <Offset><AbsDimension x="-10" y="10"/></Offset>
                 </Anchor>
               </Anchors>
-            </FontString>
-          </Layer>
-        </Layers>
-        
-      </Frame>       
+              <Layers>
+                <Layer level="BACKGROUND">
+                  <FontString name="ArtemisPetSearchTitleText" inherits="GameFontNormal" justifyH="LEFT" text="NAME">
+                    <Size>
+                      <AbsDimension x="285" y="0"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="ArtemisPetSearchFrameMainDataFrame" relativePoint="TOPLEFT">
+                        <Offset>
+                          <AbsDimension x="5" y="-10"/>
+                        </Offset>
+                      </Anchor>
+                    </Anchors>
+                  </FontString>
+                  
+                  <FontString name="ArtemisPetSearchFrameDataText" inherits="GameFontNormal"
+                        text="No text" justifyH="LEFT" justifyV="TOP" 
+                        canWordWrap="true" CanNonSpaceWrap="WRAP">
+                    <Anchors>
+                      <Anchor point="TOPLEFT" relativeTo="ArtemisPetSearchTitleText" relativePoint="BOTTOMLEFT">
+                        <Offset><AbsDimension x="10" y="-10"/></Offset>
+                      </Anchor>
+                      <Anchor point="BOTTOMRIGHT" relativeTo="ArtemisPetSearchFrameMainDataFrame" relativePoint="BOTTOMRIGHT">
+                        <Offset><AbsDimension x="-10" y="10"/></Offset>
+                      </Anchor>
+                    </Anchors>
+                  </FontString>
+                  
+              </Layer>
+            </Layers>
+          </Frame> 
+        </ScrollChild>
+      </ScrollFrame>       
       <!-- FRAME Main content-->
 
       <!-- Status bar
@@ -405,6 +418,7 @@
     </Frames>
     
     <Scripts>
+      <OnShow>        Artemis:OnShowPetSkillsFrame(); </OnShow>
 			<OnUpdate>      Artemis:OnUpdatePetSkillsFrame();      </OnUpdate>
 			<OnLoad>        Artemis:OnLoadPetSkillsFrame(); self:RegisterForDrag("LeftButton"); </OnLoad>
 			<OnEvent>       Artemis:OnEventPetSkillsFrame(event, ...); </OnEvent>
@@ -413,7 +427,14 @@
 			<OnEnter> Artemis:ShowTooltipPetSkillsSearch(self) </OnEnter>
 			<OnLeave> Artemis:HideTooltipPetSkillsSearch(self) </OnLeave>					
 		</Scripts>
-    
+<!--
+  <OnShow>
+    QuestFrameDetailPanel_OnShow();
+  </OnShow>
+  <OnUpdate>
+    QuestFrameDetailPanel_OnUpdate(arg1);
+  </OnUpdate>
+-->
   </Frame>
   
 	<Button name="AbilityBaseSlotTemplate" virtual="true">

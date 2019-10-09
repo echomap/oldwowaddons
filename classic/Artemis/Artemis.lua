@@ -12,7 +12,7 @@
 Artemis = {
     name            = "Artemis",	-- Matches folder and Manifest file names.
     displayName     = "Artemis Hunter Helper",
-    version         = "1.0.2",			-- A nuisance to match to the Manifest.
+    version         = "1.0.4",			-- A nuisance to match to the Manifest.
     author          = "Echomap",
     color           = "DDFFEE",			 -- Used in menu titles and so on.    
     --menuName        = "Artemis_Options", -- Unique identifier for menu object.
@@ -292,7 +292,7 @@ function Artemis:ShowTooltip(self,messageType)
     if( messageType == "Settings") then 
       message = message .. " Settings/Options"
     elseif( messageType == "AmmoCount") then
-      local itemLink = GetInventoryItemLink("player", Artemis.view.ammoSlot )
+      local itemLink = Artemis.view.ammoItemLink --GetInventoryItemLink("player", Artemis.view.ammoSlot )
       if( itemLink ~= nil) then
         local itemName, itemLink2, itemRarity, itemLevel, itemMinLevel, itemType, 
             itemSubType, itemStackCount, itemEquipLoc, itemTexture, itemSellPrice =  GetItemInfo(itemLink)      
@@ -621,7 +621,8 @@ function Artemis:ShowPetSkillsWindow()
   Artemis:ShowPetSearchAbilityButtons(true)
   
   ArtemisPetSearchFrameMainDataFrame:Show()
-  ArtemisPetSearchFrameMainDataFrameEditBox:Show()
+  ArtemisPetSearchFrameDataText:Show()
+  ArtemisPetSearchFrameScrollChildFrame:Show()
 end
 
 -- Hide the PetSkills window: 
@@ -635,7 +636,8 @@ function Artemis:HidePetSkillsWindow()
   Artemis:ShowPetSearchAbilityButtons(false)
   
   ArtemisPetSearchFrameMainDataFrame:Hide()
-  ArtemisPetSearchFrameMainDataFrameEditBox:Hide()
+  ArtemisPetSearchFrameDataText:Hide()
+  ArtemisPetSearchFrameScrollChildFrame:Hide()
 end
 
 --GUI close button clicked for PetSkills window
@@ -661,6 +663,13 @@ end
 -- Called via PetSkills frame: update 
 function Artemis:OnUpdatePetSkillsFrame()  
   --
+end
+
+
+-- Called via PetSkills frame: show 
+function Artemis:OnShowPetSkillsFrame()    
+	ArtemisPetSearchFrameMainDataFrame:UpdateScrollChildRect();
+	ArtemisPetSearchFrameMainDataFrameScrollBar:SetValue(0);
 end
 
 -- PetSkills frame : Event framework
@@ -948,7 +957,8 @@ function Artemis.PetSkillsAbilityDropdown_OnClick(indexData)
         end
       end
       
-      ArtemisPetSearchFrameMainDataFrameEditBox:SetText( textAll ) 
+      --ArtemisPetSearchTitleText:SetText(nameNew)
+      ArtemisPetSearchFrameDataText:SetText( textAll ) 
       
     end
     
@@ -1073,8 +1083,9 @@ function Artemis:LoadAmmoCount()
   -- Get DATA
   local slotId, textureName  = GetInventorySlotInfo("AmmoSlot");  
   Artemis.view.ammoSlot = slotId
-  local itemId = GetInventoryItemID("unit", invSlot);
+  local itemId = GetInventoryItemID("player", slotId);
   Artemis.view.ammoItemId = itemId
+  Artemis.view.ammoItemLink = GetItemInfo(itemId)
   Artemis.view.ammoCount = tonumber(GetInventoryItemCount("player", Artemis.view.ammoSlot ));
   --  
   Artemis.view.rangedSlot  = GetInventorySlotInfo("RangedSlot");
@@ -1381,11 +1392,20 @@ end
   
 -- Called when pet data seems to be updated
 function Artemis:PetChangedCallback(newGUID)
-	Artemis.PrintMsg("PetChangedCallback Called")
-  Artemis.PrintMsg("PetChangedCallback  Artemis.view.PET_GUID= " .. tostring(Artemis.view.PET_GUID) )
+	Artemis.DebugMsg("PetChangedCallback Called")
+  Artemis.PrintMsg("PetChangedCallback storedGUID= " .. tostring(Artemis.view.PET_GUID) )
   Artemis.PrintMsg("PetChangedCallback newGUID= " .. tostring(newGUID) )
+  if( Artemis.view.PET_GUID==nil and newGUID~=nil ) then
+    Artemis.PrintMsg("PetChangedCallback new pet?")
+  elseif(Artemis.view.PET_GUID~=newGUID) then
+    Artemis.PrintMsg("PetChangedCallback different pet?")
+  else
+    Artemis.PrintMsg("PetChangedCallback other?")
+  end
+  --0-4402-0-64-3619-0100115FD3
   Artemis.viewPET_GUID = newGUID
   
+  --Check dead? unit, pet?
   Artemis.PrintMsg( L["PetUnitChanged"] )
   Artemis:ScanCurrentPet()
   -- update view?
