@@ -1429,56 +1429,33 @@ function Artemis:CreateTameList()
   Artemis:CreateParsedTameListItem("bite6", "Barnabus (Wolf, 38, Badlands)")
   Artemis:CreateParsedTameListItem("bite6", "Ripscale (Crocolisk, 39, Dustwallow Marsh)")
   Artemis:CreateParsedTameListItem("bite6", "Drywallow Daggermaw (Crocolisk, 40-41, Dustwallow Marsh)")
+  Artemis:CreateParsedTameListItem("bite6", "Drywallow (Crocolisk, 40-41, Dustwallow Marsh)")
   
-   
-   
---[[
-Bite 6: Pet Level 40, Cost 17 TP. Bite the enemy, causing 49 to 59 damage. Can be learned by taming:
+  Artemis:CreateParsedTameListItem("bite 6","Barnabus (Wolf, 38, Badlands)")
+  Artemis:CreateParsedTameListItem("bite 6","Ripscale (Crocolisk, 39, Dustwallow Marsh)")
+  Artemis:CreateParsedTameListItem("bite 6","Drywallow Daggermaw (Crocolisk, 40-41, Dustwallow Marsh)")
+  Artemis:CreateParsedTameListItem("bite 6","Longtooth Runner (Wolf, 40-41, Feralas)")
+  Artemis:CreateParsedTameListItem("bite 6","Deathstrike Tarantula (Spider, 40-41, Swamp of Sorrows)")
+  Artemis:CreateParsedTameListItem("bite 6","Sawtooth Snapper (Crocolisk, 41-42, Swamp of Sorrows)")
+  Artemis:CreateParsedTameListItem("bite 6","Mudrock Snapjaw (Turtle, 41-42, Dustwallow Marsh)")
+  Artemis:CreateParsedTameListItem("bite 6","Old Cliff Jumper (Wolf, 42, The Hinterlands)")
+  Artemis:CreateParsedTameListItem("bite 6","Snarler (Wolf, 42, Feralas)")
+  Artemis:CreateParsedTameListItem("bite 6","Deadmire (Crocolisk, 45, Dustwallow Marsh)")
+  Artemis:CreateParsedTameListItem("bite 6","Timberweb Recluse (Spider, 47-48, Azshara)")
+  Artemis:CreateParsedTameListItem("bite 6","Felpaw Wolf (Wolf, 47-48, Felwood)")
+  Artemis:CreateParsedTameListItem("bite 6","Death Howl (Wolf, 49, Felwood)")
 
-    Artemis:CreateTameListItem("bite 6","TamingList","XXX","XXX",24,25,"Duskwood")
-    Barnabus (Wolf, 38, Badlands)
-    Artemis:CreateTameListItem("bite 6","TamingList","XXX","XXX",24,25,"Duskwood")
-    Ripscale (Crocolisk, 39, Dustwallow Marsh)
-    Artemis:CreateTameListItem("bite 6","TamingList","XXX","XXX",24,25,"Duskwood")
-    Drywallow Daggermaw (Crocolisk, 40-41, Dustwallow Marsh)
-    Artemis:CreateTameListItem("bite 6","TamingList","XXX","XXX",24,25,"Duskwood")
-    Longtooth Runner (Wolf, 40-41, Feralas)
-    Artemis:CreateTameListItem("bite 6","TamingList","XXX","XXX",24,25,"Duskwood")
-    Deathstrike Tarantula (Spider, 40-41, Swamp of Sorrows)
-    Artemis:CreateTameListItem("bite 6","TamingList","XXX","XXX",24,25,"Duskwood")
-    Sawtooth Snapper (Crocolisk, 41-42, Swamp of Sorrows)
-    Artemis:CreateTameListItem("bite 6","TamingList","XXX","XXX",24,25,"Duskwood")
-    Mudrock Snapjaw (Turtle, 41-42, Dustwallow Marsh)
-    Artemis:CreateTameListItem("bite 6","TamingList","XXX","XXX",24,25,"Duskwood")
-    Old Cliff Jumper (Wolf, 42, The Hinterlands)
-    Artemis:CreateTameListItem("bite 6","TamingList","XXX","XXX",24,25,"Duskwood")
-    Snarler (Wolf, 42, Feralas)
-    Artemis:CreateTameListItem("bite 6","TamingList","XXX","XXX",24,25,"Duskwood")
-    Deadmire (Crocolisk, 45, Dustwallow Marsh)
-    Artemis:CreateTameListItem("bite 6","TamingList","XXX","XXX",24,25,"Duskwood")
-    Timberweb Recluse (Spider, 47-48, Azshara)
-    Artemis:CreateTameListItem("bite 6","TamingList","XXX","XXX",24,25,"Duskwood")
-    Felpaw Wolf (Wolf, 47-48, Felwood)
-    Artemis:CreateTameListItem("bite 6","TamingList","XXX","XXX",24,25,"Duskwood")
-    Death Howl (Wolf, 49, Felwood)
-
-Bite 7: Pet Level 48, Cost 21 TP. Bite the enemy, causing 66 to 80 damage. Can be learned by taming:
-
-    Artemis:CreateTameListItem("bite 7","TamingList","XXX","XXX",24,25,"Duskwood")
-    Rekk'tilac (Spider, 48, Searing Gorge)
-    Saltwater Snapjaw (Turtle, 49-50, The Hinterlands)
-    Vilebranch Raiding Wolf (Wolf, 50-51, The Hinterlands)
-    Cave Creeper (Spider, 50-52, Blackrock Depths)
-    Felpaw Ravager (Wolf, 51-52, Felwood)
-    Uhk'loc (Gorilla, 52, Un'Goro Crater)
-    Diseased Wolf (Wolf, 53-54, Western Plaguelands)
-    Plague Lurker (Spider, 54-55, Western Plaguelands)
-
-Bite 8: Pet Level 56, Cost 25 TP. Bite the enemy, causing 81 to 99 damage. Can be learned by taming:
-
-    Bloodaxe Worg (Wolf, 56-57, Blackrock Spire)
-]]--
-
+  Artemis:CreateParsedTameListItem("bite 7","Rekk'tilac (Spider, 48, Searing Gorge)")
+  Artemis:CreateParsedTameListItem("bite 7","Saltwater Snapjaw (Turtle, 49-50, The Hinterlands)")
+  Artemis:CreateParsedTameListItem("bite 7","Vilebranch Raiding Wolf (Wolf, 50-51, The Hinterlands)")
+  Artemis:CreateParsedTameListItem("bite 7","Cave Creeper (Spider, 50-52, Blackrock Depths)")
+  Artemis:CreateParsedTameListItem("bite 7","Felpaw Ravager (Wolf, 51-52, Felwood)")
+  Artemis:CreateParsedTameListItem("bite 7","Uhk'loc (Gorilla, 52, Un'Goro Crater)")
+  Artemis:CreateParsedTameListItem("bite 7","Diseased Wolf (Wolf, 53-54, Western Plaguelands)")
+  Artemis:CreateParsedTameListItem("bite 7","Plague Lurker (Spider, 54-55, Western Plaguelands)")
+    
+  Artemis:CreateParsedTameListItem("bite 8","Bloodaxe Worg (Wolf, 56-57, Blackrock Spire)")
+  
   --
   Artemis:CreateTameListItem("charge 1","TamingList","Young Thistle Boar","Boar",1,2,"Teldrassil")
   Artemis:CreateTameListItem("charge 1","TamingList","Mottled Boar","Boar",1,2,"Durotar")
@@ -1500,44 +1477,25 @@ Bite 8: Pet Level 56, Cost 25 TP. Bite the enemy, causing 81 to 99 damage. Can b
   Artemis:CreateTameListItem("charge 1","TamingList","Corrupted Mottled Boar","Boar",10,11,"Durotar")
   Artemis:CreateTameListItem("charge 1","TamingList","Longsnout","Boar",10,11,"Elwynn Forest")
 
---[[
+  Artemis:CreateParsedTameListItem("charge 2","Young Goretusk (Boar, 12-13, Westfall)")
+  Artemis:CreateParsedTameListItem("charge 2","Goretusk (Boar, 14-15, Westfall)")
+  Artemis:CreateParsedTameListItem("charge 2","Mangy Mountain Boar (Boar, 14-15, Loch Modan)")
+  Artemis:CreateParsedTameListItem("charge 2","Elder Mountain Boar (Boar, 16-17, Loch Modan)")
+  Artemis:CreateParsedTameListItem("charge 2","Great Goretusk (Boar, 16-17, Redridge Mountains)")
+
+  Artemis:CreateParsedTameListItem("charge 3","Bellygrub (Boar, 24, Redridge Mountains)")
+  Artemis:CreateParsedTameListItem("charge 3","Agam'ar (Boar, 24-25, Razorfen Kraul)")
+  Artemis:CreateParsedTameListItem("charge 3","Raging Agam'ar (Boar, 25-26, Razorfen Kraul)")
+  Artemis:CreateParsedTameListItem("charge 3","Rotting Agam'ar (Boar, 28, Razorfen Kraul)")
+
+  Artemis:CreateParsedTameListItem("charge 4","No known training source.")
   
-  --Artemis:CreateTameListItem("bite 3","TamingList","Ragged","Wolf",16,17,"Tirisfal")
-  --Artemis:CreateTameListItem("bite 3","TamingList","Ragged","Wolf",16,17,"Tirisfal")
-  Charge 2: Pet Level 12, Cost 9 TP. Charges an enemy, immobilizes it for 1 sec, and adds 100 melee attack power to the boar's next attack. Can be learned by taming:
+  Artemis:CreateParsedTameListItem("charge 5","Ashmane Boar (Boar, 48-49, Blasted Lands)")
+  Artemis:CreateParsedTameListItem("charge 5","Grunter (Boar, 50, Blasted Lands)")
 
-    Young Goretusk (Boar, 12-13, Westfall)
-    Goretusk (Boar, 14-15, Westfall)
-    Mangy Mountain Boar (Boar, 14-15, Loch Modan)
-    Elder Mountain Boar (Boar, 16-17, Loch Modan)
-    Great Goretusk (Boar, 16-17, Redridge Mountains)
-
-Charge 3: Pet Level 24, Cost 13 TP. Charges an enemy, immobilizes it for 1 sec, and adds 180 melee attack power to the boar's next attack. Can be learned by taming:
-
-    Bellygrub (Boar, 24, Redridge Mountains)
-    Agam'ar (Boar, 24-25, Razorfen Kraul)
-    Raging Agam'ar (Boar, 25-26, Razorfen Kraul)
-    Rotting Agam'ar (Boar, 28, Razorfen Kraul)
-
-Charge 4: Pet Level 36, Cost 17 TP. Charges an enemy, immobilizes it for 1 sec, and adds 250 melee attack power to the boar's next attack. No known training source.
-Charge 5: Pet Level 48, Cost 21 TP. Charges an enemy, immobilizes it for 1 sec, and adds 390 melee attack power to the boar's next attack. Can be learned by taming:
-
-    Ashmane Boar (Boar, 48-49, Blasted Lands)
-    Grunter (Boar, 50, Blasted Lands)
-
-Charge 6: Pet Level 60, Cost 25 TP. Charges an enemy, immobilizes it for 1 sec, and adds 550 melee attack power to the boar's next attack. Can be learned by taming:
-
-    Plagued Swine (Boar, 60, Eastern Plaguelands)
-
-
-]]--
-
-
---[[
+  Artemis:CreateParsedTameListItem("charge 6","Plagued Swine (Boar, 60, Eastern Plaguelands)")
   
-  --Artemis:CreateTameListItem("Bite 3","TamingList","Ragged","Wolf",16,17,"Tirisfal")
-  --Artemis:CreateTameListItem("Bite 3","TamingList","Ragged","Wolf",16,17,"Tirisfal")
-]]--
+  --
   
 end
 
