@@ -1496,7 +1496,311 @@ function Artemis:CreateTameList()
   Artemis:CreateParsedTameListItem("charge 6","Plagued Swine (Boar, 60, Eastern Plaguelands)")
   
   --
+  Artemis:CreateParsedTameListItem("claw 1","Scorpid Worker (Scorpid, 3, Durotar)")
+  Artemis:CreateParsedTameListItem("claw 1","Sarkoth (Scorpid, 4, Durotar)")
+  Artemis:CreateParsedTameListItem("claw 1","Pygmy Surf Crawler (Crab, 5-6, Durotar)")
+  Artemis:CreateParsedTameListItem("claw 1","Strigid Owl (Owl, 5-6, Teldrassil)")
+  Artemis:CreateParsedTameListItem("claw 1","Ice Claw Bear (Bear, 7-8, Dun Morogh)")
   
+  Artemis:CreateParsedTameListItem("claw 2","  Strigid Hunter (Owl, 8-9, Teldrassil)")
+  Artemis:CreateParsedTameListItem("claw 2","Encrusted Surf Crawler (Crab, 9-10, Durotar)")
+  Artemis:CreateParsedTameListItem("claw 2","Venomtail Scorpid (Scorpid, 9-10, Durotar)")
+  Artemis:CreateParsedTameListItem("claw 2","Thistle Bear (Bear, 11-12, Darkshore)")
+  Artemis:CreateParsedTameListItem("claw 2","Mangeclaw (Bear, 11, Dun Morogh)")
+  Artemis:CreateParsedTameListItem("claw 2","Death Flayer (Scorpid, 11, Durotar)")
+  Artemis:CreateParsedTameListItem("claw 2","Ferocious Grizzled Bear (Bear, 11-12, Silverpine Forest)")
+  Artemis:CreateParsedTameListItem("claw 2","Bjarn (Bear, 12, Dun Morogh)")
+  Artemis:CreateParsedTameListItem("claw 2","Tide Crawler (Crab, 12-14, Darkshore)")")
+  
+  Artemis:CreateParsedTameListItem("claw 3","Black Bear Patriarch (Bear, 16-17, Loch Modan)")
+  Artemis:CreateParsedTameListItem("claw 3","Shore Crawler (Crab, 17-18, Westfall)")
+  Artemis:CreateParsedTameListItem("claw 3","Den Mother (Bear, 18-19, Darkshore)")
+  Artemis:CreateParsedTameListItem("claw 3","Clattering Crawler (Crab, 19-20, Ashenvale)")
+  Artemis:CreateParsedTameListItem("claw 3","Ghost Saber (Cat, 19-20, Darkshore)")
+  Artemis:CreateParsedTameListItem("claw 3","Ol' Sooty (Bear, 20, Loch Modan)")
+  Artemis:CreateParsedTameListItem("claw 3","Gray Bear (Bear, 21-22, Hillsbrad Foothills)")
+  Artemis:CreateParsedTameListItem("claw 3","Ashenvale Bear (Bear, 21-22, Ashenvale)")
+  Artemis:CreateParsedTameListItem("claw 3","Skittering Crustacean (Crab, 22-23, Blackfathom Deeps)")
+  Artemis:CreateParsedTameListItem("claw 3","Snapping Crustacean (Crab, 23-24, Blackfathom Deeps)")
+  
+  Artemis:CreateParsedTameListItem("claw 4","Elder Ashenvale Bear (Bear, 25-26, Ashenvale)")
+  Artemis:CreateParsedTameListItem("claw 4","Barbed Crustacean (Crab, 25-26, Blackfathom Deeps)")
+  Artemis:CreateParsedTameListItem("claw 4","Scorpashi Snapper (Scorpid, 30-31, Desolace)")
+  Artemis:CreateParsedTameListItem("claw 4","Scorpid Reaver (Scorpid, 31-32, Thousand Needles)")
+  
+  Artemis:CreateParsedTameListItem("claw 5","Scorpashi Lasher (Scorpid, 34-35, Desolace)")
+  Artemis:CreateParsedTameListItem("claw 5","Vile Sting (Scorpid, 35, Thousand Needles)")
+  Artemis:CreateParsedTameListItem("claw 5","Drywallow Snapper (Crocolisk, 37-38, Dustwallow Marsh)")
+  Artemis:CreateParsedTameListItem("claw 5","Venomlash Scorpid (Scorpid, 39-40, Uldaman)")
+  
+  Artemis:CreateParsedTameListItem("claw 6","Scorpid Hunter (Scorpid, 40-41, Tanaris)")
+  Artemis:CreateParsedTameListItem("claw 6","Silt Crawler (Crab, 40-41, Swamp of Sorrows)")
+  Artemis:CreateParsedTameListItem("claw 6","Ironfur Bear (Bear, 41-42, Feralas)")
+  Artemis:CreateParsedTameListItem("claw 6","King Bangalash (Cat, 43, Stranglethorn Vale)")
+  Artemis:CreateParsedTameListItem("claw 6","Old Grizzlegut (Bear, 43, Feralas)")
+  Artemis:CreateParsedTameListItem("claw 6","Monstrous Crawler (Crab, 43-44, Swamp of Sorrows)")
+
+  Artemis:CreateParsedTameListItem("claw 7","Ironfur Patriarch (Bear, 48-49, Feralas)")
+  Artemis:CreateParsedTameListItem("claw 7","Angerclaw Mauler (Bear, 49-50, Felwood)")
+  Artemis:CreateParsedTameListItem("claw 7","Mongress (Bear, 50, Felwood)")
+  Artemis:CreateParsedTameListItem("claw 7","Ironbeak Hunter (Owl, 50-51, Felwood)")
+  Artemis:CreateParsedTameListItem("claw 7","Olm the Wise (Owl, 52, Felwood)")
+  Artemis:CreateParsedTameListItem("claw 7","Clack the Reaver (Scorpid, 53, Blasted Lands)")
+  Artemis:CreateParsedTameListItem("claw 7","Shardtooth Bear (Bear, 53-54, Winterspring)")
+  Artemis:CreateParsedTameListItem("claw 7","Winterspring Owl (Owl, 54-56, Winterspring)")
+  Artemis:CreateParsedTameListItem("claw 7","Deathlash Scorpid (Scorpid, 54-55, Burning Steppes)")
+  Artemis:CreateParsedTameListItem("claw 7","Diseased Grizzly (Bear, 55-56, Western Plaguelands)")
+  
+  Artemis:CreateParsedTameListItem("claw 8","Winterspring Screecher (Owl, 57-59, Winterspring)")
+  Artemis:CreateParsedTameListItem("claw 8","Elder Shardtooth (Bear, 57-58, Winterspring)")
+
+  --
+  Artemis:CreateParsedTameListItem("cower 1","Juvenile Snow Leopard (Cat, 5-6, Dun Morogh)")
+  Artemis:CreateParsedTameListItem("cower 1","Nightsaber (Cat, 5-6, Teldrassil)")
+  Artemis:CreateParsedTameListItem("cower 1","Greater Duskbat (Bat, 6-7, Tirisfal Glades)")
+  Artemis:CreateParsedTameListItem("cower 1","Flatland Cougar (Cat, 7-8, Mulgore)")
+  Artemis:CreateParsedTameListItem("cower 1","Durotar Tiger (Cat, 7-8, Durotar)")
+  Artemis:CreateParsedTameListItem("cower 1","Elder Plainstrider (Tallstrider, 8-9, Mulgore)")
+  Artemis:CreateParsedTameListItem("cower 1","Mazzranache (Tallstrider, 9, Mulgore)")
+  Artemis:CreateParsedTameListItem("cower 1","Moonstalker Runt (Cat, 10-11, Darkshore)")
+  Artemis:CreateParsedTameListItem("cower 1","Foreststrider Fledgling (Tallstrider, 11-13, Darkshore)")
+  Artemis:CreateParsedTameListItem("cower 1","Fleeting Plainstrider (Tallstrider, 12-13, The Barrens)")
+  
+  Artemis:CreateParsedTameListItem("cower 2","Savannah Patriarch (Cat, 15-16, The Barrens)")
+  Artemis:CreateParsedTameListItem("cower 2","Ornery Plainstrider (Tallstrider, 16-17, The Barrens)")
+  Artemis:CreateParsedTameListItem("cower 2","Giant Foreststrider (Tallstrider, 17-19, Darkshore)")
+  Artemis:CreateParsedTameListItem("cower 2","Moonstalker Sire (Cat, 17-18, Darkshore)")
+  Artemis:CreateParsedTameListItem("cower 2","Starving Mountain Lion (Cat, 23-24, Hillsbrad Foothills)")
+  Artemis:CreateParsedTameListItem("cower 2","Twilight Runner (Cat, 23-24, Stonetalon Mountains)")
+  
+  Artemis:CreateParsedTameListItem("cower 3","Crag Stalker (Cat, 25-26, Thousand Needles)")
+  Artemis:CreateParsedTameListItem("cower 3","Feral Mountain Lion (Cat, 27-28, Hillsbrad Foothills)")
+  Artemis:CreateParsedTameListItem("cower 3","Young Stranglethorn Tiger (Cat, 30-31, Stranglethorn Vale)")
+  Artemis:CreateParsedTameListItem("cower 3","Kraul Bat (Bat, 30-31, Razorfen Kraul)")
+  Artemis:CreateParsedTameListItem("cower 3","Young Panther (Cat, 30-31, Stranglethorn Vale)")
+  Artemis:CreateParsedTameListItem("cower 3","Greater Kraul Bat (Bat, 32, Razorfen Kraul)")
+  Artemis:CreateParsedTameListItem("cower 3","Panther (Cat, 32-33, Stranglethorn Vale)")
+  
+  Artemis:CreateParsedTameListItem("cower 4","Ridge Stalker (Cat, 36-37, Badlands)")
+  Artemis:CreateParsedTameListItem("cower 4","Shrike Bat (Bat, 38-39, Uldaman)")
+  Artemis:CreateParsedTameListItem("cower 4","Ridge Huntress (Cat, 38-39, Badlands)")
+  
+  Artemis:CreateParsedTameListItem("cower 5","Jaguero Stalker (Cat, 50, Stranglethorn Vale)")
+  Artemis:CreateParsedTameListItem("cower 5","Plaguebat (Bat, 53-55, Eastern Plaguelands)")
+  Artemis:CreateParsedTameListItem("cower 5","Noxious Plaguebat (Bat, 54-56, Eastern Plaguelands)")
+  
+  Artemis:CreateParsedTameListItem("cower 6","Frostsaber Cub (Cat, 55-56, Winterspring)")
+  Artemis:CreateParsedTameListItem("cower 6","Monstrous Plaguebat (Bat, 56-58, Eastern Plaguelands)")
+
+  --
+  Artemis:CreateParsedTameListItem("dash 1","Kurzen War Tiger (Cat, 32-33, Stranglethorn Vale)")
+  Artemis:CreateParsedTameListItem("dash 1","Stranglethorn Tiger (Cat, 32-33, Stranglethorn Vale)")
+  Artemis:CreateParsedTameListItem("dash 1","Scarlet Tracking Hound (Hyena, 33-34, Scarlet Monastery)")
+  Artemis:CreateParsedTameListItem("dash 1","Bonepaw Hyena (Hyena, 33-35, Desolace)")
+  Artemis:CreateParsedTameListItem("dash 1","Crag Coyote (Wolf, 35-36, Badlands)")
+  Artemis:CreateParsedTameListItem("dash 1","Spot (Wolf, 35, Dustwallow Marsh)")
+  Artemis:CreateParsedTameListItem("dash 1","Swamp Jaguar (Cat, 36-37, Swamp of Sorrows)")
+  Artemis:CreateParsedTameListItem("dash 1","Magram Bonepaw (Hyena, 37-38, Desolace)")
+  Artemis:CreateParsedTameListItem("dash 1","Broken Tooth (Cat, 37, Badlands)")
+  Artemis:CreateParsedTameListItem("dash 1","Feral Crag Coyote (Wolf, 37-38, Badlands)")
+  Artemis:CreateParsedTameListItem("dash 1","Sin'Dall (Cat, 37, Stranglethorn Vale)")
+  Artemis:CreateParsedTameListItem("dash 1","Elder Crag Coyote (Wolf, 39-40, Badlands)")
+  
+  Artemis:CreateParsedTameListItem("dash 2","Longtooth Runner (Wolf, 40-41, Feralas)")
+  Artemis:CreateParsedTameListItem("dash 2","Ridge Stalker Patriarch (Cat, 40-41, Badlands)")
+  Artemis:CreateParsedTameListItem("dash 2","Bhag'thera (Cat, 40, Stranglethorn Vale)")
+  Artemis:CreateParsedTameListItem("dash 2","Starving Blisterpaw (Hyena, 41-42, Tanaris)")
+  Artemis:CreateParsedTameListItem("dash 2","Rabid Crag Coyote (Wolf, 42-43, Badlands)")
+  Artemis:CreateParsedTameListItem("dash 2","Elder Shadowmaw Panther (Cat, 42-43, Stranglethorn Vale)")
+  Artemis:CreateParsedTameListItem("dash 2","Old Cliff Jumper (Wolf, 42, The Hinterlands)")
+  Artemis:CreateParsedTameListItem("dash 2","King Bangalash (Cat, 43, Stranglethorn Vale)")
+  Artemis:CreateParsedTameListItem("dash 2","Blisterpaw Hyena (Hyena, 44-45, Tanaris)")
+  Artemis:CreateParsedTameListItem("dash 2","Rabid Blisterpaw (Hyena, 47-48, Tanaris)")
+  Artemis:CreateParsedTameListItem("dash 2","Silvermane Stalker (Wolf, 47-48, The Hinterlands)")
+  
+  Artemis:CreateParsedTameListItem("dash 3","Vilebranch Raiding Wolf (Wolf, 50-51, The Hinterlands)")
+  Artemis:CreateParsedTameListItem("dash 3","Grunter (Boar, 50, Blasted Lands)")
+  Artemis:CreateParsedTameListItem("dash 3","Ravage (Hyena, 51, Blasted Lands)")
+  Artemis:CreateParsedTameListItem("dash 3","Scarshield Worg (Wolf, 53-54, Blackrock Spire)")
+  Artemis:CreateParsedTameListItem("dash 3","Blackrock Worg (Wolf, 54-55, Burning Steppes)")
+  Artemis:CreateParsedTameListItem("dash 3","Bloodaxe Worg (Wolf, 56-57, Blackrock Spire)")
+  Artemis:CreateParsedTameListItem("dash 3","Rak'Shiri (Cat, 57, Winterspring)")
+  Artemis:CreateParsedTameListItem("dash 3","Frostsaber Huntress (Cat, 58-59, Winterspring)")
+  Artemis:CreateParsedTameListItem("dash 3","Frostsaber Stalker (Cat, 59-60, Winterspring)")
+  Artemis:CreateParsedTameListItem("dash 3","Zulian Panther (Cat, 60, Zul'Gurub)")
+
+  --
+  
+  Artemis:CreateParsedTameListItem("dive 1","Kraul Bat (Bat, 30-31, Razorfen Kraul)")
+  Artemis:CreateParsedTameListItem("dive 1","Young Mesa Buzzard (Carrion Bird, 31-32, Arathi Highlands)")
+  Artemis:CreateParsedTameListItem("dive 1","Greater Kraul Bat (Bat, 32, Razorfen Kraul)")
+  Artemis:CreateParsedTameListItem("dive 1","Mesa Buzzard (Carrion Bird, 34-35, Arathi Highlands)")
+  Artemis:CreateParsedTameListItem("dive 1","Wayward Buzzard (Carrion Bird, 35-37, Badlands)")
+  Artemis:CreateParsedTameListItem("dive 1","Dread Flyer (Carrion Bird, 36-37, Desolace)")
+  Artemis:CreateParsedTameListItem("dive 1","Shrike Bat (Bat, 38-39, Uldaman)")
+  
+  Artemis:CreateParsedTameListItem("dive 2","Vale Screecher (Wind Serpent, 41-43, Feralas)")
+  Artemis:CreateParsedTameListItem("dive 2","Roc (Carrion Bird, 42-43, Tanaris)")
+  Artemis:CreateParsedTameListItem("dive 2","Fire Roc (Carrion Bird, 43-45, Tanaris)")
+  Artemis:CreateParsedTameListItem("dive 2","Rogue Vale Screecher (Wind Serpent, 44-46, Feralas)")
+  Artemis:CreateParsedTameListItem("dive 2","Greater Firebird (Carrion Bird, 46, Tanaris)")
+  Artemis:CreateParsedTameListItem("dive 2","Searing Roc (Carrion Bird, 47-49, Tanaris)")
+  Artemis:CreateParsedTameListItem("dive 2","Ironbeak Owl (Owl, 48-49, Felwood)")
+  Artemis:CreateParsedTameListItem("dive 2","Arash-ethis (Wind Serpent, 49, Feralas)")
+  
+  Artemis:CreateParsedTameListItem("dive 3","Dark Screecher (Bat, 50-52, Blackrock Depths)")
+  Artemis:CreateParsedTameListItem("dive 3","Carrion Vulture (Carrion Bird, 50-52, Western Plaguelands)")
+  Artemis:CreateParsedTameListItem("dive 3","Ironbeak Hunter (Owl, 50-51, Felwood)")
+  Artemis:CreateParsedTameListItem("dive 3","Spawn of Hakkar (Wind Serpent, 51, The Temple of Atal'Hakkar)")
+  Artemis:CreateParsedTameListItem("dive 3","Spiteflayer (Carrion Bird, 52, Blasted Lands)")
+  Artemis:CreateParsedTameListItem("dive 3","Olm the Wise (Owl, 52, Felwood)")
+  Artemis:CreateParsedTameListItem("dive 3","Ironbeak Screecher (Owl, 52-53, Felwood)")
+  Artemis:CreateParsedTameListItem("dive 3","Plaguebat (Bat, 53-55, Eastern Plaguelands)")
+  Artemis:CreateParsedTameListItem("dive 3","Winterspring Owl (Owl, 54-56, Winterspring)")
+  Artemis:CreateParsedTameListItem("dive 3","Zaricotl (Carrion Bird, 55, Badlands)")
+  Artemis:CreateParsedTameListItem("dive 3","Winterspring Screecher (Owl, 57-59, Winterspring)")
+
+  --
+  Artemis:CreateParsedTameListItem("furious howl 1","Prairie Wolf Alpha (Wolf, 9-10, Mulgore)")
+  Artemis:CreateParsedTameListItem("furious howl 1","Worg (Wolf, 10-11, Silverpine Forest)")
+  Artemis:CreateParsedTameListItem("furious howl 1","Coyote Packleader (Wolf, 11-12, Westfall)")
+  Artemis:CreateParsedTameListItem("furious howl 1"," Mist Howler (Wolf, 22, Ashenvale)")
+  
+  Artemis:CreateParsedTameListItem("furious howl 2","Black Ravager Mastiff (Wolf, 25-26, Duskwood)")
+  Artemis:CreateParsedTameListItem("furious howl 2","Ghostpaw Alpha (Wolf, 27-28, Ashenvale)")
+  Artemis:CreateParsedTameListItem("furious howl 2","Elder Crag Coyote (Wolf, 39-40, Badlands)")
+  Artemis:CreateParsedTameListItem("furious howl 2","Longtooth Howler (Wolf, 43-44, Feralas)")
+  Artemis:CreateParsedTameListItem("furious howl 2","Silvermane Howler (Wolf, 45-46, The Hinterlands)")
+  
+  Artemis:CreateParsedTameListItem("furious howl 3","Longtooth Runner (Wolf, 40-41, Feralas)")
+  Artemis:CreateParsedTameListItem("furious howl 3","Snarler (Wolf, 42, Feralas)")
+  Artemis:CreateParsedTameListItem("furious howl 3","Silvermane Wolf (Wolf, 43-44, The Hinterlands)")
+  Artemis:CreateParsedTameListItem("furious howl 3","Felpaw Wolf (Wolf, 47-48, Felwood)")
+  Artemis:CreateParsedTameListItem("furious howl 3","Death Howl (Wolf, 49, Felwood)")
+    
+  Artemis:CreateParsedTameListItem("furious howl 4","Bloodaxe Worg (Wolf, 56-57, Blackrock Spire)")
+
+  --
+  --Artemis:CreateParsedTameListItem("lightning breath 1","
+  Artemis:CreateParsedTameListItem("lightning breath 2","Deviate Coiler (Wind Serpent, 15-16, The Wailing Caverns)")
+  Artemis:CreateParsedTameListItem("lightning breath 2","Deviate Stinglash (Wind Serpent, 16-17, The Wailing Caverns)")
+  Artemis:CreateParsedTameListItem("lightning breath 2","Thunderhawk Hatchling (Wind Serpent, 18-20, The Barrens)")
+  Artemis:CreateParsedTameListItem("lightning breath 2","Thunderhawk Cloudscraper (Wind Serpent, 20-22, The Barrens)")
+  Artemis:CreateParsedTameListItem("lightning breath 2","Deviate Dreadfang (Wind Serpent, 20-21, The Wailing Caverns)")
+  Artemis:CreateParsedTameListItem("lightning breath 2","Deviate Venomwing (Wind Serpent, 20-21, The Wailing Caverns)")
+  Artemis:CreateParsedTameListItem("lightning breath 2","Greater Thunderhawk (Wind Serpent, 23-24, The Barrens)")
+ 
+  Artemis:CreateParsedTameListItem("lightning breath 3","Cloud Serpent (Wind Serpent, 25-26, Thousand Needles)")
+  Artemis:CreateParsedTameListItem("lightning breath 3","Washte Pawne (Wind Serpent, 25, The Barrens)")
+  Artemis:CreateParsedTameListItem("lightning breath 3","Venomous Cloud Serpent (Wind Serpent, 26-28, Thousand Needles)")
+  Artemis:CreateParsedTameListItem("lightning breath 3","Elder Cloud Serpent (Wind Serpent, 27-29, Thousand Needles)")
+ 
+  Artemis:CreateParsedTameListItem("lightning breath 4","Vale Screecher (Wind Serpent, 41-43, Feralas)")
+  Artemis:CreateParsedTameListItem("lightning breath 4","Rogue Vale Screecher (Wind Serpent, 44-46, Feralas)")
+
+  Artemis:CreateParsedTameListItem("lightning breath 5","Hakkari Sapper (Wind Serpent, 49-50, The Temple of Atal'Hakkar)")
+  Artemis:CreateParsedTameListItem("lightning breath 5","Hakkari Frostwing (Wind Serpent, 49-50, The Temple of Atal'Hakkar)")
+  Artemis:CreateParsedTameListItem("lightning breath 5","Arash-ethis (Wind Serpent, 49, Feralas)")
+  Artemis:CreateParsedTameListItem("lightning breath 5","Spawn of Hakkar (Wind Serpent, 51, The Temple of Atal'Hakkar)")
+
+  Artemis:CreateParsedTameListItem("lightning breath 6","Son of Hakkar (Wind Serpent, 60, Zul'Gurub)")
+
+  --
+  Artemis:CreateParsedTameListItem("prowl 1","Mountain Lion (Cat, 32-33, Alterac Mountains)")
+  Artemis:CreateParsedTameListItem("prowl 1","Ridge Stalker (Cat, 36-37, Badlands)")
+  Artemis:CreateParsedTameListItem("prowl 1","Shadowmaw Panther (Cat, 37-38, Stranglethorn Vale)")
+  Artemis:CreateParsedTameListItem("prowl 1","Shadow Panther (Cat, 39-40, Swamp of Sorrows)")
+
+  Artemis:CreateParsedTameListItem("prowl 2","Ridge Stalker Patriarch (Cat, 40-41, Badlands)")
+  Artemis:CreateParsedTameListItem("prowl 2","Elder Shadowmaw Panther (Cat, 42-43, Stranglethorn Vale)")
+ 
+  Artemis:CreateParsedTameListItem("prowl 3","Jaguero Stalker (Cat, 50, Stranglethorn Vale)")
+  Artemis:CreateParsedTameListItem("prowl 3","Frostsaber Stalker (Cat, 59-60, Winterspring)")
+
+
+--[[
+  Scorpid Poison
+
+  Inflicts Nature damage over time. Effect can stack up to 5 times on a single target.
+
+  Can be learned by: Scorpids
+
+  Scorpid Poison 1: Pet Level 8, Cost 10 TP. Inflicts 10 Nature damage over 10 sec. Effect can stack up to 5 times on a single target. Can be learned by taming:
+  Venomtail Scorpid (Scorpid, 9-10, Durotar)
+  Corrupted Scorpid (Scorpid, 10-11, Durotar)
+  Death Flayer (Scorpid, 11, Durotar)
+  Silithid Creeper (Scorpid, 20-21, The Barrens)
+  Silithid Swarmer (Scorpid, 21-22, The Barrens)
+  Scorpid Poison 2: Pet Level 24, Cost 15 TP. Inflicts 15 Nature damage over 10 sec. Effect can stack up to 5 times on a single target. Can be learned by taming:
+  Scorpashi Snapper (Scorpid, 30-31, Desolace)
+  Scorpid Reaver (Scorpid, 31-32, Thousand Needles)
+  Scorpid Terror (Scorpid, 33-34, Thousand Needles)
+  Vile Sting (Scorpid, 35, Thousand Needles)
+  Cleft Scorpid (Scorpid, 35-36, Uldaman)
+  Scorpashi Venomlash (Scorpid, 38-39, Desolace)
+  Scorpid Poison 3: Pet Level 40, Cost 20 TP. Inflicts 30 Nature damage over 10 sec. Effect can stack up to 5 times on a single target. Can be learned by taming:
+  Scorpid Hunter (Scorpid, 40-41, Tanaris)
+  Deadly Cleft Scorpid (Scorpid, 42-43, Uldaman)
+  Scorpid Tail Lasher (Scorpid, 43-44, Tanaris)
+  Scorpid Duneburrower (Scorpid, 46-47, Tanaris)
+  Scorpid Dunestalker (Scorpid, 46-47, Tanaris)
+  Deep Stinger (Scorpid, 50-52, Blackrock Depths)
+  Venomtip Scorpid (Scorpid, 52-53, Burning Steppes)
+  Deathlash Scorpid (Scorpid, 54-55, Burning Steppes)
+  Stonelash Scorpid (Scorpid, 54-55, Silithus)
+  Scorpid Poison 4: Pet Level 56, Cost 25 TP. Inflicts 40 Nature damage over 10 sec. Effect can stack up to 5 times on a single target. Can be learned by taming:
+  Krellack (Scorpid, 56, Silithus)
+  Stonelash Pincer (Scorpid, 56-57, Silithus)
+  Firetail Scorpid (Scorpid, 56-57, Burning Steppes)
+  Stonelash Flayer (Scorpid, 58-59, Silithus)
+
+  Screech
+
+  Blasts a single enemy for damage and lowers the melee attack power of all enemies in melee range. Effect lasts 4 sec.
+
+  Can be learned by: Bats, Carrion Birds, Owls
+
+  Screech 1: Pet Level 8, Cost 10 TP. Blasts a single enemy for 7 to 9 damage and lowers the melee attack power of all enemies in melee range by 25. Effect lasts 4 sec. Can be learned by taming:
+  Greater Fleshripper (Carrion Bird, 16-17, Westfall)
+  Screech 2: Pet Level 24, Cost 15 TP. Blasts a single enemy for 12 to 16 damage and lowers the melee attack power of all enemies in melee range by 50. Effect lasts 4 sec. Can be learned by taming:
+  Salt Flats Vulture (Carrion Bird, 32-34, Thousand Needles)
+  Shrike Bat (Bat, 38-39, Uldaman)
+  Dread Ripper (Carrion Bird, 39-40, Desolace)
+  Screech 3: Pet Level 48, Cost 20 TP. Blasts a single enemy for 19 to 25 damage and lowers the melee attack power of all enemies in melee range by 75. Effect lasts 4 sec. Can be learned by taming:
+  Ironbeak Owl (Owl, 48-49, Felwood)
+  Carrion Vulture (Carrion Bird, 50-52, Western Plaguelands)
+  Dark Screecher (Bat, 50-52, Blackrock Depths)
+  Screech 4: Pet Level 56, Cost 25 TP. Blasts a single enemy for 26 to 46 damage and lowers the melee attack power of all enemies in melee range by 100. Effect lasts 4 sec. Can be learned by taming:
+  Monstrous Plaguebat (Bat, 56-58, Eastern Plaguelands)
+  Winterspring Screecher (Owl, 57-59, Winterspring)
+
+  --
+  Shell Shield 1: Pet Level 20, Cost 15 TP. Reduces all damage your pet takes by 50%, but increases the time between your pet's attacks by 43%. Lasts 12 sec. Can be learned by taming:
+  Kresh (Turtle, 20, The Wailing Caverns)
+  Aku'mai Fisher (Turtle, 23-24, Blackfathom Deeps)
+  Ghamoo-ra (Turtle, 25, Blackfathom Deeps)
+  Aku'mai Snapjaw (Turtle, 26-27, Blackfathom Deeps)
+  Snapjaw (Turtle, 30-31, Hillsbrad Foothills)
+  Cranky Benj (Turtle, 32, Alterac Mountains)
+
+  --
+  Thunderstomp
+
+  Shakes the ground with thundering force, doing Nature damage to all enemies within 8 yards.
+
+  Can be learned by: Gorillas
+
+  Thunderstomp 1: Pet Level 30, Cost 15 TP. Shakes the ground with thundering force, doing 67 to 77 Nature damage to all enemies within 8 yards. Can be learned by taming:
+  Mistvale Gorilla (Gorilla, 32-33, Stranglethorn Vale)
+  Jungle Thunderer (Gorilla, 37-38, Stranglethorn Vale)
+  Thunderstomp 2: Pet Level 40, Cost 20 TP. Shakes the ground with thundering force, doing 87 to 99 Nature damage to all enemies within 8 yards. Can be learned by taming:
+  Elder Mistvale Gorilla (Gorilla, 40-41, Stranglethorn Vale)
+  Groddoc Thunderer (Gorilla, 49-50, Feralas)
+  Thunderstomp 3: Pet Level 50, Cost 25 TP. Shakes the ground with thundering force, doing 115 to 133 Nature damage to all enemies within 8 yards. Can be learned by taming:
+  Un'Goro Thunderer (Gorilla, 52-53, Un'Goro Crater)
+  U'cha (Gorilla, 55, Un'Goro Crater)
+
+--]]
 end
 
 --
