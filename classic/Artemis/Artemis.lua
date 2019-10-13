@@ -12,7 +12,7 @@
 Artemis = {
     name            = "Artemis",	-- Matches folder and Manifest file names.
     displayName     = "Artemis Hunter Helper",
-    version         = "1.0.4",			-- A nuisance to match to the Manifest.
+    version         = "1.0.5",			-- A nuisance to match to the Manifest.
     author          = "Echomap",
     color           = "DDFFEE",			 -- Used in menu titles and so on.    
     --menuName        = "Artemis_Options", -- Unique identifier for menu object.
@@ -92,6 +92,7 @@ function Artemis:SetupWindow()
     ArtemisMainFrame:RegisterUnitEvent("UNIT_PET","player")
     ArtemisMainFrame:RegisterUnitEvent("UNIT_HAPPINESS","pet")
   end  
+  Artemis.OptionInit()
   Artemis:UpdatePetHappiness()
   Artemis.view.setupmain = true
   ArtemisDBChar.enable = true 
@@ -102,7 +103,9 @@ function Artemis:ShowWindow()
 	ArtemisMainFrame:Show()
   --if has ammo and ranged weapon TODO
   ArtemisMainFrame_AmmoFrame:Show()
-  ArtemisMainFrame_wpnDurFrame:Show()
+  if(ArtemisDBChar.options.wpndurabilityswitch) then
+    ArtemisMainFrame_wpnDurFrame:Show()
+  end
   local hasUI, isHunterPet = HasPetUI();
   if( hasUI and isHunterPet ) then
     ArtemisMainFrame_HappinessFrame:Show() --TODO not showing sometimes?
@@ -134,6 +137,11 @@ function Artemis:InitAddon()
     if( ArtemisDBChar~=nil and ArtemisDBChar.enable) then
     Artemis.view.enable = ArtemisDBChar.enable
   end  
+  if(ArtemisDBChar.options == nil) then
+    ArtemisDBChar.options = {}
+    ArtemisDBChar.options.wpndurabilityswitch = true
+    ArtemisDBChar.options.ammocountswitch     = true
+  end
 end
 
 -- Called via Main frame: update 
@@ -217,6 +225,11 @@ function Artemis:OnLoad()
       end
     end    
   end 
+  if(ArtemisDBChar.options == nil) then
+    ArtemisDBChar.options = {}
+    ArtemisDBChar.options.wpndurabilityswitch = true
+    ArtemisDBChar.options.ammocountswitch     = true
+  end
   
   --TODO StableSnapshot:addSlideIcon() --create ldb launcher button
 
@@ -418,6 +431,8 @@ function Artemis:OnLoadDataFrame()
   Artemis.DebugMsg("OnLoadDataFrame: Called")
   --ArtemisMainDataFrame:RegisterForDrag("LeftButton");  -- DRAG
   -- Initalize options
+
+  Artemis.OptionInit()
   --
 	--print("v"..Artemis.version.." loaded")
 end
@@ -481,6 +496,11 @@ function Artemis:ShowTooltipPet(self,petIndex)
   end  
   name = Artemis:SetStringOrDefault(name,"No Pet")
 
+  if( petFoodList==nil or #petFoodList<1 and family~=nil and Artemis.petfamily[family]~=nil) then
+    Artemis.DebugMsg("ScanPetAtIndex getting foodlilst from data, family=".. tostring(family))
+    petFoodList = Artemis.petfamily[family]["PetFoodType"]
+  end
+
   --local message = string.format("Pet %s Level: %s Family: %s Special: %s loyalty: %s happiness: %s petFoodList: %s", name, level, family, specialAbility, loyalty , happiness, petFoodList);
   
   GameTooltip:SetOwner(ArtemisMainDataFrameMCFrame, "ANCHOR_BOTTOM", 0,0	)
@@ -490,16 +510,9 @@ function Artemis:ShowTooltipPet(self,petIndex)
   GameTooltip:AddLine(string.format("Loyalty: %s",loyalty)  ,.8,.8,.8,1,false)
   GameTooltip:AddLine(string.format("Happiness: %s",tostring(happiness) )  ,.8,.8,.8,1,false)
   
-  local petFoodString = ""
-  if( petFoodList ~= nil and petFoodList ~= "" ) then
-    for i,v in pairs(petFoodList) do
-        if (v ~= nil and v ~= "") then
-            petFoodString = petFoodString .. string.lower(v) .. ", " 
-        end
-    end
-  elseif( petFoodList ~= nil ) then
-    petFoodString = petFoodList
-  end
+  local petFoodString = Artemis.toStringFoodList(petFoodList)
+  Artemis.DebugMsg("ScanPetAtIndex foodListString=" .. tostring(foodListString) )
+
   GameTooltip:AddLine(string.format("PetFoodList: %s",tostring(petFoodString))  ,.8,.8,.8,1,false)
 
 	GameTooltip:Show()
@@ -804,8 +817,8 @@ function Artemis:SetupPetSkillsFrame()
 end
 
 function Artemis:OnPetSkillsAbilityValueChanged(value, userInput)  
-	Artemis.PrintMsg("OnPetSkillsAbilityValueChanged Called")
-  Artemis.PrintMsg("OnPetSkillsAbilityValueChanged Done")
+	Artemis.DebugMsg("OnPetSkillsAbilityValueChanged Called")
+  Artemis.DebugMsg("OnPetSkillsAbilityValueChanged Done")
 end
 
 --https://wow.gamepedia.com/Making_a_scrollable_list_using_FauxScrollFrameTemplate
@@ -945,6 +958,7 @@ function Artemis.PetSkillsAbilityDropdown_OnClick(indexData)
      
       --
       local textAll = abilityDetails["Text"] --.. " " .. TamingList
+      textAll = textAll.. "\n"
       if(TamingList~=nil) then
         textAll = textAll.. "\n"
         for i,v in pairs(TamingList) do
@@ -1005,7 +1019,7 @@ function Artemis.SlashCommandHandler(msg)
     Artemis.DebugMsg("Debug = " .. tostring(Artemis.view.debug) )
     ArtemisDBChar.debug = Artemis.view.debug
   elseif options[1] == "options" then
-    -- TODO Show Options
+    Artemis.OptionsOpen()
 	elseif options[1] == "gui" then    
     Artemis:ShowHide()
   elseif options[1] == "printabilities" or options[1] == "1" then
@@ -1041,7 +1055,8 @@ SLASH_Artemis2 = "/artemes"
 -- ADDON Methods
 -------------------------------------------------------------------------
 function Artemis:BtnSettings()
-	--Options:Open()	
+  Artemis.OptionInit()
+  Artemis.OptionsOpen()
 end
 function Artemis:ToggleOptions()
 	--Options:Open()
@@ -1189,10 +1204,38 @@ function Artemis:ScanPetAtIndex(index)
   Artemis.DebugMsg("ScanPetAtIndex, index = " .. index .." icon=" .. tostring(icon) .. " name="..name.." level="..level.." family=" .. family.. " loyalty="..loyalty .. " happiness="..happiness)
   
   local petarr = {}
-  petarr =  { name, family, level, icon, loyalty, happiness, petFoodList, nil, nil }
+  petarr =  ArtemisDBChar.stable[index+1]
+  local foodList, exp1, exp2 = nil
+  if(petarr~=nil) then
+    if( #petarr > 6 and petarr[7] ~= nil ) then
+      Artemis.DebugMsg("ScanPetAtIndex got foodlilst from arr ")
+      foodList = petarr[7] 
+      local foodListString = Artemis.toStringFoodList(foodList)
+      Artemis.DebugMsg("ScanPetAtIndex foodListString=" .. foodListString)
+    else
+      Artemis.DebugMsg("ScanPetAtIndex getting foodlilst from data, family=".. tostring(family))
+      foodList = Artemis.petfamily[family]["PetFoodType"]
+    end
+    if( #petarr > 7) then exp1 = petarr[8] end
+    if( #petarr > 8) then exp2 = petarr[9] end
+  end
+  
+  petarr =  { name, family, level, icon, loyalty, happiness, foodList, exp1, exp2 }
   -- Current Pet is, stable[ONE], or api[ZERO]
   ArtemisDBChar.stable[index+1] =  petarr
   return petarr
+end
+
+function Artemis.toStringFoodList(petFoodList)
+  local petFoodString = ""
+  if( petFoodList ~= nil and petFoodList ~= "" ) then
+    for i,v in pairs(petFoodList) do
+        if (v ~= nil and v ~= "") then
+            petFoodString = petFoodString .. string.lower(v) .. ", " 
+        end
+    end
+  end
+  return petFoodString
 end
 
 -- The main function that loops through all pets in the Stable and stores them for viewing later
@@ -1212,7 +1255,6 @@ function Artemis:ScanStable()
     Artemis:ScanPetAtIndex(index)
     -- { name, family, level, icon, loyalty, happiness, petFoodList, currXP, nextXP }
     local petarr = ArtemisDBChar.stable[index+1]
-    
     petnumidx = petnumidx +1
 		if petarr ~= nil and petarr[1] and petarr[1] ~= "" then		
 			haveFilled = haveFilled +1
@@ -1291,6 +1333,7 @@ function Artemis:ParsePetArray(petarr)
   currexp = ""; --TODO num?
   nextexp = ""; --TODO num?
   
+  if(petarr~=nil) then
 	for index,value in ipairs(petarr) do 
 		--Artemis.PrintMsg( tostring(index) .. " : " .. value )
 		if index == 1 then
@@ -1321,6 +1364,7 @@ function Artemis:ParsePetArray(petarr)
 			nextexp = value
 		end    
 	end
+  end
 	miscinfo = L["PetFamilies_Unknown"]
 	--miscinfo       =  StableSnapshot:GetPetTypeInfo(family)
 	--defaultSpec    =  Artemis:GetPetDefaultSpec(family)	
@@ -1393,27 +1437,155 @@ end
 -- Called when pet data seems to be updated
 function Artemis:PetChangedCallback(newGUID)
 	Artemis.DebugMsg("PetChangedCallback Called")
-  Artemis.PrintMsg("PetChangedCallback storedGUID= " .. tostring(Artemis.view.PET_GUID) )
-  Artemis.PrintMsg("PetChangedCallback newGUID= " .. tostring(newGUID) )
+  Artemis.DebugMsg("PetChangedCallback storedGUID= " .. tostring(Artemis.view.PET_GUID) )
+  Artemis.DebugMsg("PetChangedCallback newGUID= " .. tostring(newGUID) )
   if( Artemis.view.PET_GUID==nil and newGUID~=nil ) then
     Artemis.PrintMsg("PetChangedCallback new pet?")
   elseif(Artemis.view.PET_GUID~=newGUID) then
-    Artemis.PrintMsg("PetChangedCallback different pet?")
+    Artemis.DebugMsg("PetChangedCallback different pet?")
   else
-    Artemis.PrintMsg("PetChangedCallback other?")
+    Artemis.PrintMsg("PetChangedCallback other? Why/What?/TODO")
   end
   --0-4402-0-64-3619-0100115FD3
   Artemis.viewPET_GUID = newGUID
   
   --Check dead? unit, pet?
-  Artemis.PrintMsg( L["PetUnitChanged"] )
-  Artemis:ScanCurrentPet()
+  local isDead = UnitIsDead("pet")
+  if(isDead) then
+    textPetHappiness:SetTextColor(125,0,0) -- red
+    hText = string.format("Pet is... %s", "Dead!")
+    textPetHappiness:SetText(hText)
+  else
+    Artemis.PrintMsg( L["PetUnitChanged"] )
+    Artemis:ScanCurrentPet()
+  end
   -- update view?
   -- re-show view?
 	Artemis.DebugMsg("PetChangedCallback Done")
 end
 -------------------------------------------------------------------------
 -------------------------------------------------------------------------
+
+-------------------------------------------------------------------------
+--OPTIONS
+-------------------------------------------------------------------------
+function Artemis.OptionsOpen()  
+  Artemis.OptionInit()
+  InterfaceOptionsFrame_OpenToCategory(Artemis.view.options.panel);
+end
+function Artemis.OptionInit()
+  
+  if(ArtemisDBChar.options == nil) then
+    ArtemisDBChar.options = {}
+    ArtemisDBChar.options.wpndurabilityswitch = true
+    ArtemisDBChar.options.ammocountswitch     = true
+  end
+  
+  if( Artemis.view.options == nil ) then
+    Artemis.view.options = {}
+    Artemis.view.options.panel = CreateFrame( "Frame", "ArtemisOptionsPanel", UIParent );
+    -- Register in the Interface Addon Options GUI
+    -- Set the name for the Category for the Options Panel
+    Artemis.view.options.panel.name = "Artemis";
+    -- Add the panel to the Interface Options
+    InterfaceOptions_AddCategory(Artemis.view.options.panel);
+
+    -- Make a child panel
+    Artemis.view.options.childpanel = CreateFrame( "Frame", "ArtemisOptionsChild", Artemis.view.options.panel);
+    Artemis.view.options.childpanel.name = "ArtemisOptions";
+    -- Specify childness of this panel (this puts it under the little red [+], instead of giving it a normal AddOn category)
+    Artemis.view.options.childpanel.parent = Artemis.view.options.panel.name;
+    -- Add the child to the Interface Options
+    InterfaceOptions_AddCategory(Artemis.view.options.childpanel);
+    
+    --
+    -- Populate Parent
+    local frame = Artemis.view.options.panel
+    local fields = {"Version", "Author",}
+    local notes = GetAddOnMetadata(Artemis.name, "Notes")
+
+    local title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
+
+    title:SetPoint("TOPLEFT", 16, -16)
+    title:SetText(Artemis.name)
+
+    local subtitle = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
+    subtitle:SetHeight(32)
+    subtitle:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -8)
+    subtitle:SetPoint("RIGHT", frame, -32, 0)
+    subtitle:SetNonSpaceWrap(true)
+    subtitle:SetJustifyH("LEFT")
+    subtitle:SetJustifyV("TOP")
+    subtitle:SetText(notes)
+
+    --
+    local anchor
+    for _,field in pairs(fields) do
+      local val = GetAddOnMetadata(Artemis.name, field)
+      if val then
+        local title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+        title:SetWidth(75)
+        if not anchor then title:SetPoint("TOPLEFT", subtitle, "BOTTOMLEFT", -2, -8)
+        else title:SetPoint("TOPLEFT", anchor, "BOTTOMLEFT", 0, -6) end
+        title:SetJustifyH("RIGHT")
+        title:SetText(field:gsub("X%-", ""))
+
+        local detail = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
+        detail:SetPoint("LEFT", title, "RIGHT", 4, 0)
+        detail:SetPoint("RIGHT", -16, 0)
+        detail:SetJustifyH("LEFT")
+        detail:SetText(val)
+
+        anchor = title
+      end
+    end
+    
+    local durCheckBox = CreateFrame( "CheckButton", "DurabilityEnabledCB", frame,"OptionsCheckButtonTemplate" )-- "ChatConfigCheckButtonTemplate" ) --"OptionsCheckButtonTemplate" )
+    durCheckBox:SetText("Durability Enabled")    
+    _G[ "DurabilityEnabledCB" .. "Text" ]:SetText( "Durability Enabled")    
+    --durCheckBox.tooltip = tooltip
+    durCheckBox:SetPoint( "TOPLEFT", 20, -50 )
+    durCheckBox:SetPoint("TOPLEFT", anchor, "TOPLEFT", 10, -50)
+    durCheckBox:SetScript( "OnClick", Artemis.toggleCheckboxDurablity )
+    if(ArtemisDBChar.options.wpndurabilityswitch) then
+      durCheckBox:SetChecked(true)
+      ArtemisDBChar.options.wpndurabilityswitch = true
+    else
+      durCheckBox:SetChecked(false)
+      ArtemisDBChar.options.wpndurabilityswitch = false
+    end    
+    
+    Artemis.view.options.panel.durCheckBox = durCheckBox
+    -- Clear the OnShow so it only happens once
+    --frame:SetScript("OnShow", nil)
+    
+  end
+end
+
+function Artemis.toggleCheckboxDurablity() 
+	local isChecked = Artemis.view.options.panel.durCheckBox:GetChecked()
+  if(ArtemisDBChar.options==nil) then
+    ArtemisDBChar.options = {}
+  end
+  if(ArtemisDBChar.options.wpndurabilityswitch==nil) then
+    ArtemisDBChar.options.wpndurabilityswitch = true
+  end
+  if isChecked then
+    ArtemisDBChar.options.wpndurabilityswitch = true
+  else
+    ArtemisDBChar.options.wpndurabilityswitch = false
+  end
+  
+  if(ArtemisDBChar.options.wpndurabilityswitch) then
+    ArtemisMainFrame_wpnDurFrame:Show()
+  else
+    ArtemisMainFrame_wpnDurFrame:Hide()
+  end
+  
+end
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+
 
 -------------------------------------------------------------------------
 -- ARTEMIS EOF

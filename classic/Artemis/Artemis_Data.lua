@@ -7,6 +7,16 @@ Written by : echomap
 -------------------------------------------------------------------------
 -- DATA
 -------------------------------------------------------------------------
+Artemis.petfamily = {
+  ["Cat"] = {
+      ["foodlist"] = "meat, fish",
+      ["PetFoodType"] =  {"meat","fish"},
+    } ,
+  ["Wind Serpent"] = {
+      ["foodlist"] = "fish, cheese, bread",
+      ["PetFoodType"] =  {"fish","cheese","bread"},
+    } ,
+}
 
 Artemis.Ability_Base_List = {
   "bite",
@@ -1510,7 +1520,7 @@ function Artemis:CreateTameList()
   Artemis:CreateParsedTameListItem("claw 2","Death Flayer (Scorpid, 11, Durotar)")
   Artemis:CreateParsedTameListItem("claw 2","Ferocious Grizzled Bear (Bear, 11-12, Silverpine Forest)")
   Artemis:CreateParsedTameListItem("claw 2","Bjarn (Bear, 12, Dun Morogh)")
-  Artemis:CreateParsedTameListItem("claw 2","Tide Crawler (Crab, 12-14, Darkshore)")")
+  Artemis:CreateParsedTameListItem("claw 2","Tide Crawler (Crab, 12-14, Darkshore)")
   
   Artemis:CreateParsedTameListItem("claw 3","Black Bear Patriarch (Bear, 16-17, Loch Modan)")
   Artemis:CreateParsedTameListItem("claw 3","Shore Crawler (Crab, 17-18, Westfall)")

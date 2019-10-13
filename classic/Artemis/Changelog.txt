@@ -13,6 +13,9 @@ petexp?
 skills
 
 ## [Unreleased]
+## [1.0.5] - updated search data and foodlist
+## [1.0.4] - 
+## [1.0.3] - 
 - trying to add pet skill search
 
 ## [1.0.2] - 2019-10-02
