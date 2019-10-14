@@ -1471,7 +1471,8 @@ end
 -------------------------------------------------------------------------
 function Artemis.OptionsOpen()  
   Artemis.OptionInit()
-  InterfaceOptionsFrame_OpenToCategory(Artemis.view.options.panel);
+  InterfaceOptionsFrame_OpenToCategory( Artemis.view.options.panel );
+  InterfaceOptionsFrame_OpenToCategory( Artemis.view.options.panel );
 end
 function Artemis.OptionInit()
   
@@ -1483,7 +1484,7 @@ function Artemis.OptionInit()
   
   if( Artemis.view.options == nil ) then
     Artemis.view.options = {}
-    Artemis.view.options.panel = CreateFrame( "Frame", "ArtemisOptionsPanel", UIParent );
+    Artemis.view.options.panel = CreateFrame( "Frame", "ArtemisOptionsPanel", InterfaceOptionsFramePanelContainer );
     -- Register in the Interface Addon Options GUI
     -- Set the name for the Category for the Options Panel
     Artemis.view.options.panel.name = "Artemis";
