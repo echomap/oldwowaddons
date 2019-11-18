@@ -1,0 +1,169 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/">
+
+  <Button name="ArtemisAspectButtonTemplate" virtual="true" inherits="SecureActionButtonTemplate">
+		<Size>
+			<AbsDimension x="36" y="36"/>
+		</Size>
+    <Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentIcon">
+					<Size>
+						<AbsDimension x="36" y="36"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT"/>
+					</Anchors>
+				</Texture>
+      </Layer>
+    </Layers>
+    <Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentIconTexture">
+					<Size>
+						<AbsDimension x="36" y="36"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT"/>
+					</Anchors>
+				</Texture>
+      </Layer>
+    </Layers>
+    <Frames>
+			<Cooldown name="$parentCooldown" inherits="CooldownFrameTemplate">
+				<Size x="36" y="36"/>
+				<Anchors>
+					<Anchor point="CENTER">
+						<Offset>
+							<AbsDimension x="0" y="-1"/>
+						</Offset>
+					</Anchor>
+				</Anchors> 
+			</Cooldown>
+		</Frames>
+    <Scripts>
+        <OnEnter>
+            Artemis.AspectButton_OnEnter(self);
+        </OnEnter>
+        <OnLeave>
+            Artemis.AspectButton_OnLeave(self);
+        </OnLeave>
+    </Scripts>
+		<HighlightTexture alphaMode="ADD" file="Interface\Buttons\ButtonHilight-Square"/>
+	</Button> 
+
+  <Frame name="ArtemisAspectFrame" parent="UIParent" hidden="true">
+    <Size>
+      <AbsDimension x="240" y="60"/>
+    </Size>
+    <Anchors>
+      <Anchor point="CENTER" relativeTo="UIParent" relativePoint="CENTER"/>
+    </Anchors>
+    <Frames>
+      <Button name="$parent_Anchor">
+        <Size>
+          <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+					<Anchor point="LEFT" relativeTo="$parent" relativePoint="LEFT">
+            <Offset>
+                <AbsDimension x="0" y="-12" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+				<Scripts>
+					<OnClick>
+						Artemis.Aspect_ToggleLock();
+					</OnClick>
+				</Scripts>
+				<NormalTexture name="ArtemisAspectLockNorm"/>
+				<PushedTexture name="ArtemisAspectLockPush"/>
+				<HighlightTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Highlight" AlphaMode="ADD"/>
+      </Button>
+      <Button name="$parent_Aspect1" inherits="ArtemisAspectButtonTemplate" id="1">
+          <Anchors>
+            <Anchor point="LEFT" relativeTo="$parent_Anchor" relativePoint="RIGHT">
+              <Offset>
+                <AbsDimension x="-6" y="0" />
+              </Offset>
+            </Anchor>
+          </Anchors>
+      </Button>
+      <Button name="$parent_Aspect2" inherits="ArtemisAspectButtonTemplate" id="2">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent_Aspect1" relativePoint="RIGHT"/>
+				</Anchors>
+			</Button>
+      <Button name="$parent_Aspect3" inherits="ArtemisAspectButtonTemplate" id="3">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent_Aspect2" relativePoint="RIGHT"/>
+				</Anchors>
+			</Button>
+      <Button name="$parent_Aspect4" inherits="ArtemisAspectButtonTemplate" id="4">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent_Aspect3" relativePoint="RIGHT"/>
+                </Anchors>
+			</Button>
+      <Button name="$parent_Aspect5" inherits="ArtemisAspectButtonTemplate" id="5">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent_Aspect4" relativePoint="RIGHT"/>
+				</Anchors>
+			</Button>
+      <Button name="$parent_Aspect6" inherits="ArtemisAspectButtonTemplate" id="6">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent_Aspect5" relativePoint="RIGHT"/>
+				</Anchors>
+			</Button>
+      <Button name="$parent_Aspect7" inherits="ArtemisAspectButtonTemplate" id="7">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent_Aspect6" relativePoint="RIGHT"/>
+				</Anchors>
+			</Button>
+    </Frames>
+    <Layers>
+      <Layer level="BACKGROUND">
+        <Texture name="$parent_Back">
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT"/>
+                <Anchor point="BOTTOMRIGHT" relativeTo="$parent" relativePoint="BOTTOMRIGHT"/>
+            </Anchors>
+            <Color r="0" g="0" b="1" a="0.5"/>
+        </Texture>
+        <FontString name="$parent_Text" inherits="GameFontNormal" justifyH="LEFT" text="ARTEMIS_ASPECT_DRAG">
+        <Size>
+          <AbsDimension x="70" y="15"/>
+        </Size>
+        <Anchors>
+						<Anchor point="TOP" relativeTo="$parent" relativePoint="TOP">
+                <Offset>
+                    <AbsDimension x="0" y="-3" />
+                </Offset>
+            </Anchor>
+					</Anchors>
+				</FontString>
+      </Layer>
+    </Layers>
+    <Scripts>
+        <OnLoad>
+            self:RegisterForDrag("LeftButton");
+            self:SetMovable(1);
+            Artemis.Aspect_OnLoad();
+        </OnLoad>
+        <OnEvent>
+          Artemis.Aspect_OnEvent();
+        </OnEvent>
+        <OnDragStart>
+            if ArtemisDBChar.options.AspectFrameUnlocked then
+                ArtemisAspectFrame:StartMoving();
+                ArtemisAspectFrame.isMoving = true;
+            else
+              --print ("[Artemis] can't drag while locked.");
+            end
+        </OnDragStart>
+        <OnDragStop>
+            ArtemisAspectFrame:StopMovingOrSizing();
+            ArtemisAspectFrame.isMoving = false;
+        </OnDragStop>
+    </Scripts>
+  </Frame>
+    
+</Ui>

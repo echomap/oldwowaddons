@@ -1,5 +1,5 @@
 <Bindings>
-  <Binding name="ArtemisShowStable" description="Artemis Show Stable" header="Artemis">
+  <Binding name="ArtemisShowStable" description="Artemis Show Stable" category="ADDONS" header="ARTEMIS">
     Artemis:ShowHide()
   </Binding>
 </Bindings>

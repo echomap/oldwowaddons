@@ -12,7 +12,7 @@
 Artemis = {
     name            = "Artemis",	-- Matches folder and Manifest file names.
     displayName     = "Artemis Hunter Helper",
-    version         = "1.0.5",			-- A nuisance to match to the Manifest.
+    version         = "1.0.6",			-- A nuisance to match to the Manifest.
     author          = "Echomap",
     color           = "DDFFEE",			 -- Used in menu titles and so on.    
     --menuName        = "Artemis_Options", -- Unique identifier for menu object.
@@ -21,7 +21,7 @@ Artemis = {
         debug = false,
         debuglvl = 1,
         maxPets  = 3,
-    },
+    },    
     --Saved Variables: ArtemisDB/ArtemisDBChar
 }
 local _, L = ...;
@@ -68,29 +68,42 @@ function Artemis:ShowHide()
 	--DEFAULT_CHAT_FRAME:AddMessage("Is shown?" .. "was clicked.")
 	if ArtemisMainFrame == nil or not Artemis.view.setupmain then 
 		Artemis:SetupWindow()
+  end
+  if (not ArtemisDBChar.enable) then
+    Artemis:HideWindow()
+  elseif (ArtemisMainFrame:IsShown()) then 
+    Artemis:HideWindow()
+  else
     Artemis:ShowWindow()
-	else
-    if (ArtemisMainFrame:IsShown()) then 
-      Artemis:HideWindow()
-    else
-      Artemis:ShowWindow()
-		end
-	end
-	--DEFAULT_CHAT_FRAME:AddMessage(tostring(arg1).." was clicked.")
-  --TODO frames/tabs
+  end
 end
 
 -- Called the first time showhide is called, or after OnUnLoad() is called
 function Artemis:SetupWindow()
   if( not Artemis.view.setupmain ) then 
+    _, class = UnitClass("player");
+    
     ArtemisMainFrame:RegisterEvent("PLAYER_LOGOUT"); -- Fired when about to log out
     ArtemisMainFrame:RegisterForDrag("LeftButton");  -- DRAG
+    ArtemisMainFrame:RegisterEvent("PLAYER_LOGIN")
     
     ArtemisMainFrame:RegisterEvent("PET_STABLE_SHOW")
     ArtemisMainFrame:RegisterEvent("PET_STABLE_UPDATE")
     
     ArtemisMainFrame:RegisterUnitEvent("UNIT_PET","player")
     ArtemisMainFrame:RegisterUnitEvent("UNIT_HAPPINESS","pet")
+    --ArtemisMainFrame:RegisterUnitEvent("PET_UI_CLOSE","pet")
+    
+    if class=="HUNTER" then
+      if( ArtemisDBChar.options.setuptrapsswitch ) then 
+        ArtemisMainFrame:RegisterEvent("SPELLS_CHANGED");
+        ArtemisMainFrame:RegisterEvent("LEARNED_SPELL_IN_TAB");
+        ArtemisMainFrame:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN");
+      end
+    else
+      ArtemisTrapFrame:Hide();
+    end
+    
   end  
   Artemis.OptionInit()
   Artemis:UpdatePetHappiness()
@@ -110,6 +123,10 @@ function Artemis:ShowWindow()
   if( hasUI and isHunterPet ) then
     ArtemisMainFrame_HappinessFrame:Show() --TODO not showing sometimes?
   end
+  if(ArtemisDBChar.options.petexperienceswitch) then
+     Artemis.DebugMsg("PetExperienceFrame:Show")
+    ArtemisMainFrame_PetExperienceFrame:Show()
+  end
   --ArtemisMainFrame_HappinessFrame:Show()
 	--Artemis_UpdateList()
   -- TODOcontent/tabs
@@ -121,6 +138,7 @@ function Artemis:HideWindow()
   ArtemisMainFrame_AmmoFrame:Hide()
   ArtemisMainFrame_wpnDurFrame:Hide()
   ArtemisMainFrame_HappinessFrame:Hide()
+  ArtemisMainFrame_PetExperienceFrame:Hide()
 end
 
 --GUI close button clicked
@@ -130,109 +148,65 @@ end
 
 -- Called after ADDON_LOADED via the Main frame, event framework
 function Artemis:InitAddon()
-  Artemis.DebugMsg("Init: Called")
+  Artemis.DebugMsg("InitAddon: Called")
+  --ArtemisMainFrame:RegisterEvent("PLAYER_LOGIN")
+  --ArtemisMainFrame:RegisterEvent("PLAYER_LOGOUT"); -- Fired when about to log out
+  Artemis.DebugMsg("InitAddon: Done")
+end
+
+-- Initalize Saved Variables
+function Artemis:SetupDefaultSavedvariables()
+  local localizedClass, englishClass = UnitClass("player");
+  
+	if not ArtemisDB then ArtemisDB = {} end -- fresh DB
+
+  --
+	if not ArtemisDBChar then 
+    -- fresh DB
+    ArtemisDBChar = {} 
+    ArtemisDBChar.stable = {}
+    --if hunter and not set/unset then enable
+    if englishClass == 'HUNTER' then
+      if( ArtemisDBChar == nil ) then        
+        ArtemisDBChar = {}
+      end
+      if( ArtemisDBChar.enable == nil ) then
+        ArtemisDBChar.enable = true
+      end
+    else
+      ArtemisDBChar.enable = false
+    end
+  end 
+  
+   -- 
+  if(ArtemisDBChar.options == nil) then
+    ArtemisDBChar.options = {}
+    ArtemisDBChar.options.wpndurabilityswitch = true
+    ArtemisDBChar.options.ammocountswitch     = true
+    ArtemisDBChar.options.petexperienceswitch = true
+    
+    ArtemisDBChar.options.TrapFrameUnlocked   = false
+    ArtemisDBChar.options.setuptrapsswitch    = false
+    
+    ArtemisDBChar.options.setupaspectsswitch    = false
+    ArtemisDBChar.options.AspectFrameUnlocked   = false
+    
+    ArtemisDBChar.options.setuptrackersswitch    = false
+    ArtemisDBChar.options.TrackerFrameUnlocked   = false
+  end
+end
+  
+function Artemis:InitPlayer()
+  Artemis.DebugMsg("InitPlayer: Called")
   if( ArtemisDBChar~=nil and ArtemisDBChar.debug) then
     Artemis.view.debug = ArtemisDBChar.debug
   end
     if( ArtemisDBChar~=nil and ArtemisDBChar.enable) then
     Artemis.view.enable = ArtemisDBChar.enable
   end  
-  if(ArtemisDBChar.options == nil) then
-    ArtemisDBChar.options = {}
-    ArtemisDBChar.options.wpndurabilityswitch = true
-    ArtemisDBChar.options.ammocountswitch     = true
-  end
-end
-
--- Called via Main frame: update 
-function Artemis:OnUpdate()
-  --Artemis.DebugMsg("OnUpdate: Called")
-  if( not ArtemisDBChar.enable ) then
-    return
-  end
-  --TODO How often is this called? too often probably?
-  Artemis:LoadAmmoCount()
-  Artemis:SetupDataWindow()
-end
-
--- Main frame : Event framework
-function Artemis:OnEvent(event, ...)
-  Artemis.DebugMsg("OnEvent: Called w/event="..tostring(event) )
-  if( not ArtemisDBChar.enable) then
-    return
-  end
-  Artemis.DebugMsg("OnEvent: arg1 = "..tostring(arg1) )
-  if( arg2 ~= nil) then
-    Artemis.DebugMsg("OnEvent: arg2 = "..tostring(arg2) )
-  end
-	local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg, arg9 = ...
-	if event == "ADDON_LOADED" and arg1 == "ArtemisMainFrame" then
-    Artemis.DebugMsg("OnEvent: ADDON_LOADED")
-		ArtemisMainFrame:UnregisterEvent("ADDON_LOADED")
-		Artemis:InitAddon()
-  elseif event == "PLAYER_LOGOUT" then
-    Artemis:OnUnLoad()
-	elseif event == "PET_STABLE_SHOW" then
-    Artemis:DoStableMasterEvent()
-	elseif event == "PET_STABLE_UPDATE" then
-    Artemis:DoStableMasterEvent()
-  elseif event == "UNIT_PET" then
-    Artemis:CheckPetChanged()
-  elseif event == "UNIT_HAPPINESS" then
-    Artemis.DebugMsg("OnEvent: arg1 = "..tostring(arg1) ) -- "pet"
-    Artemis:UpdatePetHappiness()
-  else
-    --TODO How often is this called? -- make sense here? Artemis:LoadAmmoCount()
-  end
-end
-
--- Unregister Main Frame events: via PLAYER_LOGOUT and /artemis enable off
-function Artemis:OnUnLoad()
-  Artemis.DebugMsg("OnUnLoad: Called")
-  --
-  ArtemisMainFrame:UnregisterEvent("ADDON_LOADED")
-  --ArtemisMainFrame:UnregisterEvent("LeftButton");  -- DRAG
-  ArtemisMainFrame:UnregisterEvent("PET_STABLE_SHOW")
-  ArtemisMainFrame:UnregisterEvent("PET_STABLE_UPDATE")
-  ArtemisMainFrame:UnregisterEvent("UNIT_PET")
-  ArtemisMainFrame:UnregisterEvent("UNIT_HAPPINESS")  
-  --
-  Artemis.view.setupmain = false
-  Artemis.DebugMsg("OnUnLoad: Done")
-end
-
-
--- Called via Main frame: load 
-function Artemis:OnLoad()
-  Artemis.DebugMsg("OnLoad: Called")
-  
-  -- If saved variables has enabled == false (not null/not unset ), then stop!
-  if( ArtemisDBChar~=nil and ArtemisDBChar.enable~=nil and ArtemisDBChar.enable == false ) then
-      return
-  end
-  
-  -- Initalize Saved Variables
-	if not ArtemisDB then ArtemisDB = {} end -- fresh DB
-	if not ArtemisDBChar then 
-    -- fresh DB
-    ArtemisDBChar = {} 
-    ArtemisDBChar.stable = {}
-    --if hunter and not set/unset then enable
-    local localizedClass, englishClass = UnitClass("player");
-    if englishClass == 'HUNTER' then
-      if( ArtemisDBChar.enable == nil ) then
-        ArtemisDBChar.enable = true
-      end
-    end    
-  end 
-  if(ArtemisDBChar.options == nil) then
-    ArtemisDBChar.options = {}
-    ArtemisDBChar.options.wpndurabilityswitch = true
-    ArtemisDBChar.options.ammocountswitch     = true
-  end
-  
+  Artemis:SetupDefaultSavedvariables() 
   --TODO StableSnapshot:addSlideIcon() --create ldb launcher button
-
+  
   --
   if ArtemisDBChar.enable then
     Artemis:ShowWindow()    
@@ -254,7 +228,123 @@ function Artemis:OnLoad()
   
   ArtemisMainFrame:RegisterUnitEvent("UNIT_PET","player")
   ArtemisMainFrame:RegisterUnitEvent("UNIT_HAPPINESS","pet")
+  --ArtemisMainFrame:RegisterUnitEvent("PET_UI_CLOSE","pet")
+  ArtemisMainFrame:RegisterUnitEvent("PET_DISMISS_START") 
   
+  local localizedClass, englishClass = UnitClass("player");
+  if class=="HUNTER" then
+    if( ArtemisDBChar.options.setuptrapsswitch ) then 
+      ArtemisMainFrame:RegisterEvent("SPELLS_CHANGED");
+      ArtemisMainFrame:RegisterEvent("LEARNED_SPELL_IN_TAB");
+      ArtemisMainFrame:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN");
+      --
+      Artemis.TrapFrame_Initialize()
+      ArtemisTrapFrame:Show();
+    end
+    if( ArtemisDBChar.options.setupaspectsswitch ) then 
+      Artemis.AspectFrame_Initialize()
+      ArtemisAspectFrame:Show();
+    end    
+    if( ArtemisDBChar.options.setuptrackerssswitch ) then 
+      Artemis.TrackerFrame_Initialize()
+      ArtemisTrackerFrame:Show();
+    end    
+  end  
+  
+  Artemis.OptionInit()
+  ArtemisMainFrame:UnregisterEvent("PLAYER_LOGIN")
+  Artemis.DebugMsg("InitPlayer: Done")
+end
+
+-- Called via Main frame: update 
+function Artemis:OnUpdate()
+  --Artemis.DebugMsg("OnUpdate: Called")
+  if( not ArtemisDBChar.enable ) then
+    return
+  end
+  --TODO How often is this called? too often probably?
+  Artemis:LoadAmmoCount()
+  Artemis:SetupDataWindow()
+end
+
+-- Main frame : Event framework
+function Artemis:OnEvent(event, ...)
+  Artemis.DebugMsg("OnEvent: Called w/event="..tostring(event) )
+	local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg, arg9 = ...
+  Artemis.DebugMsg("OnEvent: arg1 = "..tostring(arg1) )
+  if( arg2 ~= nil) then
+    Artemis.DebugMsg("OnEvent: arg2 = "..tostring(arg2) )
+  end
+	
+  if event == "ADDON_LOADED" and arg1 == "ArtemisMainFrame" then
+    Artemis.DebugMsg("OnEvent: ADDON_LOADED")
+		ArtemisMainFrame:UnregisterEvent("ADDON_LOADED")
+		--Artemis:InitAddon()
+  elseif event == "PLAYER_LOGIN" then
+    Artemis:InitPlayer()
+  elseif event == "PLAYER_LOGOUT" then
+    Artemis:OnUnLoad()
+  end
+  
+  if( not ArtemisDBChar or not ArtemisDBChar.enable) then
+    return
+  end
+  
+ if event == "PET_STABLE_SHOW" then
+    Artemis:DoStableMasterEvent()
+	elseif event == "PET_STABLE_UPDATE" then
+    Artemis:DoStableMasterEvent()
+  elseif event == "UNIT_PET" then
+    Artemis:CheckPetChanged()
+  elseif event == "UNIT_HAPPINESS" then
+    Artemis.DebugMsg("OnEvent: arg1 = "..tostring(arg1) ) -- "pet"
+    Artemis:UpdatePetHappiness()
+  elseif event == "PET_UI_CLOSE" then
+    Artemis:CheckPetChanged()
+    Artemis.DebugMsg("PET_UI_CLOSE")
+  elseif event == "PET_DISMISS_START" then
+    Artemis.DebugMsg("PET_DISMISS_START")
+    Artemis:CheckPetChanged()
+  else
+    --TODO How often is this called? -- make sense here? Artemis:LoadAmmoCount()
+  end
+end
+
+-- Unregister Main Frame events: via PLAYER_LOGOUT and /artemis enable off
+function Artemis:OnUnLoad()
+  Artemis.DebugMsg("OnUnLoad: Called")
+  --
+  ArtemisMainFrame:UnregisterEvent("ADDON_LOADED")  
+  --ArtemisMainFrame:UnregisterEvent("LeftButton");  -- DRAG
+  ArtemisMainFrame:UnregisterEvent("PET_STABLE_SHOW")
+  ArtemisMainFrame:UnregisterEvent("PET_STABLE_UPDATE")
+  ArtemisMainFrame:UnregisterEvent("UNIT_PET")
+  ArtemisMainFrame:UnregisterEvent("UNIT_HAPPINESS")  
+  --ArtemisMainFrame:UnregisterEvent("PET_UI_CLOSE")  
+  ArtemisMainFrame:UnregisterEvent("PET_DISMISS_START")  
+  
+  ArtemisMainFrame:UnregisterEvent("SPELLS_CHANGED");
+  ArtemisMainFrame:UnregisterEvent("LEARNED_SPELL_IN_TAB");
+  ArtemisMainFrame:UnregisterEvent("ACTIONBAR_UPDATE_COOLDOWN");
+
+  --
+  Artemis.view.setupmain = false
+  Artemis.DebugMsg("OnUnLoad: Done")
+end
+
+
+-- Called via Main frame: load 
+function Artemis:OnLoad()
+  Artemis.DebugMsg("OnLoad: Called")
+  
+  -- If saved variables has enabled == false (not null/not unset ), then stop!
+  --if( ArtemisDBChar~=nil and ArtemisDBChar.enable~=nil and ArtemisDBChar.enable == false ) then
+  --    return
+  --end
+  
+  ArtemisMainFrame:RegisterEvent("PLAYER_LOGIN")
+  ArtemisMainFrame:RegisterEvent("PLAYER_LOGOUT"); -- Fired when about to log out
+
 	print("v"..Artemis.version.." loaded")
 end
 
@@ -296,6 +386,7 @@ end
 
 -- Main Window tooltip
 function Artemis:ShowTooltip(self,messageType)
+  Artemis.DebugMsg("ShowTooltip: messageType=" .. tostring(messageType))
   if( not ArtemisMainFrame:IsShown()) then
     return
   end
@@ -331,6 +422,16 @@ function Artemis:ShowTooltip(self,messageType)
         --local happy = ({"Unhappy", "Content", "Happy"})[happiness]
         message = "<" .. happiness .. ">"
       end
+    elseif( messageType == L["Artemis_Trap_IMMOLATION"] ) then
+       message = "<" .. L["Artemis_Trap_TT_IMMOLATION"] .. ">" 
+    elseif( messageType == L["Artemis_Trap_FREEZING"] ) then
+       message = "<" .. L["Artemis_Trap_TT_FREEZING"] .. ">" 
+    elseif( messageType == L["Artemis_Trap_FROST"] ) then
+       message = "<" .. L["Artemis_Trap_TT_FROST"] .. ">" 
+    elseif( messageType == L["Artemis_Trap_EXPLOSIVE"] ) then
+       message = "<" .. L["Artemis_Trap_TT_EXPLOSIVE"] .. ">" 
+    elseif( messageType == L["Artemis_Trap_SNAKE"] ) then
+       message = "<" .. L["Artemis_Trap_TT_SNAKE"] .. ">"     
     else
       message = message .. " " .. messageType
     end
@@ -432,7 +533,7 @@ function Artemis:OnLoadDataFrame()
   --ArtemisMainDataFrame:RegisterForDrag("LeftButton");  -- DRAG
   -- Initalize options
 
-  Artemis.OptionInit()
+  --Artemis.OptionInit()
   --
 	--print("v"..Artemis.version.." loaded")
 end
@@ -898,7 +999,7 @@ end
 
 function Artemis.PetSkillsAbilityDropdown_OnLoad()
   Artemis.DebugMsg("PetSkillsAbilityDropdown_OnLoad Called")
-  Artemis.DebugMsg("PetSkillsAbilityDropdown_OnLoad kData=" .. tostring(Artemis.view.selectPetAbility) )
+  Artemis.DebugMsg("PetSkillsAbilityDropdown_OnLoad kData='" .. tostring(Artemis.view.selectPetAbility) .."'" )
   
   local abilitySel = Artemis.Abilities_Base[Artemis.view.selectPetAbility]
   if(abilitySel==nil) then
@@ -990,8 +1091,9 @@ end
 function Artemis:ShowHelp()
   print("---===ARTEMIS====---")
   print( L["Addon_Desc"] )
-  print("/artemis <gui/debug/printabilities/printability <name>" )
+  print("/artemis <gui/debug/aspects/traps/printabilities/printability <name>" )
   print("/artemis <options> <enable> <on/off>" )
+  print("/artemis petskils  (BETA)" )
 end
 
 --Commands, help/debug/beta/testdata/deltestdata
@@ -1022,6 +1124,12 @@ function Artemis.SlashCommandHandler(msg)
     Artemis.OptionsOpen()
 	elseif options[1] == "gui" then    
     Artemis:ShowHide()
+	elseif options[1] == "traps" then    
+    Artemis:toggleCheckboxTraps()
+	elseif options[1] == "aspects" then    
+    Artemis:toggleCheckboxAspects()
+	elseif options[1] == "feedpet" then    
+    Artemis:FeedPet()       
   elseif options[1] == "printabilities" or options[1] == "1" then
     Artemis:GetAbilitiesBase() 
   elseif options[1] == "printability"   or options[1] == "2" then
@@ -1214,7 +1322,11 @@ function Artemis:ScanPetAtIndex(index)
       Artemis.DebugMsg("ScanPetAtIndex foodListString=" .. foodListString)
     else
       Artemis.DebugMsg("ScanPetAtIndex getting foodlilst from data, family=".. tostring(family))
-      foodList = Artemis.petfamily[family]["PetFoodType"]
+      if(Artemis.petfamily[family]~=nil) then
+        foodList = Artemis.petfamily[family]["PetFoodType"]
+      else
+        foodList = "Unknown"
+      end
     end
     if( #petarr > 7) then exp1 = petarr[8] end
     if( #petarr > 8) then exp2 = petarr[9] end
@@ -1409,6 +1521,14 @@ function Artemis:UpdatePetHappiness()
           hText = string.format("Pet is... %s", "Uknown?") --TODO check this shows,,,when?
         end
         textPetHappiness:SetText(hText)
+        
+        local currXP, nextXP = GetPetExperience();
+        local expText = string.format( "Exp: %s/%s", currXP, nextXP )
+        if( ArtemisDBChar.options.petexperiencepercentswitch ) then
+          local nextXPPerc = (currXP/nextXP)*100
+          expText = string.format( "Exp: %s/%s (%s%%)", currXP, nextXP,  math.floor(nextXPPerc) )
+        end        
+        textPetExperience:SetText( expText );
       end
       -- Show happy frame since updated, if not shown
       if ( not ArtemisMainFrame_HappinessFrame:IsShown()) then 
@@ -1423,13 +1543,23 @@ end
 -- Called on event: UNIT_PET 
 function Artemis:CheckPetChanged()
   if(UnitExists("pet")) then
-    Artemis.DebugMsg("CheckPetChanged Called w/pet")
+    Artemis.DebugMsg("CheckPetChanged Called, and pet exists")
     local newGUID = UnitGUID("pet")
     if(Artemis.view.PET_GUID == nil) then
       Artemis.view.PET_GUID = newGUID
     end
     if( newGUID ~= Artemis.view.PET_GUID) then
       Artemis:PetChangedCallback(newGUID)
+    end
+  else
+    Artemis.DebugMsg("CheckPetChanged Called, and pet not exists")
+    Artemis.DebugMsg("CheckPetChanged hasUI=" .. tostring(hasUI) .. " isHunterPet="..tostring(isHunterPet) )
+    local hasUI, isHunterPet = HasPetUI();
+    if( hasUI and isHunterPet ) then
+      --pet dead or unsummoned?
+      if(UnitIsDead("pet")) then
+        Artemis.PrintMsg( L["PetUnitDead"] )
+      end
     end
   end
 end
@@ -1466,6 +1596,17 @@ end
 -------------------------------------------------------------------------
 -------------------------------------------------------------------------
 
+function Artemis.FeedPet()  
+  PickupMacro("FeedPetMacro")
+  ArtemisMainFrame_FeedButton:SetAttribute("type", "macro")
+	ArtemisMainFrame_FeedButton:SetAttribute("macro", "FeedPetMacro" ) --BOM.MACRONAME)	
+end
+
+function Artemis:DoFeedPet(self)
+  --TODO
+  Artemis.PrintMsg("DoFeedPet");
+end
+
 -------------------------------------------------------------------------
 --OPTIONS
 -------------------------------------------------------------------------
@@ -1474,12 +1615,14 @@ function Artemis.OptionsOpen()
   InterfaceOptionsFrame_OpenToCategory( Artemis.view.options.panel );
   InterfaceOptionsFrame_OpenToCategory( Artemis.view.options.panel );
 end
+
 function Artemis.OptionInit()
-  
+  Artemis.PrintMsg("OptionInit Called");
   if(ArtemisDBChar.options == nil) then
     ArtemisDBChar.options = {}
     ArtemisDBChar.options.wpndurabilityswitch = true
     ArtemisDBChar.options.ammocountswitch     = true
+    ArtemisDBChar.options.petexperienceswitch = true
   end
   
   if( Artemis.view.options == nil ) then
@@ -1541,12 +1684,25 @@ function Artemis.OptionInit()
       end
     end
     
+    --ArtemisDBChar.enable
+    local enabledCB = Artemis:createOptionCheckBox("MainEnabledCheckButton",frame,anchor,"Main Enabled")
+    enabledCB:SetScript( "OnClick", Artemis.toggleMainEnabled )
+    if(ArtemisDBChar.enable) then
+      enabledCB:SetChecked(true)
+      ArtemisDBChar.enable = true
+    else
+      enabledCB:SetChecked(false)
+      ArtemisDBChar.enable = false
+    end    
+    Artemis.view.options.panel.enabledCB = enabledCB
+    
+    --
     local durCheckBox = CreateFrame( "CheckButton", "DurabilityEnabledCB", frame,"OptionsCheckButtonTemplate" )-- "ChatConfigCheckButtonTemplate" ) --"OptionsCheckButtonTemplate" )
     durCheckBox:SetText("Durability Enabled")    
     _G[ "DurabilityEnabledCB" .. "Text" ]:SetText( "Durability Enabled")    
     --durCheckBox.tooltip = tooltip
     durCheckBox:SetPoint( "TOPLEFT", 20, -50 )
-    durCheckBox:SetPoint("TOPLEFT", anchor, "TOPLEFT", 10, -50)
+    durCheckBox:SetPoint("TOPLEFT", Artemis.view.options.panel.enabledCB, "TOPLEFT", 10, -50)
     durCheckBox:SetScript( "OnClick", Artemis.toggleCheckboxDurablity )
     if(ArtemisDBChar.options.wpndurabilityswitch) then
       durCheckBox:SetChecked(true)
@@ -1557,10 +1713,129 @@ function Artemis.OptionInit()
     end    
     
     Artemis.view.options.panel.durCheckBox = durCheckBox
+    
+    --
+    local expCheckBox = CreateFrame( "CheckButton", "ExperienceEnabledCB", frame,"OptionsCheckButtonTemplate" )-- "ChatConfigCheckButtonTemplate" ) --"OptionsCheckButtonTemplate" )
+    expCheckBox:SetText("Experience Enabled")    
+    _G[ "ExperienceEnabledCB" .. "Text" ]:SetText( "Experience Enabled")    
+    --expCheckBox.tooltip = tooltip
+    expCheckBox:SetPoint( "TOPLEFT", 20, -50 )
+    expCheckBox:SetPoint("TOPLEFT", Artemis.view.options.panel.durCheckBox, "TOPLEFT", 0, -50)
+    expCheckBox:SetScript( "OnClick", Artemis.toggleCheckboxPetExperience )
+    if(ArtemisDBChar.options.petexperienceswitch) then
+      expCheckBox:SetChecked(true)
+      ArtemisDBChar.options.petexperienceswitch = true
+      Artemis.PrintMsg("PetExp is true");
+    else
+      expCheckBox:SetChecked(false)
+      ArtemisDBChar.options.petexperienceswitch = false
+      Artemis.PrintMsg("PetExp is false");
+    end    
+    Artemis.view.options.panel.expCheckBox = expCheckBox
+    
+    --
+    local expPercentCheckBox = CreateFrame( "CheckButton", "ExperiencePercentEnabledCB",frame,"OptionsCheckButtonTemplate" )
+    expPercentCheckBox:SetText("Experience Enabled")    
+    _G[ "ExperiencePercentEnabledCB" .. "Text" ]:SetText( "Experience Percent Enabled")    
+    --expPercentCheckBox.tooltip = tooltip
+    expPercentCheckBox:SetPoint( "TOPLEFT", 20, -50 )
+    expPercentCheckBox:SetPoint("TOPLEFT", Artemis.view.options.panel.expCheckBox, "TOPLEFT", 0, -50)
+    expPercentCheckBox:SetScript( "OnClick", Artemis.toggleCheckboxPetExperiencePercent )
+    if(ArtemisDBChar.options.petexperiencepercentswitch) then
+      expPercentCheckBox:SetChecked(true)
+      ArtemisDBChar.options.petexperiencepercentswitch = true
+      Artemis.PrintMsg("PetExp Perce is true");
+    else
+      expPercentCheckBox:SetChecked(false)
+      ArtemisDBChar.options.petexperiencepercentswitch = false
+      Artemis.PrintMsg("PetExp Perce is false");
+    end    
+    Artemis.view.options.panel.expPercentCheckBox = expPercentCheckBox
+    
+    
+    -- Traps
+    local trapsCheckBox = Artemis:createOptionCheckBox("TrapsEnabledCB",frame,Artemis.view.options.panel.expPercentCheckBox,"Trap Bar Enabled")
+    trapsCheckBox:SetScript( "OnClick", Artemis.toggleCheckboxTraps )
+    if(ArtemisDBChar.options.setuptrapsswitch) then
+      trapsCheckBox:SetChecked(true)
+      ArtemisDBChar.options.setuptrapsswitch= true
+    else
+      trapsCheckBox:SetChecked(false)
+      ArtemisDBChar.options.setuptrapsswitch = false
+    end    
+    Artemis.view.options.panel.trapsCheckBox = trapsCheckBox
+    
+    -- Aspects
+    local aspectsCheckBox = CreateFrame( "CheckButton", "AspectsEnabledCB", frame, "OptionsCheckButtonTemplate" )-- "ChatConfigCheckButtonTemplate" ) --"OptionsCheckButtonTemplate" )
+    aspectsCheckBox:SetText("Aspect Bar Enabled")    
+    _G[ "AspectsEnabledCB" .. "Text" ]:SetText( "Aspects Bar Enabled")    
+    --aspectsCheckBox.tooltip = tooltip
+    aspectsCheckBox:SetPoint( "TOPLEFT", 20, -50 )
+    aspectsCheckBox:SetPoint("TOPLEFT", Artemis.view.options.panel.trapsCheckBox, "TOPLEFT", 0, -50)
+    aspectsCheckBox:SetScript( "OnClick", Artemis.toggleCheckboxAspects )
+    if(ArtemisDBChar.options.setupaspectsswitch) then
+      aspectsCheckBox:SetChecked(true)
+      ArtemisDBChar.options.setupaspectsswitch = true
+    else
+      aspectsCheckBox:SetChecked(false)
+      ArtemisDBChar.options.setupaspectsswitch = false
+    end    
+    Artemis.view.options.panel.aspectsCheckBox = aspectsCheckBox
+    
+    --tracker/trackers
+    local trackersCB = Artemis:createOptionCheckBox("TrackerCheckButton",frame,Artemis.view.options.panel.aspectsCheckBox,"Tracker Enabled")
+    trackersCB:SetScript( "OnClick", Artemis.toggleCheckboxTrackers )
+    if(ArtemisDBChar.options.setuptrackersswitch) then
+      trackersCB:SetChecked(true)
+      ArtemisDBChar.options.setuptrackersswitch= true
+    else
+      trackersCB:SetChecked(false)
+      ArtemisDBChar.options.setuptrackersswitch = false
+    end    
+    Artemis.view.options.panel.trackersCB = trackersCB
+    
+    --
+    local debugCB = Artemis:createOptionCheckBox("DebugCheckButton",frame, Artemis.view.options.panel.trackersCB,"Debug Enabled")
+    debugCB:SetScript( "OnClick", Artemis.toggleDebug )
+    if(Artemis.view.debug) then
+      trapsCheckBox:SetChecked(true)
+      Artemis.view.debug = true
+    else
+      trapsCheckBox:SetChecked(false)
+      Artemis.view.debug = false
+    end    
+    Artemis.view.options.panel.debugCB = debugCB
+    
     -- Clear the OnShow so it only happens once
     --frame:SetScript("OnShow", nil)
-    
   end
+end
+
+function Artemis:createOptionCheckBox(name,parentframe,parentposition,text)
+ local lCheckBox = CreateFrame( "CheckButton", name, parentframe, "OptionsCheckButtonTemplate" )
+  lCheckBox:SetText(text)    
+  _G[ name .. "Text" ]:SetText( text )    
+  --trapsCheckBox.tooltip = tooltip
+  lCheckBox:SetPoint( "TOPLEFT", 20, -50 )
+  lCheckBox:SetPoint("TOPLEFT", parentposition, "TOPLEFT", 0, -50)
+  --lCheckBox:SetScript( "OnClick", Artemis.toggleCheckboxTraps )
+  return lCheckBox
+end
+
+function Artemis.toggleMainEnabled()
+	local isChecked = Artemis.view.options.panel.enabledCB:GetChecked()
+  if(ArtemisDBChar.options==nil) then
+    ArtemisDBChar.options = {}
+  end
+  if(ArtemisDBChar.enable==nil) then
+    ArtemisDBChar.enable = false
+  end
+  if isChecked then
+    ArtemisDBChar.enable = true
+  else
+    ArtemisDBChar.enable = false
+  end
+  Artemis:ShowHide()
 end
 
 function Artemis.toggleCheckboxDurablity() 
@@ -1582,7 +1857,132 @@ function Artemis.toggleCheckboxDurablity()
   else
     ArtemisMainFrame_wpnDurFrame:Hide()
   end
+end
+
+
+function Artemis.toggleCheckboxPetExperience() 
+	local isChecked = Artemis.view.options.panel.expCheckBox:GetChecked()
+  if(ArtemisDBChar.options==nil) then
+    ArtemisDBChar.options = {}
+  end
+  if(ArtemisDBChar.options.petexperienceswitch==nil) then
+    ArtemisDBChar.options.petexperienceswitch = true
+  end
+  if isChecked then
+    ArtemisDBChar.options.petexperienceswitch = true
+  else
+    ArtemisDBChar.options.petexperienceswitch = false
+  end
   
+  if(ArtemisDBChar.options.petexperienceswitch) then
+    ArtemisMainFrame_HappinessFrame:Show()
+  else
+    ArtemisMainFrame_HappinessFrame:Hide()
+  end
+end
+
+function Artemis.toggleCheckboxPetExperiencePercent() 
+	local isChecked = Artemis.view.options.panel.expPercentCheckBox:GetChecked()
+  if(ArtemisDBChar.options==nil) then
+    ArtemisDBChar.options = {}
+  end
+  --if(ArtemisDBChar.options.petexperiencepercentswitch==nil) then
+  --  ArtemisDBChar.options.petexperiencepercentswitch = true
+  --end
+  if isChecked then
+    ArtemisDBChar.options.petexperiencepercentswitch = true
+  else
+    ArtemisDBChar.options.petexperiencepercentswitch = false
+  end
+  
+  if(ArtemisDBChar.options.petexperiencepercentswitch) then
+    ArtemisMainFrame_HappinessFrame:Show()
+  else
+    ArtemisMainFrame_HappinessFrame:Hide()
+  end
+end
+
+
+function Artemis.toggleCheckboxTraps() 
+	local isChecked = Artemis.view.options.panel.trapsCheckBox:GetChecked()
+  if(ArtemisDBChar.options==nil) then
+    ArtemisDBChar.options = {}
+  end
+  if(ArtemisDBChar.options.setuptrapsswitch==nil) then
+    ArtemisDBChar.options.setuptrapsswitch = true
+  end
+  if isChecked then
+    ArtemisDBChar.options.setuptrapsswitch = true
+  else
+    ArtemisDBChar.options.setuptrapsswitch = false
+  end
+  
+  if(ArtemisDBChar.options.setuptrapsswitch) then
+    Artemis.TrapFrame_Initialize()
+    ArtemisTrapFrame:Show();
+  else
+    ArtemisTrapFrame:Hide();
+  end
+end
+
+function Artemis.toggleCheckboxAspects() 
+	local isChecked = Artemis.view.options.panel.aspectsCheckBox:GetChecked()
+  if(ArtemisDBChar.options==nil) then
+    ArtemisDBChar.options = {}
+  end
+  if(ArtemisDBChar.options.setupaspectsswitch==nil) then
+    ArtemisDBChar.options.setupaspectsswitch = true
+  end
+  if isChecked then
+    ArtemisDBChar.options.setupaspectsswitch = true
+  else
+    ArtemisDBChar.options.setupaspectsswitch = false
+  end
+  if(ArtemisDBChar.options.setupaspectsswitch) then
+    Artemis.AspectFrame_Initialize()
+    ArtemisAspectFrame:Show();
+  else
+    ArtemisAspectFrame:Hide();
+  end
+end
+
+function Artemis.toggleCheckboxTrackers() 
+	local isChecked = Artemis.view.options.panel.trackersCB:GetChecked()
+  if(ArtemisDBChar.options==nil) then
+    ArtemisDBChar.options = {}
+  end
+  if(ArtemisDBChar.options.setuptrackersswitch==nil) then
+    ArtemisDBChar.options.setuptrackersswitch = true
+  end
+  if isChecked then
+    ArtemisDBChar.options.setuptrackersswitch = true
+  else
+    ArtemisDBChar.options.setuptrackersswitch = false
+  end
+  if(ArtemisDBChar.options.setuptrackersswitch) then
+    Artemis.TrackerFrame_Initialize()
+    ArtemisTrackerFrame:Show();
+  else
+    ArtemisTrackerFrame:Hide();
+  end
+end
+
+--Artemis.view.debug
+function Artemis:toggleDebug() 
+	local isChecked = Artemis.view.options.panel.debugCB:GetChecked()
+  if(ArtemisDBChar.options==nil) then
+    ArtemisDBChar.options = {}
+  end
+  if(ArtemisDBChar.options.debug==nil) then
+    ArtemisDBChar.options.debug = false
+  end
+  if isChecked then
+    ArtemisDBChar.options.debug = true
+    Artemis.view.debug = true
+  else
+    ArtemisDBChar.options.debug = false
+    Artemis.view.debug = false
+  end
 end
 -------------------------------------------------------------------------
 -------------------------------------------------------------------------

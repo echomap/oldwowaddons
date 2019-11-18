@@ -1,7 +1,14 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/">
   <Script file="Localization\enUS.lua"/>
 	<Script file="Artemis.lua" />
-  <Script file="Artemis_Data.lua" />
+  <Script file="Artemis_Data.lua" />  
+  <Script file="Artemis_Traps.lua" />
+  <Script file="Artemis_Aspects.lua" />
+  <Script file="Artemis_Trackers.lua" />
+  
+  <Button name="Artemis_SecureButton" inherits="SecureActionButtonTemplate" virtual="true">
+		<Size><AbsDimension y="22"/></Size>
+  </Button>
   
 	<Frame name="ArtemisMainFrame" parent="UIParent" 
       hidden="true" movable="true" enableMouse="true" frameStrata="HIGH" resizable="false">
@@ -53,7 +60,7 @@
       <!-- main frame here -->
       
       <Frame name="$parent_AmmoFrame" parent="ArtemisMainFrame" 
-        hidden="true" movable="false" enableMouse="true" frameStrata="HIGH" resizable="false" >
+        hidden="true" movable="false" enableMouse="true" frameStrata="LOW" resizable="false" >
           <Anchors>
             <Anchor point="RIGHT" relativePoint="LEFT" relativeTo="ArtemisMainFrame" >
 							<Offset>
@@ -82,7 +89,7 @@
       </Frame>
       
       <Frame name="$parent_wpnDurFrame" parent="ArtemisMainFrame" 
-      hidden="true" movable="false" enableMouse="true" frameStrata="HIGH" resizable="false" >
+      hidden="true" movable="false" enableMouse="true" frameStrata="LOW" resizable="false" >
           <Anchors>
             <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="ArtemisMainFrame" >
 							<Offset>
@@ -111,7 +118,7 @@
       </Frame>
       
       <Frame name="$parent_HappinessFrame" parent="ArtemisMainFrame" 
-      hidden="true" movable="false" enableMouse="true" frameStrata="HIGH" resizable="false" >
+      hidden="true" movable="false" enableMouse="true" frameStrata="LOW" resizable="false" >
 					<Anchors>
             <Anchor point="BOTTOM" relativePoint="TOP" relativeTo="ArtemisMainFrame" >
 							<Offset>
@@ -133,12 +140,53 @@
               </FontString>
             </Layer>
         </Layers>	
+        <Frames>
+          <Button name="ArtemisMainFrame_FeedButton" inherits="Artemis_SecureButton">
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="textPetHappiness" relativePoint="TOPRIGHT">
+                <Offset>
+                  <AbsDimension x="4" y="0"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+            <Size><AbsDimension x="16" y="16"/></Size>            
+            <NormalTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
+            <PushedTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
+          </Button>
+        </Frames>
         <Scripts>
+          <!-- OnClick> Artemis:DoFeedPet() </OnClick -->
           <OnEnter> Artemis:ShowTooltip(self,"PetHappiness") </OnEnter>
           <OnLeave> Artemis:HideTooltip(self,"PetHappiness") </OnLeave>					
         </Scripts>
       </Frame>
         
+      
+      <Frame name="$parent_PetExperienceFrame" parent="ArtemisMainFrame" 
+      hidden="true" movable="false" enableMouse="true" frameStrata="LOW" resizable="false" >
+					<Anchors>
+            <Anchor point="TOP" relativePoint="BOTTOM" relativeTo="ArtemisMainFrame" >
+							<Offset>
+								<AbsDimension x="0" y="-2"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+          <Size><AbsDimension x="90" y="20"/></Size>
+          <Layers>
+            <Layer level="BACKGROUND">
+              <FontString name="textPetExperience" inherits="GameFontNormal" text="000/000" maxLines="1" justifyH="CENTER" justifyV="TOP">
+                <Anchors>
+                  <Anchor point="LEFT" relativePoint="LEFT" >
+                    <Offset>
+                      <AbsDimension x="6" y="0"/>
+                    </Offset>
+                  </Anchor>
+                </Anchors>
+              </FontString>
+            </Layer>
+        </Layers>
+      </Frame>
+      
         
     </Frames>
     
@@ -278,6 +326,9 @@
             <NormalTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
             <PushedTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
             <Scripts>
+              <OnClick>
+                Artemis:ShowHidePetSkillsWindow()
+              </OnClick>
             </Scripts>
           </Button>
         </Frames>

@@ -7,12 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## TODO
 UnitIsDead
 UnitIsDeadOrGhost("unit")
-exp
-dead
-petexp?
 skills
+Trap Selector?
+Aspect Selector
+pet/player death handling
+flight path handling
+macro feed pet
+decolor trap button if combat
+fix locking issue on startup
+fix traps showing on startup if not set to
+Aspects
+Keybindings
+Cool down on button
+Trackers
+
 
 ## [Unreleased]
+## [1.0.7] - WIP
+## [1.0.6]
+- added pet exp, some fixes, still doesnt fully track food
+- More options
+- Traps (BETA)
 ## [1.0.5] - updated search data and foodlist
 ## [1.0.4] - 
 ## [1.0.3] - 

@@ -60,7 +60,7 @@ Artemis.Abilities_Base = {
       ["trainer"] = false , ["MaxLevel"] = 3 ,
     } ,
   ["dive"] = {
-      ["trainer"] = false , ["MaxLevel"] = 0 ,
+      ["trainer"] = false , ["MaxLevel"] = 3 ,
     } ,
   ["furious howl"] = {
       ["trainer"] = false , ["MaxLevel"] = 4 ,
@@ -71,7 +71,7 @@ Artemis.Abilities_Base = {
   ["prowl"] = {
       ["trainer"] = false , ["MaxLevel"] = 3 ,
     } ,
-  ["scorpid Poison"] = {
+  ["scorpid poison"] = {
       ["trainer"] = false , ["MaxLevel"] = 4 ,
     } ,
   ["screech"] = {
@@ -84,13 +84,13 @@ Artemis.Abilities_Base = {
       ["trainer"] = false , ["MaxLevel"] = 3 ,
     } ,
   ["arcane resistance"] = {
-      ["trainer"] = true , ["MaxLevel"] = 0 ,
+      ["trainer"] = true , ["MaxLevel"] = 5 ,
     } ,
   ["fire resistance"] = {
-      ["trainer"] = true , ["MaxLevel"] = 0 ,
+      ["trainer"] = true , ["MaxLevel"] = 5 ,
     } ,
   ["frost resistance"] = {
-      ["trainer"] = true , ["MaxLevel"] = 0 ,
+      ["trainer"] = true , ["MaxLevel"] = 5 ,
     } ,
   ["great stamina"] = {
       ["trainer"] = true , ["MaxLevel"] = 10 ,
@@ -1322,6 +1322,131 @@ Artemis.Abilities = {
 -------------------------------------------------------------------------
 --
 --
+function Artemis:GetAbilitiesBase() 
+  Artemis.DebugMsg("GetAbilitiesBase: Start")
+  for k, v in pairs(Artemis.Abilities_Base) do
+    Artemis.DebugMsg("GetAbilitiesBase: k="..tostring(k))
+  end
+    
+  --for id,tag in pairs(searchTagsLoc[loc]) do
+	--	tagList[tag]=GBB_TAGSEARCH
+	--end
+  --[[
+    "Bite" = {
+      ["trainer"] = false , ["MaxLevel"] = 8 ,
+    } ,
+    ]]--
+  Artemis.DebugMsg("GetAbilitiesBase: End")
+end
+
+--
+--
+function Artemis:GetAbilitiesBaseList(basename) 
+  Artemis.DebugMsg("GetAbilitiesBaseList: Start")
+  local ab1 = Artemis.Abilities_Base[basename]
+  if( ab1 == nil ) then
+    Artemis.DebugMsg("GetAbilitiesBase: No such ability data")
+  else
+    Artemis.DebugMsg("GetAbilitiesBase: trainer=" .. Artemis:SetStringOrDefault(ab1["trainer"],"") )
+    Artemis.DebugMsg("GetAbilitiesBase: MaxLevel=".. Artemis:SetStringOrDefault(ab1["MaxLevel"],"") )
+ 
+    for i = 1, ab1["MaxLevel"] do
+      local k = basename .. tostring(i)
+      Artemis.DebugMsg("GetAbilitiesBaseList: k=" .. tostring(k) )
+      local ab2 = Artemis.Abilities[k]
+      local ab2text = ab2["Text"]
+      Artemis.DebugMsg("GetAbilitiesBaseList: ab2text=" .. tostring(ab2text) )
+    end
+    
+  end
+  
+--[[--
+Artemis.Abilities = {
+  "Bite 1" = {
+    ["trainer"] = false ,
+    ["MinPetLevel"] = 1 ,
+    ["CostTP"] = 1 ,
+    ["Text"] = "Bite the enemy, causing 7 to 9 damage.",
+    ["AbilityFamily"] = "Bite",
+    ["AbilityLevel"] = 1,
+  } ,
+--]]--
+  Artemis.DebugMsg("GetAbilitiesBaseList: End")
+end
+
+
+--
+--
+function Artemis:SearchAbilities(abilityName,minLvl,maxLvl) 
+  Artemis.DebugMsg("SearchAbilities: Start")
+  local retElem = {}
+  if(abilityName==nil) then
+    return retElem
+  end
+  Artemis.DebugMsg("SearchAbilities: abilityName = ".. abilityName)  
+  local elemA = Artemis.Abilities[abilityName]
+  if(elemA~=nil) then
+    local elemT = elemA["TamingList"]
+    if(elemT~=nil) then
+      for kName, kTable in pairs(elemT) do
+        Artemis.DebugMsg("SearchAbilities: kName="..tostring(kName))
+        local kMinL = kTable["MinLvl"]
+        local kMaxL = kTable["MaxLvl"]
+        local dataok = true
+        if(minLvl~=nil) then
+          --check lvl
+          dataok = false
+        end
+        if(maxLvl~=nil) then
+          --check lvl
+          dataok = false
+        end
+        if(dataok) then
+          retElem[kName] = kTable
+        end        
+      end --for 
+    else
+      Artemis.DebugMsg("SearchAbilities: not found TamingList")
+    end
+  else
+    Artemis.DebugMsg("SearchAbilities: not found ability")
+  end
+  --retElem
+  for kName, kTable in pairs(retElem) do
+    Artemis.DebugMsg("SearchAbilities: kName="..tostring(kName))
+    for vName, vValue in pairs(kTable) do
+      Artemis.DebugMsg("SearchAbilities: vName="..tostring(vName))
+      Artemis.DebugMsg("SearchAbilities: vValue="..tostring(vValue))
+    end
+  end
+  
+  --[[
+   Artemis.Abilities[abilityName][subElem][name] = {
+          ["type"] = family,
+          ["MinLvl"] = minlvl,
+          ["MaxLvl"] = maxlvl, 
+          ["location"] = location
+          
+  for k, v in pairs(Artemis.Abilities_Base) do
+    Artemis.DebugMsg("GetAbilitiesBase: k="..tostring(k))
+  end
+    
+  --for id,tag in pairs(searchTagsLoc[loc]) do
+	--	tagList[tag]=GBB_TAGSEARCH
+	--end
+    "Bite" = {
+      ["trainer"] = false , ["MaxLevel"] = 8 ,
+    } ,
+    ]]--
+  Artemis.DebugMsg("SearchAbilities: End")
+end
+
+
+-------------------------------------------------------------------------
+-- Functions
+-------------------------------------------------------------------------
+--
+--
 function Artemis:CreateTameListItem(abilityName,subElem,name,family,minlvl,maxlvl,location) 
   if(Artemis.Abilities[abilityName] == nil ) then
     Artemis.Abilities[abilityName] = {}
@@ -1336,28 +1461,30 @@ function Artemis:CreateTameListItem(abilityName,subElem,name,family,minlvl,maxlv
           ["MaxLvl"] = maxlvl, 
           ["location"] = location
   }
+  Artemis.DebugMsg("CreateTameListItem abilityName="..abilityName .. " " )
 end
 
 -- input: "Barnabus (Wolf, 38, Badlands)" 
 -- input: "Drywallow Daggermaw (Crocolisk, 40-41, Dustwallow Marsh)"
 -- input: "NAME (FAMILY, L1-L2, LOC)"
 function Artemis:CreateParsedTameListItem(abilityName,dataString)
-  --Artemis.PrintMsg("CPTLI0: dataString="..tostring(dataString) )
+  Artemis.DebugMsg("CPTLI0: abilityName="..abilityName .. " " )
+  Artemis.DebugMsg("CPTLI0: dataString="..tostring(dataString) )
   
   local name, family, level1, location = string.match(dataString, "(.+)%((.+)%,%s-(%d+)%,(.+)%)" )
   --Artemis.PrintMsg("CPTLI1: name="..tostring(name) .. " family=".. tostring(family) )
   -- matches? 
   if( name ~= nil) then
     --minlvl = level1
+    Artemis.DebugMsg("CPTLI0: fountd ability setting list(a)="..abilityName .. " " )
     Artemis:CreateTameListItem(abilityName,"TamingList",name,family,level1,level1,location)
   else
     --if not matches... try... 
     if( name ~= nil) then
       name, family, minlvl, maxlvl, location = string.match( dataString, "(.+)%((.+)%,%s-(%d+)%-(%d+)%,(.+)%)" )
       -- matches? 
-      --Artemis.PrintMsg("CPTLI2: name="..tostring(name) .. " family=".. tostring(family) )
-      
-      Artemis:CreateTameListItem(abilityName,"TamingList",name,family,minlvl,maxlvl,location)
+      Artemis.DebugMsg("CPTLI0: fountd ability setting list(b)="..abilityName .. " " )
+      Artemis:CreateTameListItem(abilityName,"TamingList",name,family,minlvl,maxlvl,location)      
     end
   end
 end  
@@ -1727,209 +1854,66 @@ function Artemis:CreateTameList()
   Artemis:CreateParsedTameListItem("prowl 3","Jaguero Stalker (Cat, 50, Stranglethorn Vale)")
   Artemis:CreateParsedTameListItem("prowl 3","Frostsaber Stalker (Cat, 59-60, Winterspring)")
 
+  --
+  Artemis:CreateParsedTameListItem("scorpid poison 1","Venomtail Scorpid (Scorpid, 9-10, Durotar)")
+  Artemis:CreateParsedTameListItem("scorpid poison 1","Corrupted Scorpid (Scorpid, 10-11, Durotar)")
+  Artemis:CreateParsedTameListItem("scorpid poison 1","Death Flayer (Scorpid, 11, Durotar)")
+  Artemis:CreateParsedTameListItem("scorpid poison 1","Silithid Creeper (Scorpid, 20-21, The Barrens)")
+  Artemis:CreateParsedTameListItem("scorpid poison 1","Silithid Swarmer (Scorpid, 21-22, The Barrens)")
+    
+  Artemis:CreateParsedTameListItem("scorpid poison 2","Scorpashi Snapper (Scorpid, 30-31, Desolace)")
+  Artemis:CreateParsedTameListItem("scorpid poison 2","Scorpid Reaver (Scorpid, 31-32, Thousand Needles)")
+  Artemis:CreateParsedTameListItem("scorpid poison 2","Scorpid Terror (Scorpid, 33-34, Thousand Needles)")
+  Artemis:CreateParsedTameListItem("scorpid poison 2","Vile Sting (Scorpid, 35, Thousand Needles)")
+  Artemis:CreateParsedTameListItem("scorpid poison 2","Cleft Scorpid (Scorpid, 35-36, Uldaman)")
+  Artemis:CreateParsedTameListItem("scorpid poison 2","Scorpashi Venomlash (Scorpid, 38-39, Desolace)")
+    
+  Artemis:CreateParsedTameListItem("scorpid poison 3","Scorpid Hunter (Scorpid, 40-41, Tanaris)")
+  Artemis:CreateParsedTameListItem("scorpid poison 3","Deadly Cleft Scorpid (Scorpid, 42-43, Uldaman)")
+  Artemis:CreateParsedTameListItem("scorpid poison 3","Scorpid Tail Lasher (Scorpid, 43-44, Tanaris)")
+  Artemis:CreateParsedTameListItem("scorpid poison 3","Scorpid Duneburrower (Scorpid, 46-47, Tanaris)")
+  Artemis:CreateParsedTameListItem("scorpid poison 3","Scorpid Dunestalker (Scorpid, 46-47, Tanaris)")
+  Artemis:CreateParsedTameListItem("scorpid poison 3","Deep Stinger (Scorpid, 50-52, Blackrock Depths)")
+  Artemis:CreateParsedTameListItem("scorpid poison 3","Venomtip Scorpid (Scorpid, 52-53, Burning Steppes)")
+  Artemis:CreateParsedTameListItem("scorpid poison 3","Deathlash Scorpid (Scorpid, 54-55, Burning Steppes)")
+  Artemis:CreateParsedTameListItem("scorpid poison 3","Stonelash Scorpid (Scorpid, 54-55, Silithus)")
+  
+  Artemis:CreateParsedTameListItem("scorpid poison 4","Krellack (Scorpid, 56, Silithus)")
+  Artemis:CreateParsedTameListItem("scorpid poison 4","Stonelash Pincer (Scorpid, 56-57, Silithus)")
+  Artemis:CreateParsedTameListItem("scorpid poison 4","Firetail Scorpid (Scorpid, 56-57, Burning Steppes)")
+  Artemis:CreateParsedTameListItem("scorpid poison 4","Stonelash Flayer (Scorpid, 58-59, Silithus)")
 
---[[
-  Scorpid Poison
-
-  Inflicts Nature damage over time. Effect can stack up to 5 times on a single target.
-
-  Can be learned by: Scorpids
-
-  Scorpid Poison 1: Pet Level 8, Cost 10 TP. Inflicts 10 Nature damage over 10 sec. Effect can stack up to 5 times on a single target. Can be learned by taming:
-  Venomtail Scorpid (Scorpid, 9-10, Durotar)
-  Corrupted Scorpid (Scorpid, 10-11, Durotar)
-  Death Flayer (Scorpid, 11, Durotar)
-  Silithid Creeper (Scorpid, 20-21, The Barrens)
-  Silithid Swarmer (Scorpid, 21-22, The Barrens)
-  Scorpid Poison 2: Pet Level 24, Cost 15 TP. Inflicts 15 Nature damage over 10 sec. Effect can stack up to 5 times on a single target. Can be learned by taming:
-  Scorpashi Snapper (Scorpid, 30-31, Desolace)
-  Scorpid Reaver (Scorpid, 31-32, Thousand Needles)
-  Scorpid Terror (Scorpid, 33-34, Thousand Needles)
-  Vile Sting (Scorpid, 35, Thousand Needles)
-  Cleft Scorpid (Scorpid, 35-36, Uldaman)
-  Scorpashi Venomlash (Scorpid, 38-39, Desolace)
-  Scorpid Poison 3: Pet Level 40, Cost 20 TP. Inflicts 30 Nature damage over 10 sec. Effect can stack up to 5 times on a single target. Can be learned by taming:
-  Scorpid Hunter (Scorpid, 40-41, Tanaris)
-  Deadly Cleft Scorpid (Scorpid, 42-43, Uldaman)
-  Scorpid Tail Lasher (Scorpid, 43-44, Tanaris)
-  Scorpid Duneburrower (Scorpid, 46-47, Tanaris)
-  Scorpid Dunestalker (Scorpid, 46-47, Tanaris)
-  Deep Stinger (Scorpid, 50-52, Blackrock Depths)
-  Venomtip Scorpid (Scorpid, 52-53, Burning Steppes)
-  Deathlash Scorpid (Scorpid, 54-55, Burning Steppes)
-  Stonelash Scorpid (Scorpid, 54-55, Silithus)
-  Scorpid Poison 4: Pet Level 56, Cost 25 TP. Inflicts 40 Nature damage over 10 sec. Effect can stack up to 5 times on a single target. Can be learned by taming:
-  Krellack (Scorpid, 56, Silithus)
-  Stonelash Pincer (Scorpid, 56-57, Silithus)
-  Firetail Scorpid (Scorpid, 56-57, Burning Steppes)
-  Stonelash Flayer (Scorpid, 58-59, Silithus)
-
-  Screech
-
-  Blasts a single enemy for damage and lowers the melee attack power of all enemies in melee range. Effect lasts 4 sec.
-
-  Can be learned by: Bats, Carrion Birds, Owls
-
-  Screech 1: Pet Level 8, Cost 10 TP. Blasts a single enemy for 7 to 9 damage and lowers the melee attack power of all enemies in melee range by 25. Effect lasts 4 sec. Can be learned by taming:
-  Greater Fleshripper (Carrion Bird, 16-17, Westfall)
-  Screech 2: Pet Level 24, Cost 15 TP. Blasts a single enemy for 12 to 16 damage and lowers the melee attack power of all enemies in melee range by 50. Effect lasts 4 sec. Can be learned by taming:
-  Salt Flats Vulture (Carrion Bird, 32-34, Thousand Needles)
-  Shrike Bat (Bat, 38-39, Uldaman)
-  Dread Ripper (Carrion Bird, 39-40, Desolace)
-  Screech 3: Pet Level 48, Cost 20 TP. Blasts a single enemy for 19 to 25 damage and lowers the melee attack power of all enemies in melee range by 75. Effect lasts 4 sec. Can be learned by taming:
-  Ironbeak Owl (Owl, 48-49, Felwood)
-  Carrion Vulture (Carrion Bird, 50-52, Western Plaguelands)
-  Dark Screecher (Bat, 50-52, Blackrock Depths)
-  Screech 4: Pet Level 56, Cost 25 TP. Blasts a single enemy for 26 to 46 damage and lowers the melee attack power of all enemies in melee range by 100. Effect lasts 4 sec. Can be learned by taming:
-  Monstrous Plaguebat (Bat, 56-58, Eastern Plaguelands)
-  Winterspring Screecher (Owl, 57-59, Winterspring)
+  --Screech
+  Artemis:CreateParsedTameListItem("screech 1","Greater Fleshripper (Carrion Bird, 16-17, Westfall)")
+  
+  Artemis:CreateParsedTameListItem("screech 2","Salt Flats Vulture (Carrion Bird, 32-34, Thousand Needles)")
+  Artemis:CreateParsedTameListItem("screech 2","Shrike Bat (Bat, 38-39, Uldaman)")
+  Artemis:CreateParsedTameListItem("screech 2","Dread Ripper (Carrion Bird, 39-40, Desolace)")
+  
+  Artemis:CreateParsedTameListItem("screech 3","Ironbeak Owl (Owl, 48-49, Felwood)")
+  Artemis:CreateParsedTameListItem("screech 3","Carrion Vulture (Carrion Bird, 50-52, Western Plaguelands)")
+  Artemis:CreateParsedTameListItem("screech 3","Dark Screecher (Bat, 50-52, Blackrock Depths)")
+  
+  Artemis:CreateParsedTameListItem("screech 4","Monstrous Plaguebat (Bat, 56-58, Eastern Plaguelands)")
+  Artemis:CreateParsedTameListItem("screech 4","Winterspring Screecher (Owl, 57-59, Winterspring)")
 
   --
-  Shell Shield 1: Pet Level 20, Cost 15 TP. Reduces all damage your pet takes by 50%, but increases the time between your pet's attacks by 43%. Lasts 12 sec. Can be learned by taming:
-  Kresh (Turtle, 20, The Wailing Caverns)
-  Aku'mai Fisher (Turtle, 23-24, Blackfathom Deeps)
-  Ghamoo-ra (Turtle, 25, Blackfathom Deeps)
-  Aku'mai Snapjaw (Turtle, 26-27, Blackfathom Deeps)
-  Snapjaw (Turtle, 30-31, Hillsbrad Foothills)
-  Cranky Benj (Turtle, 32, Alterac Mountains)
+  Artemis:CreateParsedTameListItem("shell shield 1","Kresh (Turtle, 20, The Wailing Caverns)")
+  Artemis:CreateParsedTameListItem("shell shield 1","Aku'mai Fisher (Turtle, 23-24, Blackfathom Deeps)")
+  Artemis:CreateParsedTameListItem("shell shield 1","Ghamoo-ra (Turtle, 25, Blackfathom Deeps)")
+  Artemis:CreateParsedTameListItem("shell shield 1","Aku'mai Snapjaw (Turtle, 26-27, Blackfathom Deeps)")
+  Artemis:CreateParsedTameListItem("shell shield 1","Snapjaw (Turtle, 30-31, Hillsbrad Foothills)")
+  Artemis:CreateParsedTameListItem("shell shield 1","Cranky Benj (Turtle, 32, Alterac Mountains)")
 
   --
-  Thunderstomp
-
-  Shakes the ground with thundering force, doing Nature damage to all enemies within 8 yards.
-
-  Can be learned by: Gorillas
-
-  Thunderstomp 1: Pet Level 30, Cost 15 TP. Shakes the ground with thundering force, doing 67 to 77 Nature damage to all enemies within 8 yards. Can be learned by taming:
-  Mistvale Gorilla (Gorilla, 32-33, Stranglethorn Vale)
-  Jungle Thunderer (Gorilla, 37-38, Stranglethorn Vale)
-  Thunderstomp 2: Pet Level 40, Cost 20 TP. Shakes the ground with thundering force, doing 87 to 99 Nature damage to all enemies within 8 yards. Can be learned by taming:
-  Elder Mistvale Gorilla (Gorilla, 40-41, Stranglethorn Vale)
-  Groddoc Thunderer (Gorilla, 49-50, Feralas)
-  Thunderstomp 3: Pet Level 50, Cost 25 TP. Shakes the ground with thundering force, doing 115 to 133 Nature damage to all enemies within 8 yards. Can be learned by taming:
-  Un'Goro Thunderer (Gorilla, 52-53, Un'Goro Crater)
-  U'cha (Gorilla, 55, Un'Goro Crater)
-
---]]
-end
-
---
-function Artemis:GetAbilitiesBase() 
-  Artemis.DebugMsg("GetAbilitiesBase: Start")
-  for k, v in pairs(Artemis.Abilities_Base) do
-    Artemis.DebugMsg("GetAbilitiesBase: k="..tostring(k))
-  end
-    
-  --for id,tag in pairs(searchTagsLoc[loc]) do
-	--	tagList[tag]=GBB_TAGSEARCH
-	--end
-  --[[
-    "Bite" = {
-      ["trainer"] = false , ["MaxLevel"] = 8 ,
-    } ,
-    ]]--
-  Artemis.DebugMsg("GetAbilitiesBase: End")
-end
-
---
-function Artemis:GetAbilitiesBaseList(basename) 
-  Artemis.DebugMsg("GetAbilitiesBaseList: Start")
-  local ab1 = Artemis.Abilities_Base[basename]
-  if( ab1 == nil ) then
-    Artemis.DebugMsg("GetAbilitiesBase: No such ability data")
-  else
-    Artemis.DebugMsg("GetAbilitiesBase: trainer=" .. Artemis:SetStringOrDefault(ab1["trainer"],"") )
-    Artemis.DebugMsg("GetAbilitiesBase: MaxLevel=".. Artemis:SetStringOrDefault(ab1["MaxLevel"],"") )
- 
-    for i = 1, ab1["MaxLevel"] do
-      local k = basename .. tostring(i)
-      Artemis.DebugMsg("GetAbilitiesBaseList: k=" .. tostring(k) )
-      local ab2 = Artemis.Abilities[k]
-      local ab2text = ab2["Text"]
-      Artemis.DebugMsg("GetAbilitiesBaseList: ab2text=" .. tostring(ab2text) )
-    end
-    
-  end
+  Artemis:CreateParsedTameListItem("thunderstomp 1","Mistvale Gorilla (Gorilla, 32-33, Stranglethorn Vale)")
+  Artemis:CreateParsedTameListItem("thunderstomp 1","Jungle Thunderer (Gorilla, 37-38, Stranglethorn Vale)")
   
---[[--
-Artemis.Abilities = {
-  "Bite 1" = {
-    ["trainer"] = false ,
-    ["MinPetLevel"] = 1 ,
-    ["CostTP"] = 1 ,
-    ["Text"] = "Bite the enemy, causing 7 to 9 damage.",
-    ["AbilityFamily"] = "Bite",
-    ["AbilityLevel"] = 1,
-  } ,
---]]--
-  Artemis.DebugMsg("GetAbilitiesBaseList: End")
-end
-
-
---
-function Artemis:SearchAbilities(abilityName,minLvl,maxLvl) 
-  Artemis.DebugMsg("SearchAbilities: Start")
-  local retElem = {}
-  if(abilityName==nil) then
-    return retElem
-  end
-  Artemis.DebugMsg("SearchAbilities: abilityName = ".. abilityName)  
-  local elemA = Artemis.Abilities[abilityName]
-  if(elemA~=nil) then
-    local elemT = elemA["TamingList"]
-    if(elemT~=nil) then
-      for kName, kTable in pairs(elemT) do
-        Artemis.DebugMsg("SearchAbilities: kName="..tostring(kName))
-        local kMinL = kTable["MinLvl"]
-        local kMaxL = kTable["MaxLvl"]
-        local dataok = true
-        if(minLvl~=nil) then
-          --check lvl
-          dataok = false
-        end
-        if(maxLvl~=nil) then
-          --check lvl
-          dataok = false
-        end
-        if(dataok) then
-          retElem[kName] = kTable
-        end        
-      end --for 
-    else
-      Artemis.DebugMsg("SearchAbilities: not found TamingList")
-    end
-  else
-    Artemis.DebugMsg("SearchAbilities: not found ability")
-  end
-  --retElem
-  for kName, kTable in pairs(retElem) do
-    Artemis.DebugMsg("SearchAbilities: kName="..tostring(kName))
-    for vName, vValue in pairs(kTable) do
-      Artemis.DebugMsg("SearchAbilities: vName="..tostring(vName))
-      Artemis.DebugMsg("SearchAbilities: vValue="..tostring(vValue))
-    end
-  end
+  Artemis:CreateParsedTameListItem("thunderstomp 2","Elder Mistvale Gorilla (Gorilla, 40-41, Stranglethorn Vale)")
+  Artemis:CreateParsedTameListItem("thunderstomp 2","Groddoc Thunderer (Gorilla, 49-50, Feralas)")
   
-  --[[
-   Artemis.Abilities[abilityName][subElem][name] = {
-          ["type"] = family,
-          ["MinLvl"] = minlvl,
-          ["MaxLvl"] = maxlvl, 
-          ["location"] = location
-          
-  for k, v in pairs(Artemis.Abilities_Base) do
-    Artemis.DebugMsg("GetAbilitiesBase: k="..tostring(k))
-  end
-    
-  --for id,tag in pairs(searchTagsLoc[loc]) do
-	--	tagList[tag]=GBB_TAGSEARCH
-	--end
-    "Bite" = {
-      ["trainer"] = false , ["MaxLevel"] = 8 ,
-    } ,
-    ]]--
-  Artemis.DebugMsg("SearchAbilities: End")
+  Artemis:CreateParsedTameListItem("thunderstomp 3","Un'Goro Thunderer (Gorilla, 52-53, Un'Goro Crater)")
+  Artemis:CreateParsedTameListItem("thunderstomp 3","U'cha (Gorilla, 55, Un'Goro Crater)")
+
 end
-
-
 

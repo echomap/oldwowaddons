@@ -1,0 +1,169 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/">
+
+  <Button name="ArtemisTrackerButtonTemplate" virtual="true" inherits="SecureActionButtonTemplate">
+		<Size>
+			<AbsDimension x="36" y="36"/>
+		</Size>
+    <Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentIcon">
+					<Size>
+						<AbsDimension x="36" y="36"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT"/>
+					</Anchors>
+				</Texture>
+      </Layer>
+    </Layers>
+    <Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentIconTexture">
+					<Size>
+						<AbsDimension x="36" y="36"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT"/>
+					</Anchors>
+				</Texture>
+      </Layer>
+    </Layers>
+    <Frames>
+			<Cooldown name="$parentCooldown" inherits="CooldownFrameTemplate">
+				<Size x="36" y="36"/>
+				<Anchors>
+					<Anchor point="CENTER">
+						<Offset>
+							<AbsDimension x="0" y="-1"/>
+						</Offset>
+					</Anchor>
+				</Anchors> 
+			</Cooldown>
+		</Frames>
+    <Scripts>
+        <OnEnter>
+            Artemis.TrackerButton_OnEnter(self);
+        </OnEnter>
+        <OnLeave>
+            Artemis.TrackerButton_OnLeave(self);
+        </OnLeave>
+    </Scripts>
+		<HighlightTexture alphaMode="ADD" file="Interface\Buttons\ButtonHilight-Square"/>
+	</Button> 
+
+  <Frame name="ArtemisTrackerFrame" parent="UIParent" hidden="true">
+    <Size>
+      <AbsDimension x="240" y="60"/>
+    </Size>
+    <Anchors>
+      <Anchor point="CENTER" relativeTo="UIParent" relativePoint="CENTER"/>
+    </Anchors>
+    <Frames>
+      <Button name="$parent_Anchor">
+        <Size>
+          <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+					<Anchor point="LEFT" relativeTo="$parent" relativePoint="LEFT">
+            <Offset>
+                <AbsDimension x="0" y="-12" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+				<Scripts>
+					<OnClick>
+						Artemis.Tracker_ToggleLock();
+					</OnClick>
+				</Scripts>
+				<NormalTexture name="ArtemisTrackerLockNorm"/>
+				<PushedTexture name="ArtemisTrackerLockPush"/>
+				<HighlightTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Highlight" AlphaMode="ADD"/>
+      </Button>
+      <Button name="$parent_Tracker1" inherits="ArtemisTrackerButtonTemplate" id="1">
+          <Anchors>
+            <Anchor point="LEFT" relativeTo="$parent_Anchor" relativePoint="RIGHT">
+              <Offset>
+                <AbsDimension x="-6" y="0" />
+              </Offset>
+            </Anchor>
+          </Anchors>
+      </Button>
+      <Button name="$parent_Tracker2" inherits="ArtemisTrackerButtonTemplate" id="2">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent_Tracker1" relativePoint="RIGHT"/>
+				</Anchors>
+			</Button>
+      <Button name="$parent_Tracker3" inherits="ArtemisTrackerButtonTemplate" id="3">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent_Tracker2" relativePoint="RIGHT"/>
+				</Anchors>
+			</Button>
+      <Button name="$parent_Tracker4" inherits="ArtemisTrackerButtonTemplate" id="4">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent_Tracker3" relativePoint="RIGHT"/>
+                </Anchors>
+			</Button>
+      <Button name="$parent_Tracker5" inherits="ArtemisTrackerButtonTemplate" id="5">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent_Tracker4" relativePoint="RIGHT"/>
+				</Anchors>
+			</Button>
+      <Button name="$parent_Tracker6" inherits="ArtemisTrackerButtonTemplate" id="6">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent_Tracker5" relativePoint="RIGHT"/>
+				</Anchors>
+			</Button>
+      <Button name="$parent_Tracker7" inherits="ArtemisTrackerButtonTemplate" id="7">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent_Tracker6" relativePoint="RIGHT"/>
+				</Anchors>
+			</Button>
+    </Frames>
+    <Layers>
+      <Layer level="BACKGROUND">
+        <Texture name="$parent_Back">
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT"/>
+                <Anchor point="BOTTOMRIGHT" relativeTo="$parent" relativePoint="BOTTOMRIGHT"/>
+            </Anchors>
+            <Color r="0" g="0" b="1" a="0.5"/>
+        </Texture>
+        <FontString name="$parent_Text" inherits="GameFontNormal" justifyH="LEFT" text="ARTEMIS_Tracker_DRAG">
+        <Size>
+          <AbsDimension x="70" y="15"/>
+        </Size>
+        <Anchors>
+						<Anchor point="TOP" relativeTo="$parent" relativePoint="TOP">
+                <Offset>
+                    <AbsDimension x="0" y="-3" />
+                </Offset>
+            </Anchor>
+					</Anchors>
+				</FontString>
+      </Layer>
+    </Layers>
+    <Scripts>
+        <OnLoad>
+            self:RegisterForDrag("LeftButton");
+            self:SetMovable(1);
+            Artemis.Tracker_OnLoad();
+        </OnLoad>
+        <OnEvent>
+          Artemis.Tracker_OnEvent();
+        </OnEvent>
+        <OnDragStart>
+            if ArtemisDBChar.options.TrackerFrameUnlocked then
+                ArtemisTrackerFrame:StartMoving();
+                ArtemisTrackerFrame.isMoving = true;
+            else
+              --print ("[Artemis] can't drag while locked.");
+            end
+        </OnDragStart>
+        <OnDragStop>
+            ArtemisTrackerFrame:StopMovingOrSizing();
+            ArtemisTrackerFrame.isMoving = false;
+        </OnDragStop>
+    </Scripts>
+  </Frame>
+    
+</Ui>
