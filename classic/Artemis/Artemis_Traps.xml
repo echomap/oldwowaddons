@@ -123,9 +123,9 @@
             </Anchors>
             <Color r="0" g="0" b="1" a="0.5"/>
         </Texture>
-        <FontString name="$parent_Text" inherits="GameFontNormal" justifyH="LEFT" text="ARTEMIS_TRAP_DRAG">
+        <FontString name="$parent_Text" inherits="GameFontNormal" justifyH="LEFT" text="TRAP_DRAG(ARTEMIS)">
         <Size>
-          <AbsDimension x="70" y="15"/>
+          <AbsDimension x="100" y="15"/>
         </Size>
         <Anchors>
             <Anchor point="TOP" relativeTo="$parent" relativePoint="TOP">

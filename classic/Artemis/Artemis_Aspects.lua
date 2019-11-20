@@ -89,6 +89,42 @@ function Artemis.AspectFrame_Initialize()
 		button:Hide();
 	end
   
+  Artemis.DebugMsg("AspectFrame_Initialize: Orient: " .. tostring(ArtemisDBChar.options.setupaspectsorientation))     
+  -- Vertical
+  if( ArtemisDBChar.options.setupaspectsorientation) then
+    ArtemisAspectFrame:SetSize(60,250);
+    
+    local pAnchor = getglobal("ArtemisAspectFrame_Anchor");      
+    pAnchor:ClearAllPoints()
+    pAnchor:SetPoint( "TOP", "ArtemisAspectFrame" , "TOP" , 0 , -12 )
+      
+    for count = 1, Artemis.Aspect_NumAspects do
+      local button = getglobal("ArtemisAspectFrame_Aspect"..count);      
+      button:ClearAllPoints()
+      --obj:SetPoint(point, relativeTo, relativePoint, ofsx, ofsy);
+      button:SetPoint( "TOP", pAnchor , "BOTTOM" );
+       pAnchor = button
+    end
+  end
+  
+  --Horizontal   <AbsDimension x="240" y="60"/>
+  if( ArtemisDBChar.options.setupaspectsorientation==nil or not ArtemisDBChar.options.setupaspectsorientation ) then
+    ArtemisAspectFrame:SetSize(250,60);
+    
+    local pAnchor = getglobal("ArtemisAspectFrame_Anchor");      
+    pAnchor:ClearAllPoints()
+    pAnchor:SetPoint( "LEFT", "ArtemisAspectFrame" , "LEFT" , 0 , -12 )
+   
+    for count = 1, Artemis.Aspect_NumAspects do
+      local button = getglobal("ArtemisAspectFrame_Aspect"..count);      
+      button:ClearAllPoints()
+      --obj:SetPoint(point, relativeTo, relativePoint, ofsx, ofsy);
+      button:SetPoint( "LEFT", pAnchor , "RIGHT" );
+      pAnchor = button
+    end
+  end
+  
+  --
   Artemis.Aspect_UpdateLock()
   
 end

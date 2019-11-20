@@ -18,14 +18,16 @@ local _, L = ...;
 function Artemis.TrackerFrame_Initialize()
   Artemis.DebugMsg("TrackerFrame_Initialize Called")
   --
-  Artemis.Tracker_NumTrackers = 6;
+  Artemis.Tracker_NumTrackers = 8;
   Artemis.Tracker_Trackers = {
-    [L["Artemis_Aspec_Monkey"]  ]= 0,
-    [L["Artemis_Aspec_Cheetah"] ]= 0,
-    [L["Artemis_Aspec_Pack"]    ]= 0,
-    [L["Artemis_Aspec_Hawk"]    ]= 0,
-    [L["Artemis_Aspec_Beast"]   ]= 0,
-    [L["Artemis_Aspec_Wild"]    ]= 0,
+    [ L["Artemis_Track_Beasts"]    ] = 0,
+    [ L["Artemis_Track_Humanoids"] ] = 0,
+    [ L["Artemis_Track_Undead"]    ] = 0,
+    [ L["Artemis_Track_Hidden"]    ] = 0,
+    [ L["Artemis_Track_Elementals"]] = 0,
+    [ L["Artemis_Track_Demons"]    ]= 0,
+    [ L["Artemis_Track_Giants"]    ] = 0,
+    [ L["Artemis_Track_Dragonkin"] ] = 0,
   }
 
 	-- Reset the available abilities.
@@ -86,9 +88,47 @@ function Artemis.TrackerFrame_Initialize()
   -- Hide the buttons we don't need.
 	for i = count + 1, Artemis.Tracker_NumTrackers, 1 do
 		local button = getglobal("ArtemisTrackerFrame_Tracker"..i);
-		button:Hide();
+    if(button~=nil) then
+      button:Hide();
+    end
 	end
   
+  Artemis.DebugMsg("TrackerFrame_Initialize: Orient: " .. tostring(ArtemisDBChar.options.setuptrackersorientation))     
+  -- Vertical
+  if( ArtemisDBChar.options.setuptrackersorientation) then
+    ArtemisTrackerFrame:SetSize(60,250);
+    
+    local pAnchor = getglobal("ArtemisTrackerFrame_Anchor");      
+    pAnchor:ClearAllPoints()
+    pAnchor:SetPoint( "TOP", "ArtemisTrackerFrame" , "TOP" , 0 , -12 )
+      
+    for count = 1, Artemis.Tracker_NumTrackers do
+      local button = getglobal("ArtemisTrackerFrame_Tracker"..count);      
+      button:ClearAllPoints()
+      --obj:SetPoint(point, relativeTo, relativePoint, ofsx, ofsy);
+      button:SetPoint( "TOP", pAnchor , "BOTTOM" );
+       pAnchor = button
+    end
+  end
+  
+  --Horizontal   <AbsDimension x="240" y="60"/>
+  if( ArtemisDBChar.options.setuptrackersorientation==nil or not ArtemisDBChar.options.setuptrackersorientation ) then
+    ArtemisTrackerFrame:SetSize(250,60);
+    
+    local pAnchor = getglobal("ArtemisTrackerFrame_Anchor");      
+    pAnchor:ClearAllPoints()
+    pAnchor:SetPoint( "LEFT", "ArtemisTrackerFrame" , "LEFT" , 0 , -12 )
+   
+    for count = 1, Artemis.Tracker_NumTrackers do
+      local button = getglobal("ArtemisTrackerFrame_Tracker"..count);      
+      button:ClearAllPoints()
+      --obj:SetPoint(point, relativeTo, relativePoint, ofsx, ofsy);
+      button:SetPoint( "LEFT", pAnchor , "RIGHT" );
+      pAnchor = button
+    end
+  end
+  
+  --
   Artemis.Tracker_UpdateLock()
   
 end

@@ -18,7 +18,6 @@ Artemis = {
     --menuName        = "Artemis_Options", -- Unique identifier for menu object.
     --menuDisplayName = "Artemis",
     view            = {
-        debug = false,
         debuglvl = 1,
         maxPets  = 3,
     },    
@@ -29,7 +28,7 @@ local _, L = ...;
 -- UTILS
 -------------------------------------------------------------------------
 function Artemis.DebugMsg(msg,level)
-  if( msg ~= nil and msg ~= "" and Artemis.view.debug ) then
+  if( msg ~= nil and msg ~= "" and ArtemisDBChar~=nil and ArtemisDBChar.debug ) then
     print("Artemis " .. msg )
   end
 end
@@ -198,10 +197,7 @@ end
   
 function Artemis:InitPlayer()
   Artemis.DebugMsg("InitPlayer: Called")
-  if( ArtemisDBChar~=nil and ArtemisDBChar.debug) then
-    Artemis.view.debug = ArtemisDBChar.debug
-  end
-    if( ArtemisDBChar~=nil and ArtemisDBChar.enable) then
+  if( ArtemisDBChar~=nil and ArtemisDBChar.enable) then
     Artemis.view.enable = ArtemisDBChar.enable
   end  
   Artemis:SetupDefaultSavedvariables() 
@@ -423,15 +419,46 @@ function Artemis:ShowTooltip(self,messageType)
         message = "<" .. happiness .. ">"
       end
     elseif( messageType == L["Artemis_Trap_IMMOLATION"] ) then
-       message = "<" .. L["Artemis_Trap_TT_IMMOLATION"] .. ">" 
+       message = "<" .. L["Artemis_Trap_IMMOLATION_TT"] .. ">" 
     elseif( messageType == L["Artemis_Trap_FREEZING"] ) then
-       message = "<" .. L["Artemis_Trap_TT_FREEZING"] .. ">" 
+       message = "<" .. L["Artemis_Trap_FREEZING_TT"] .. ">" 
     elseif( messageType == L["Artemis_Trap_FROST"] ) then
-       message = "<" .. L["Artemis_Trap_TT_FROST"] .. ">" 
+       message = "<" .. L["Artemis_Trap_FROST_TT"] .. ">" 
     elseif( messageType == L["Artemis_Trap_EXPLOSIVE"] ) then
-       message = "<" .. L["Artemis_Trap_TT_EXPLOSIVE"] .. ">" 
+       message = "<" .. L["Artemis_Trap_EXPLOSIVE_TT"] .. ">" 
     elseif( messageType == L["Artemis_Trap_SNAKE"] ) then
-       message = "<" .. L["Artemis_Trap_TT_SNAKE"] .. ">"     
+       message = "<" .. L["Artemis_Trap_SNAKE_TT"] .. ">"     
+
+    elseif( messageType == L["Artemis_Aspec_Monkey"] ) then
+       message = "<" .. L["Artemis_Aspec_Monkey_TT"] .. ">" 
+    elseif( messageType == L["Artemis_Aspec_Cheetah"] ) then
+       message = "<" .. L["Artemis_Aspec_Cheetah_TT"] .. ">" 
+    elseif( messageType == L["Artemis_Aspec_Pack"] ) then
+       message = "<" .. L["Artemis_Aspec_Pack_TT"] .. ">" 
+    elseif( messageType == L["Artemis_Aspec_Hawk"] ) then
+       message = "<" .. L["Artemis_Aspec_Hawk_TT"] .. ">" 
+    elseif( messageType == L["Artemis_Aspec_Beast"] ) then
+       message = "<" .. L["Artemis_Aspec_Beast_TT"] .. ">"     
+    elseif( messageType == L["Artemis_Aspec_Wild"] ) then
+       message = "<" .. L["Artemis_Aspec_Wild_TT"] .. ">"     
+    
+    elseif( messageType == L["Artemis_Track_Beasts"] ) then
+       message = "<" .. L["Artemis_Track_Beasts_TT"] .. ">" 
+    elseif( messageType == L["Artemis_Track_Humanoids"] ) then
+       message = "<" .. L["Artemis_Track_Humanoids_TT"] .. ">" 
+    elseif( messageType == L["Artemis_Track_Undead"] ) then
+       message = "<" .. L["Artemis_Track_Undead_TT"] .. ">" 
+    elseif( messageType == L["Artemis_Track_Hidden"] ) then
+       message = "<" .. L["Artemis_Track_Hidden_TT"] .. ">" 
+    elseif( messageType == L["Artemis_Track_Elementals"] ) then
+       message = "<" .. L["Artemis_Track_Elementals_TT"] .. ">"     
+    elseif( messageType == L["Artemis_Track_Demons"] ) then
+       message = "<" .. L["Artemis_Track_Demons_TT"] .. ">"     
+    elseif( messageType == L[""] ) then
+       message = "<" .. L["Artemis_Track_Giants_TT"] .. ">"     
+    elseif( messageType == L["Artemis_Track_Dragonkin"] ) then
+       message = "<" .. L["Artemis_Track_Dragonkin_TT"] .. ">"     
+       
     else
       message = message .. " " .. messageType
     end
@@ -1117,9 +1144,8 @@ function Artemis.SlashCommandHandler(msg)
   elseif options[1] == "help" then
     Artemis:ShowHelp()
   elseif options[1] == "debug" then
-    Artemis.view.debug = not Artemis.view.debug
-    Artemis.DebugMsg("Debug = " .. tostring(Artemis.view.debug) )
-    ArtemisDBChar.debug = Artemis.view.debug
+    ArtemisDBChar.debug = not ArtemisDBChar.debug
+    Artemis.DebugMsg("Debug = " .. tostring(ArtemisDBChar.debug) )    
   elseif options[1] == "options" then
     Artemis.OptionsOpen()
 	elseif options[1] == "gui" then    
@@ -1783,7 +1809,7 @@ function Artemis.OptionInit()
     Artemis.view.options.panel.aspectsCheckBox = aspectsCheckBox
     
     --tracker/trackers
-    local trackersCB = Artemis:createOptionCheckBox("TrackerCheckButton",frame,Artemis.view.options.panel.aspectsCheckBox,"Tracker Enabled")
+    local trackersCB = Artemis:createOptionCheckBox("TrackerCheckButton",frame,Artemis.view.options.panel.aspectsCheckBox,"Trackers Bar Enabled")
     trackersCB:SetScript( "OnClick", Artemis.toggleCheckboxTrackers )
     if(ArtemisDBChar.options.setuptrackersswitch) then
       trackersCB:SetChecked(true)
@@ -1794,15 +1820,60 @@ function Artemis.OptionInit()
     end    
     Artemis.view.options.panel.trackersCB = trackersCB
     
+    --    
+    local trapOrientCheckBox = Artemis:createOptionCheckBox("TrapOrientCheckBox",frame, Artemis.view.options.panel.trapsCheckBox, "Trapbar Vertical Orientation ")
+    trapOrientCheckBox:SetScript( "OnClick", Artemis.toggleCheckboxTrapsOrientVertical )
+    trapOrientCheckBox:SetPoint( "TOPLEFT", 20, -50 )
+    trapOrientCheckBox:SetPoint( "TOPLEFT", trapsCheckBox, "TOPRIGHT", 150, 0)
+    if(ArtemisDBChar.options.setuptrapsorientation) then
+      trapOrientCheckBox:SetChecked(true)
+      ArtemisDBChar.options.setuptrapsorientation = true
+    else
+      trapOrientCheckBox:SetChecked(false)
+      ArtemisDBChar.options.setuptrapsorientation = false
+    end    
+    Artemis.view.options.panel.trapOrientCheckBox = trapOrientCheckBox
+      
+    --    
+    local aspectOrientCheckBox = Artemis:createOptionCheckBox("AspectOrientCheckBox",frame, Artemis.view.options.panel.aspectsCheckBox, "Aspectbar Vertical Orientation ")
+    aspectOrientCheckBox:SetScript( "OnClick", Artemis.toggleCheckboxAspectsOrientVertical )
+    aspectOrientCheckBox:SetPoint( "TOPLEFT", 20, -50 )
+    aspectOrientCheckBox:SetPoint( "TOPLEFT", aspectsCheckBox, "TOPRIGHT", 150, 0)
+    if(ArtemisDBChar.options.setupaspectsorientation) then
+      aspectOrientCheckBox:SetChecked(true)
+      ArtemisDBChar.options.setupaspectsorientation = true
+    else
+      aspectOrientCheckBox:SetChecked(false)
+      ArtemisDBChar.options.setupaspectsorientation = false
+    end    
+    Artemis.view.options.panel.aspectOrientCheckBox = aspectOrientCheckBox
+    
+    --    
+    local trackersOrientCheckBox = Artemis:createOptionCheckBox("TrackersOrientCheckBox",frame, Artemis.view.options.panel.trackersCheckBox, "Trackersbar Vertical Orientation ")
+    trackersOrientCheckBox:SetScript( "OnClick", Artemis.toggleCheckboxTrackersOrientVertical )
+    trackersOrientCheckBox:SetPoint( "TOPLEFT", 20, -50 )
+    trackersOrientCheckBox:SetPoint( "TOPLEFT", trackersCB, "TOPRIGHT", 150, 0)
+    if(ArtemisDBChar.options.setuptrackerssorientation) then
+      trackersOrientCheckBox:SetChecked(true)
+      ArtemisDBChar.options.setuptrackersorientation = true
+    else
+      trackersOrientCheckBox:SetChecked(false)
+      ArtemisDBChar.options.setuptrackersorientation = false
+    end    
+    Artemis.view.options.panel.trackersOrientCheckBox = trackersOrientCheckBox
+    
+    --
+    --
+    
     --
     local debugCB = Artemis:createOptionCheckBox("DebugCheckButton",frame, Artemis.view.options.panel.trackersCB,"Debug Enabled")
     debugCB:SetScript( "OnClick", Artemis.toggleDebug )
-    if(Artemis.view.debug) then
-      trapsCheckBox:SetChecked(true)
-      Artemis.view.debug = true
+    if(ArtemisDBChar.debug) then
+      debugCB:SetChecked(true)
+      ArtemisDBChar.debug = true
     else
-      trapsCheckBox:SetChecked(false)
-      Artemis.view.debug = false
+      debugCB:SetChecked(false)
+      ArtemisDBChar.debug = false
     end    
     Artemis.view.options.panel.debugCB = debugCB
     
@@ -1822,6 +1893,7 @@ function Artemis:createOptionCheckBox(name,parentframe,parentposition,text)
   return lCheckBox
 end
 
+--
 function Artemis.toggleMainEnabled()
 	local isChecked = Artemis.view.options.panel.enabledCB:GetChecked()
   if(ArtemisDBChar.options==nil) then
@@ -1967,7 +2039,7 @@ function Artemis.toggleCheckboxTrackers()
   end
 end
 
---Artemis.view.debug
+--ArtemisDBChar.debug
 function Artemis:toggleDebug() 
 	local isChecked = Artemis.view.options.panel.debugCB:GetChecked()
   if(ArtemisDBChar.options==nil) then
@@ -1978,12 +2050,60 @@ function Artemis:toggleDebug()
   end
   if isChecked then
     ArtemisDBChar.options.debug = true
-    Artemis.view.debug = true
+    ArtemisDBChar.debug = true
   else
     ArtemisDBChar.options.debug = false
-    Artemis.view.debug = false
+    ArtemisDBChar.debug = false
   end
 end
+
+--ArtemisDBChar.options.setuptrapsorientation
+function Artemis:toggleCheckboxTrapsOrientVertical() 
+	local isChecked = Artemis.view.options.panel.trapOrientCheckBox:GetChecked()
+  if(ArtemisDBChar.options==nil) then
+    ArtemisDBChar.options = {}
+  end
+  if(ArtemisDBChar.options.setuptrapsorientation==nil) then
+    ArtemisDBChar.options.setuptrapsorientation = false
+  end
+  if isChecked then
+    ArtemisDBChar.options.setuptrapsorientation = true
+  else
+    ArtemisDBChar.options.setuptrapsorientation = false
+  end
+end
+
+function Artemis:toggleCheckboxAspectsOrientVertical() 
+	local isChecked = Artemis.view.options.panel.aspectOrientCheckBox:GetChecked()
+  if(ArtemisDBChar.options==nil) then
+    ArtemisDBChar.options = {}
+  end
+  if(ArtemisDBChar.options.setupaspectsorientation==nil) then
+    ArtemisDBChar.options.setupaspectsorientation = false
+  end
+  if isChecked then
+    ArtemisDBChar.options.setupaspectsorientation = true
+  else
+    ArtemisDBChar.options.setupaspectsorientation = false
+  end
+end
+
+function Artemis:toggleCheckboxTrackersOrientVertical() 
+	local isChecked = Artemis.view.options.panel.trackersOrientCheckBox:GetChecked()
+  if(ArtemisDBChar.options==nil) then
+    ArtemisDBChar.options = {}
+  end
+  if(ArtemisDBChar.options.setuptrackersorientation==nil) then
+    ArtemisDBChar.options.setuptrackersorientation = false
+  end
+  if isChecked then
+    ArtemisDBChar.options.setuptrackersorientation = true
+  else
+    ArtemisDBChar.options.setuptrackersorientation = false
+  end
+end
+
+
 -------------------------------------------------------------------------
 -------------------------------------------------------------------------
 

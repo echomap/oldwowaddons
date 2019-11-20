@@ -92,8 +92,43 @@ function Artemis.TrapFrame_Initialize()
 		button:Hide();
 	end
   
-  Artemis.Trap_UpdateLock()
+  Artemis.DebugMsg("TrapFrame_Initialize: Orient: " .. tostring(ArtemisDBChar.options.setuptrapsorientation))     
+  -- Vertical
+  if( ArtemisDBChar.options.setuptrapsorientation) then
+    ArtemisTrapFrame:SetSize(60,250);
+    
+    local pAnchor = getglobal("ArtemisTrapFrame_Anchor");      
+    pAnchor:ClearAllPoints()
+    pAnchor:SetPoint( "TOP", "ArtemisTrapFrame" , "TOP" , 0 , -12 )
+      
+    for count = 1, Artemis.Traps_NumTraps do
+      local button = getglobal("ArtemisTrapFrame_Trap"..count);      
+      button:ClearAllPoints()
+      --obj:SetPoint(point, relativeTo, relativePoint, ofsx, ofsy);
+      button:SetPoint( "TOP", pAnchor , "BOTTOM" );
+       pAnchor = button
+    end
+  end
   
+  --Horizontal   <AbsDimension x="240" y="60"/>
+  if( ArtemisDBChar.options.setuptrapsorientation==nil or not ArtemisDBChar.options.setuptrapsorientation ) then
+    ArtemisTrapFrame:SetSize(250,60);
+    
+    local pAnchor = getglobal("ArtemisTrapFrame_Anchor");      
+    pAnchor:ClearAllPoints()
+    pAnchor:SetPoint( "LEFT", "ArtemisTrapFrame" , "LEFT" , 0 , -12 )
+   
+    for count = 1, Artemis.Traps_NumTraps do
+      local button = getglobal("ArtemisTrapFrame_Trap"..count);      
+      button:ClearAllPoints()
+      --obj:SetPoint(point, relativeTo, relativePoint, ofsx, ofsy);
+      button:SetPoint( "LEFT", pAnchor , "RIGHT" );
+      pAnchor = button
+    end
+  end
+  
+  --
+  Artemis.Trap_UpdateLock()
 end
 
 -------------------------------------------------------------------------

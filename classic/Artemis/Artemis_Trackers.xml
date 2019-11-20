@@ -118,6 +118,11 @@
 					<Anchor point="LEFT" relativeTo="$parent_Tracker6" relativePoint="RIGHT"/>
 				</Anchors>
 			</Button>
+      <Button name="$parent_Tracker8" inherits="ArtemisTrackerButtonTemplate" id="8">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent_Tracker7" relativePoint="RIGHT"/>
+				</Anchors>
+			</Button>
     </Frames>
     <Layers>
       <Layer level="BACKGROUND">
@@ -128,9 +133,9 @@
             </Anchors>
             <Color r="0" g="0" b="1" a="0.5"/>
         </Texture>
-        <FontString name="$parent_Text" inherits="GameFontNormal" justifyH="LEFT" text="ARTEMIS_Tracker_DRAG">
+        <FontString name="$parent_Text" inherits="GameFontNormal" justifyH="LEFT" text="TRACKERS_DRAG(ARTEMIS)">
         <Size>
-          <AbsDimension x="70" y="15"/>
+          <AbsDimension x="100" y="15"/>
         </Size>
         <Anchors>
 						<Anchor point="TOP" relativeTo="$parent" relativePoint="TOP">
