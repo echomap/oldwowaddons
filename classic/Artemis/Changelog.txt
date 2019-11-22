@@ -20,10 +20,12 @@ Aspects
 Keybindings
 Cool down on button
 Trackers
-
+When new spell is learned, bar doesnt update
 
 ## [Unreleased]
 ## [1.0.7] - WIP
+- Trackers enabled
+- vertical/horizontal
 ## [1.0.6]
 - added pet exp, some fixes, still doesnt fully track food
 - More options

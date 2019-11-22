@@ -241,7 +241,7 @@ function Artemis:InitPlayer()
       Artemis.AspectFrame_Initialize()
       ArtemisAspectFrame:Show();
     end    
-    if( ArtemisDBChar.options.setuptrackerssswitch ) then 
+    if( ArtemisDBChar.options.setuptrackersswitch ) then 
       Artemis.TrackerFrame_Initialize()
       ArtemisTrackerFrame:Show();
     end    
@@ -1585,6 +1585,10 @@ function Artemis:CheckPetChanged()
       --pet dead or unsummoned?
       if(UnitIsDead("pet")) then
         Artemis.PrintMsg( L["PetUnitDead"] )
+      else
+        textPetHappiness:SetTextColor(0,125,125) -- yellow
+        local hText = string.format("Pet is... %s", "...?")
+        textPetHappiness:SetText(hText)
       end
     end
   end
@@ -1809,16 +1813,16 @@ function Artemis.OptionInit()
     Artemis.view.options.panel.aspectsCheckBox = aspectsCheckBox
     
     --tracker/trackers
-    local trackersCB = Artemis:createOptionCheckBox("TrackerCheckButton",frame,Artemis.view.options.panel.aspectsCheckBox,"Trackers Bar Enabled")
-    trackersCB:SetScript( "OnClick", Artemis.toggleCheckboxTrackers )
+    local trackersCheckBox = Artemis:createOptionCheckBox("TrackerCheckButton",frame,Artemis.view.options.panel.aspectsCheckBox,"Trackers Bar Enabled")
+    trackersCheckBox:SetScript( "OnClick", Artemis.toggleCheckboxTrackers )
     if(ArtemisDBChar.options.setuptrackersswitch) then
-      trackersCB:SetChecked(true)
+      trackersCheckBox:SetChecked(true)
       ArtemisDBChar.options.setuptrackersswitch= true
     else
-      trackersCB:SetChecked(false)
+      trackersCheckBox:SetChecked(false)
       ArtemisDBChar.options.setuptrackersswitch = false
     end    
-    Artemis.view.options.panel.trackersCB = trackersCB
+    Artemis.view.options.panel.trackersCheckBox = trackersCheckBox
     
     --    
     local trapOrientCheckBox = Artemis:createOptionCheckBox("TrapOrientCheckBox",frame, Artemis.view.options.panel.trapsCheckBox, "Trapbar Vertical Orientation ")
@@ -1852,7 +1856,7 @@ function Artemis.OptionInit()
     local trackersOrientCheckBox = Artemis:createOptionCheckBox("TrackersOrientCheckBox",frame, Artemis.view.options.panel.trackersCheckBox, "Trackersbar Vertical Orientation ")
     trackersOrientCheckBox:SetScript( "OnClick", Artemis.toggleCheckboxTrackersOrientVertical )
     trackersOrientCheckBox:SetPoint( "TOPLEFT", 20, -50 )
-    trackersOrientCheckBox:SetPoint( "TOPLEFT", trackersCB, "TOPRIGHT", 150, 0)
+    trackersOrientCheckBox:SetPoint( "TOPLEFT", trackersCheckBox, "TOPRIGHT", 150, 0)
     if(ArtemisDBChar.options.setuptrackerssorientation) then
       trackersOrientCheckBox:SetChecked(true)
       ArtemisDBChar.options.setuptrackersorientation = true
@@ -1866,7 +1870,7 @@ function Artemis.OptionInit()
     --
     
     --
-    local debugCB = Artemis:createOptionCheckBox("DebugCheckButton",frame, Artemis.view.options.panel.trackersCB,"Debug Enabled")
+    local debugCB = Artemis:createOptionCheckBox("DebugCheckButton",frame, Artemis.view.options.panel.trackersCheckBox,"Debug Enabled")
     debugCB:SetScript( "OnClick", Artemis.toggleDebug )
     if(ArtemisDBChar.debug) then
       debugCB:SetChecked(true)
@@ -2019,7 +2023,7 @@ function Artemis.toggleCheckboxAspects()
 end
 
 function Artemis.toggleCheckboxTrackers() 
-	local isChecked = Artemis.view.options.panel.trackersCB:GetChecked()
+	local isChecked = Artemis.view.options.panel.trackersCheckBox:GetChecked()
   if(ArtemisDBChar.options==nil) then
     ArtemisDBChar.options = {}
   end
@@ -2071,6 +2075,12 @@ function Artemis:toggleCheckboxTrapsOrientVertical()
   else
     ArtemisDBChar.options.setuptrapsorientation = false
   end
+  if(ArtemisDBChar.options.setuptrapsswitch) then
+    Artemis.TrapFrame_Initialize()
+    ArtemisTrapFrame:Show();
+  else
+    ArtemisTrapFrame:Hide();
+  end
 end
 
 function Artemis:toggleCheckboxAspectsOrientVertical() 
@@ -2086,6 +2096,12 @@ function Artemis:toggleCheckboxAspectsOrientVertical()
   else
     ArtemisDBChar.options.setupaspectsorientation = false
   end
+  if(ArtemisDBChar.options.setupaspectsswitch) then
+    Artemis.AspectFrame_Initialize()
+    ArtemisAspectFrame:Show();
+  else
+    ArtemisAspectFrame:Hide();
+  end
 end
 
 function Artemis:toggleCheckboxTrackersOrientVertical() 
@@ -2100,6 +2116,12 @@ function Artemis:toggleCheckboxTrackersOrientVertical()
     ArtemisDBChar.options.setuptrackersorientation = true
   else
     ArtemisDBChar.options.setuptrackersorientation = false
+  end
+  if(ArtemisDBChar.options.setuptrackersswitch) then
+    Artemis.TrackerFrame_Initialize()
+    ArtemisTrackerFrame:Show();
+  else
+    ArtemisTrackerFrame:Hide();
   end
 end
 
