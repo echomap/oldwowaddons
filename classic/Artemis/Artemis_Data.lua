@@ -1484,7 +1484,9 @@ function Artemis:CreateParsedTameListItem(abilityName,dataString)
       name, family, minlvl, maxlvl, location = string.match( dataString, "(.+)%((.+)%,%s-(%d+)%-(%d+)%,(.+)%)" )
       -- matches? 
       Artemis.DebugMsg("CPTLI0: fountd ability setting list(b)="..abilityName .. " " )
-      Artemis:CreateTameListItem(abilityName,"TamingList",name,family,minlvl,maxlvl,location)      
+      Artemis:CreateTameListItem(abilityName,"TamingList",name,family,minlvl,maxlvl,location)
+    else
+      Artemis.DebugMsg("Error in parsind dataString="..tostring(dataString) )    
     end
   end
 end  
