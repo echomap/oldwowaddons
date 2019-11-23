@@ -21,6 +21,7 @@ Keybindings
 Cool down on button
 Trackers
 When new spell is learned, bar doesnt update
+petskills min level etc
 
 ## [Unreleased]
 ## [1.0.7] - WIP

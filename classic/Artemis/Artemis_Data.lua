@@ -1461,33 +1461,43 @@ function Artemis:CreateTameListItem(abilityName,subElem,name,family,minlvl,maxlv
           ["MaxLvl"] = maxlvl, 
           ["location"] = location
   }
-  Artemis.DebugMsg("CreateTameListItem abilityName="..abilityName .. " " )
+  Artemis.DebugMsg("CreateTameListItem abilityName='"..abilityName .. "'" )
 end
 
 -- input: "Barnabus (Wolf, 38, Badlands)" 
 -- input: "Drywallow Daggermaw (Crocolisk, 40-41, Dustwallow Marsh)"
+-- input: "Drywallow Daggermaw (Crocolisk, 42, Dustwallow Marsh)"
 -- input: "NAME (FAMILY, L1-L2, LOC)"
 function Artemis:CreateParsedTameListItem(abilityName,dataString)
-  Artemis.DebugMsg("CPTLI0: abilityName="..abilityName .. " " )
+  Artemis.DebugMsg("CPTLI0: abilityName='"..abilityName .. "'" )
   Artemis.DebugMsg("CPTLI0: dataString="..tostring(dataString) )
-  
+  local matched = false
   local name, family, level1, location = string.match(dataString, "(.+)%((.+)%,%s-(%d+)%,(.+)%)" )
   --Artemis.PrintMsg("CPTLI1: name="..tostring(name) .. " family=".. tostring(family) )
   -- matches? 
   if( name ~= nil) then
     --minlvl = level1
-    Artemis.DebugMsg("CPTLI0: fountd ability setting list(a)="..abilityName .. " " )
+    Artemis.DebugMsg("CPTLI0: found ability setting list(a)='"..abilityName .. "'" )
     Artemis:CreateTameListItem(abilityName,"TamingList",name,family,level1,level1,location)
-  else
-    --if not matches... try... 
+    matched = true
+  end
+  if(not matched) then
+    name, family, minlvl, maxlvl, location = string.match( dataString, "(.+)%((.+)%,%s-(%d+)%-(%d+)%,(.+)%)" )
     if( name ~= nil) then
-      name, family, minlvl, maxlvl, location = string.match( dataString, "(.+)%((.+)%,%s-(%d+)%-(%d+)%,(.+)%)" )
-      -- matches? 
       Artemis.DebugMsg("CPTLI0: fountd ability setting list(b)="..abilityName .. " " )
       Artemis:CreateTameListItem(abilityName,"TamingList",name,family,minlvl,maxlvl,location)
-    else
-      Artemis.DebugMsg("Error in parsind dataString="..tostring(dataString) )    
+      matched = true
     end
+  end
+  if(not matched) then
+    name, family, minlvl, maxlvl, location = string.match( dataString, "(.+)%((.+)%,%s(%d+)%-(%d+)%,(.+)%)" )      
+    if( name ~= nil) then
+      Artemis.DebugMsg("CPTLI0: fountd ability setting list(b)="..abilityName .. " " )
+      Artemis:CreateTameListItem(abilityName,"TamingList",name,family,minlvl,maxlvl,location)
+    end
+  end
+  if(not matched) then
+      Artemis.DebugMsg("Error in parsing dataString="..tostring(dataString) )    
   end
 end  
 
