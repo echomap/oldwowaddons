@@ -12,7 +12,7 @@
 Artemis = {
     name            = "Artemis",	-- Matches folder and Manifest file names.
     displayName     = "Artemis Hunter Helper",
-    version         = "1.0.6",			-- A nuisance to match to the Manifest.
+    version         = "1.0.8",			-- A nuisance to match to the Manifest.
     author          = "Echomap",
     color           = "DDFFEE",			 -- Used in menu titles and so on.    
     --menuName        = "Artemis_Options", -- Unique identifier for menu object.
@@ -121,6 +121,8 @@ function Artemis:ShowWindow()
   local hasUI, isHunterPet = HasPetUI();
   if( hasUI and isHunterPet ) then
     ArtemisMainFrame_HappinessFrame:Show() --TODO not showing sometimes?
+    Artemis.SetupFeedPet()
+    ArtemisMainFrame_FeedFrame:Show()
   end
   if(ArtemisDBChar.options.petexperienceswitch) then
      Artemis.DebugMsg("PetExperienceFrame:Show")
@@ -137,6 +139,7 @@ function Artemis:HideWindow()
   ArtemisMainFrame_AmmoFrame:Hide()
   ArtemisMainFrame_wpnDurFrame:Hide()
   ArtemisMainFrame_HappinessFrame:Hide()
+  ArtemisMainFrame_FeedFrame:Hide()
   ArtemisMainFrame_PetExperienceFrame:Hide()
 end
 
@@ -192,6 +195,9 @@ function Artemis:SetupDefaultSavedvariables()
     
     ArtemisDBChar.options.setuptrackersswitch    = false
     ArtemisDBChar.options.TrackerFrameUnlocked   = false
+    
+    ArtemisDBChar.options.setuptrackersorientation = false
+
   end
 end
   
@@ -463,7 +469,7 @@ function Artemis:ShowTooltip(self,messageType)
       message = message .. " " .. messageType
     end
   end
-  GameTooltip:SetOwner(ArtemisMainFrame, "ANCHOR_BOTTOM", 0,0	)
+  GameTooltip:SetOwner(self, "ANCHOR_BOTTOM", 0,0	)
 	GameTooltip:AddLine(message .."\n" ,.8,.8,.8,1,false)
 	GameTooltip:Show()
 end
@@ -1155,7 +1161,7 @@ function Artemis.SlashCommandHandler(msg)
 	elseif options[1] == "aspects" then    
     Artemis:toggleCheckboxAspects()
 	elseif options[1] == "feedpet" then    
-    Artemis:FeedPet()       
+    Artemis:DoFeedPet()       
   elseif options[1] == "printabilities" or options[1] == "1" then
     Artemis:GetAbilitiesBase() 
   elseif options[1] == "printability"   or options[1] == "2" then
@@ -1559,6 +1565,8 @@ function Artemis:UpdatePetHappiness()
       -- Show happy frame since updated, if not shown
       if ( not ArtemisMainFrame_HappinessFrame:IsShown()) then 
         ArtemisMainFrame_HappinessFrame:Show()
+        Artemis.SetupFeedPet()
+        ArtemisMainFrame_FeedFrame:Show()
       end
     else
       --TODO reset data?
@@ -1625,16 +1633,31 @@ function Artemis:PetChangedCallback(newGUID)
 end
 -------------------------------------------------------------------------
 -------------------------------------------------------------------------
-
-function Artemis.FeedPet()  
-  PickupMacro("FeedPetMacro")
-  ArtemisMainFrame_FeedButton:SetAttribute("type", "macro")
-	ArtemisMainFrame_FeedButton:SetAttribute("macro", "FeedPetMacro" ) --BOM.MACRONAME)	
+function Artemis:SetupFeedPet(self)
+  Artemis.DebugMsg("SetupFeedPet");
+  if(ArtemisDBChar.options.setupfeedbuttonismacro==nil) then
+    ArtemisDBChar.options.setupfeedbuttonismacro = false
+  end
+  if(ArtemisDBChar.options.setupfeedbuttonismacro) then
+    Artemis.DebugMsg("SetupFeedPet: Macro as 'FeedPetMacro'");
+    ArtemisMainFrame_FeedFrame_FeedButton:SetAttribute("type", "macro")
+    ArtemisMainFrame_FeedFrame_FeedButton:SetAttribute("macro", "FeedPetMacro" ) --BOM.MACRONAME)	  
+  else
+    Artemis.DebugMsg("SetupFeedPet: Spell as 'Feed Pet'");
+    ArtemisMainFrame_FeedFrame_FeedButton:SetAttribute("type", "spell")
+    ArtemisMainFrame_FeedFrame_FeedButton:SetAttribute("spell", "Feed Pet" )
+  end
+  --ArtemisMainFrame_FeedFrame_FeedButton:SetAttribute("macro", "/say testing 1234" ) --BOM.MACRONAME)	
+  --ArtemisMainFrame_FeedFrame_FeedButton:SetAttribute("type", "spell")
+	--ArtemisMainFrame_FeedFrame_FeedButton:SetAttribute("spell", "Feed Pet" )  
 end
-
+  
 function Artemis:DoFeedPet(self)
   --TODO
   Artemis.PrintMsg("DoFeedPet");
+  --PickupMacro("FeedPetMacro")
+  --ArtemisMainFrame_FeedButton:SetAttribute("type", "macro")
+	--ArtemisMainFrame_FeedButton:SetAttribute("macro", "FeedPetMacro" ) --BOM.MACRONAME)	
 end
 
 -------------------------------------------------------------------------
@@ -1714,7 +1737,7 @@ function Artemis.OptionInit()
       end
     end
     
-    --ArtemisDBChar.enable
+    --
     local enabledCB = Artemis:createOptionCheckBox("MainEnabledCheckButton",frame,anchor,"Main Enabled")
     enabledCB:SetScript( "OnClick", Artemis.toggleMainEnabled )
     if(ArtemisDBChar.enable) then
@@ -1726,6 +1749,20 @@ function Artemis.OptionInit()
     end    
     Artemis.view.options.panel.enabledCB = enabledCB
     
+    --
+    local debugCB = Artemis:createOptionCheckBox("DebugCheckButton",frame, Artemis.view.options.panel.feedButtonShowCheckBox,"Debug Enabled")
+    debugCB:SetPoint( "TOPLEFT", 20, -50 )
+    debugCB:SetPoint("TOPLEFT", enabledCB, "TOPLEFT", 10, -50)    
+    debugCB:SetScript( "OnClick", Artemis.toggleDebug )
+    if(ArtemisDBChar.debug) then
+      debugCB:SetChecked(true)
+      ArtemisDBChar.debug = true
+    else
+      debugCB:SetChecked(false)
+      ArtemisDBChar.debug = false
+    end    
+    Artemis.view.options.panel.debugCB = debugCB
+
     --
     local durCheckBox = CreateFrame( "CheckButton", "DurabilityEnabledCB", frame,"OptionsCheckButtonTemplate" )-- "ChatConfigCheckButtonTemplate" ) --"OptionsCheckButtonTemplate" )
     durCheckBox:SetText("Durability Enabled")    
@@ -1748,9 +1785,8 @@ function Artemis.OptionInit()
     local expCheckBox = CreateFrame( "CheckButton", "ExperienceEnabledCB", frame,"OptionsCheckButtonTemplate" )-- "ChatConfigCheckButtonTemplate" ) --"OptionsCheckButtonTemplate" )
     expCheckBox:SetText("Experience Enabled")    
     _G[ "ExperienceEnabledCB" .. "Text" ]:SetText( "Experience Enabled")    
-    --expCheckBox.tooltip = tooltip
     expCheckBox:SetPoint( "TOPLEFT", 20, -50 )
-    expCheckBox:SetPoint("TOPLEFT", Artemis.view.options.panel.durCheckBox, "TOPLEFT", 0, -50)
+    expCheckBox:SetPoint( "TOPLEFT", durCheckBox, "TOPRIGHT", 150, 0)
     expCheckBox:SetScript( "OnClick", Artemis.toggleCheckboxPetExperience )
     if(ArtemisDBChar.options.petexperienceswitch) then
       expCheckBox:SetChecked(true)
@@ -1769,16 +1805,16 @@ function Artemis.OptionInit()
     _G[ "ExperiencePercentEnabledCB" .. "Text" ]:SetText( "Experience Percent Enabled")    
     --expPercentCheckBox.tooltip = tooltip
     expPercentCheckBox:SetPoint( "TOPLEFT", 20, -50 )
-    expPercentCheckBox:SetPoint("TOPLEFT", Artemis.view.options.panel.expCheckBox, "TOPLEFT", 0, -50)
+    expPercentCheckBox:SetPoint("TOPLEFT", Artemis.view.options.panel.durCheckBox, "TOPLEFT", 0, -50)
     expPercentCheckBox:SetScript( "OnClick", Artemis.toggleCheckboxPetExperiencePercent )
     if(ArtemisDBChar.options.petexperiencepercentswitch) then
       expPercentCheckBox:SetChecked(true)
       ArtemisDBChar.options.petexperiencepercentswitch = true
-      Artemis.PrintMsg("PetExp Perce is true");
+      Artemis.DebugMsg("PetExp Perc is true");
     else
       expPercentCheckBox:SetChecked(false)
       ArtemisDBChar.options.petexperiencepercentswitch = false
-      Artemis.PrintMsg("PetExp Perce is false");
+      Artemis.DebugMsg("PetExp Perc is false");
     end    
     Artemis.view.options.panel.expPercentCheckBox = expPercentCheckBox
     
@@ -1866,24 +1902,36 @@ function Artemis.OptionInit()
     end    
     Artemis.view.options.panel.trackersOrientCheckBox = trackersOrientCheckBox
     
-    --
-    --
-    
-    --
-    local debugCB = Artemis:createOptionCheckBox("DebugCheckButton",frame, Artemis.view.options.panel.trackersCheckBox,"Debug Enabled")
-    debugCB:SetScript( "OnClick", Artemis.toggleDebug )
-    if(ArtemisDBChar.debug) then
-      debugCB:SetChecked(true)
-      ArtemisDBChar.debug = true
+    --    
+    local feedButtonShowCheckBox = Artemis:createOptionCheckBox("FeedButtonShowCheckBox",frame, Artemis.view.options.panel.trackersCheckBox, "Show FeedButton")
+    feedButtonShowCheckBox:SetScript( "OnClick", Artemis.toggleCheckboxShowFeedButton )
+    if(ArtemisDBChar.options.setupfeedbutton) then
+      feedButtonShowCheckBox:SetChecked(true)
+      ArtemisDBChar.options.setupfeedbutton = true
     else
-      debugCB:SetChecked(false)
-      ArtemisDBChar.debug = false
+      feedButtonShowCheckBox:SetChecked(false)
+      ArtemisDBChar.options.setupfeedbutton = false
     end    
-    Artemis.view.options.panel.debugCB = debugCB
+    Artemis.view.options.panel.feedButtonShowCheckBox = feedButtonShowCheckBox
     
+    --    
+    local feedButtonMacroCheckBox = Artemis:createOptionCheckBox("FeedButtonMacroCheckBox",frame, Artemis.view.options.panel.feedButtonShowCheckBox, "FeedButton Macro, not spell")
+    feedButtonMacroCheckBox:SetPoint( "TOPLEFT", 20, -50 )
+    feedButtonMacroCheckBox:SetPoint( "TOPLEFT", feedButtonShowCheckBox, "TOPRIGHT", 150, 0)
+    feedButtonMacroCheckBox:SetScript( "OnClick", Artemis.toggleCheckboxFeedButtonMacro )
+    if(ArtemisDBChar.options.setupfeedbutton) then
+      feedButtonMacroCheckBox:SetChecked(true)
+      ArtemisDBChar.options.setupfeedbuttonismacro = true
+    else
+      feedButtonMacroCheckBox:SetChecked(false)
+      ArtemisDBChar.options.setupfeedbuttonismacro = false
+    end    
+    Artemis.view.options.panel.feedButtonMacroCheckBox = feedButtonMacroCheckBox
+    
+    --
     -- Clear the OnShow so it only happens once
     --frame:SetScript("OnShow", nil)
-  end
+  end    
 end
 
 function Artemis:createOptionCheckBox(name,parentframe,parentposition,text)
@@ -1952,8 +2000,11 @@ function Artemis.toggleCheckboxPetExperience()
   
   if(ArtemisDBChar.options.petexperienceswitch) then
     ArtemisMainFrame_HappinessFrame:Show()
+    Artemis.SetupFeedPet()
+    ArtemisMainFrame_FeedFrame:Show()
   else
     ArtemisMainFrame_HappinessFrame:Hide()
+    ArtemisMainFrame_FeedFrame:Hide()
   end
 end
 
@@ -1973,8 +2024,11 @@ function Artemis.toggleCheckboxPetExperiencePercent()
   
   if(ArtemisDBChar.options.petexperiencepercentswitch) then
     ArtemisMainFrame_HappinessFrame:Show()
+    Artemis.SetupFeedPet()
+    ArtemisMainFrame_FeedFrame:Show()
   else
     ArtemisMainFrame_HappinessFrame:Hide()
+    ArtemisMainFrame_FeedFrame:Hide()
   end
 end
 
@@ -2125,6 +2179,50 @@ function Artemis:toggleCheckboxTrackersOrientVertical()
   end
 end
 
+--ArtemisDBChar.options.setupfeedbutton
+function Artemis:toggleCheckboxShowFeedButton() 
+	local isChecked = Artemis.view.options.panel.feedButtonShowCheckBox :GetChecked()
+  if(ArtemisDBChar.options==nil) then
+    ArtemisDBChar.options = {}
+  end
+  if(ArtemisDBChar.options.setupfeedbutton==nil) then
+    ArtemisDBChar.options.setupfeedbutton = false
+  end
+  if isChecked then
+    ArtemisDBChar.options.setupfeedbutton = true
+  else
+    ArtemisDBChar.options.setupfeedbutton = false
+  end
+  if(ArtemisDBChar.options.setupfeedbutton) then
+    Artemis.SetupFeedPet()
+    ArtemisMainFrame_FeedFrame:Show()
+  else
+    ArtemisMainFrame_FeedFrame:Hide()
+  end
+end
+
+
+--ArtemisDBChar.options.setupfeedbuttonismacro
+function Artemis:toggleCheckboxFeedButtonMacro() 
+	local isChecked = Artemis.view.options.panel.feedButtonMacroCheckBox :GetChecked()
+  if(ArtemisDBChar.options==nil) then
+    ArtemisDBChar.options = {}
+  end
+  if(ArtemisDBChar.options.setupfeedbuttonismacro==nil) then
+    ArtemisDBChar.options.setupfeedbuttonismacro = false
+  end
+  if isChecked then
+    ArtemisDBChar.options.setupfeedbuttonismacro = true
+  else
+    ArtemisDBChar.options.setupfeedbuttonismacro = false
+  end
+  if(ArtemisDBChar.options.setupfeedbutton) then
+    Artemis.SetupFeedPet()
+    ArtemisMainFrame_FeedFrame:Show()
+  else
+    ArtemisMainFrame_FeedFrame:Hide()
+  end
+end
 
 -------------------------------------------------------------------------
 -------------------------------------------------------------------------

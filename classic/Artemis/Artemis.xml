@@ -141,26 +141,64 @@
             </Layer>
         </Layers>	
         <Frames>
-          <Button name="ArtemisMainFrame_FeedButton" inherits="Artemis_SecureButton">
-            <Anchors>
-              <Anchor point="TOPLEFT" relativeTo="textPetHappiness" relativePoint="TOPRIGHT">
-                <Offset>
-                  <AbsDimension x="4" y="0"/>
-                </Offset>
-              </Anchor>
-            </Anchors>
-            <Size><AbsDimension x="16" y="16"/></Size>            
-            <NormalTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
-            <PushedTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
-          </Button>
         </Frames>
+        <Layers>
+        </Layers>	
         <Scripts>
           <!-- OnClick> Artemis:DoFeedPet() </OnClick -->
           <OnEnter> Artemis:ShowTooltip(self,"PetHappiness") </OnEnter>
           <OnLeave> Artemis:HideTooltip(self,"PetHappiness") </OnLeave>					
         </Scripts>
       </Frame>
-        
+      
+      <Frame name="$parent_FeedFrame" parent="ArtemisMainFrame" inherits="SecureHandlerBaseTemplate"
+      hidden="true" movable="false" enableMouse="true" frameStrata="HIGH" resizable="false" >
+					<Anchors>
+            <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parent_HappinessFrame" >
+							<Offset>
+								<AbsDimension x="10" y="10"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+          <Size><AbsDimension x="90" y="20"/></Size>
+          <Layers>
+        </Layers>	
+        <Frames>
+          <Button name="$parent_FeedButton" inherits="Artemis_SecureButton" text="Feed Pat?">
+            <Anchors>
+              <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+                <Offset>
+                  <AbsDimension x="0" y="0"/>
+                </Offset>
+              </Anchor>
+            </Anchors>
+            <Scripts>
+              <OnPostClick> Artemis:DoFeedPet() </OnPostClick>
+            </Scripts>
+            <Size><AbsDimension x="16" y="16"/></Size>            
+            <NormalTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
+            <PushedTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
+          </Button>
+        </Frames>
+        <Layers>
+        <!--
+            <Layer level="BACKGROUND">
+              <FontString name="textFeedPet" inherits="GameFontNormal" text="Feed Pat?" maxLines="1" justifyH="LEFT" justifyV="TOP">
+                <Anchors>
+                  <Anchor point="LEFT" parent="$parent_FeedButton" relativePoint="RIGHT" >
+                    <Offset>
+                      <AbsDimension x="0" y="0"/>
+                    </Offset>
+                  </Anchor>
+                </Anchors>
+              </FontString>
+            </Layer>
+            -->
+        </Layers>	
+        <Scripts>
+        </Scripts>
+      </Frame>
+      
       
       <Frame name="$parent_PetExperienceFrame" parent="ArtemisMainFrame" 
       hidden="true" movable="false" enableMouse="true" frameStrata="LOW" resizable="false" >

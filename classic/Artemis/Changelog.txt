@@ -22,9 +22,19 @@ Cool down on button
 Trackers
 When new spell is learned, bar doesnt update
 petskills min level etc
+mana levels etc on buttons
 
 ## [Unreleased]
-## [1.0.7] - WIP
+- tooltips anchored to seperate frame
+
+## [1.0.8]
+--BETA Check the macro option in the options to
+--Create a macro named "FeedPetMacro" like: and use the circle button next to the "Pet is...XX"
+/cast feed pet 
+/use Moon Harvest Pumpkin
+- Or leave it unchecked and it just casts "feed pet" for you to select a food
+-misc fixes
+## [1.0.7]
 - Trackers enabled
 - vertical/horizontal
 ## [1.0.6]
