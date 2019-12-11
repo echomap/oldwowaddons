@@ -142,7 +142,7 @@ end
 -------------------------------------------------------------------------
 function Artemis.TrackerButton_OnEnter(self)
   Artemis.DebugMsg("TrackerButton_OnEnter Called" .. tostring(self) );
-  Artemis:ShowTooltip(self, self:GetAttribute("spell") )
+  Artemis:ShowTooltip(self, self:GetAttribute("spell", "TRACKER") )
 end
 
 function Artemis.TrackerButton_OnLeave(self)

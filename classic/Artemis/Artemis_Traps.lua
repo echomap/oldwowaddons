@@ -140,7 +140,7 @@ end
 -------------------------------------------------------------------------
 function Artemis.TrapButton_OnEnter(self)
   --Artemis.DebugMsg("TrapButton_OnEnter Called");
-  Artemis:ShowTooltip(self, self:GetAttribute("spell") )
+  Artemis:ShowTooltip(self, self:GetAttribute("spell"), "TRAP" )
 end
 
 function Artemis.TrapButton_OnLeave()

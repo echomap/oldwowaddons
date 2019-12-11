@@ -138,7 +138,7 @@ end
 -------------------------------------------------------------------------
 function Artemis.AspectButton_OnEnter(self)
   Artemis.DebugMsg("AspectButton_OnEnter Called" .. tostring(self) );
-  Artemis:ShowTooltip(self, self:GetAttribute("spell") )
+  Artemis:ShowTooltip(self, self:GetAttribute("spell"), "ASPECT" )
 end
 
 function Artemis.AspectButton_OnLeave(self)

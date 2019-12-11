@@ -145,7 +145,7 @@
         <Layers>
         </Layers>	
         <Scripts>
-          <!-- OnClick> Artemis:DoFeedPet() </OnClick -->
+          <!--OnClick> Artemis:DoCheckPetHappiness()</OnClick-->
           <OnEnter> Artemis:ShowTooltip(self,"PetHappiness") </OnEnter>
           <OnLeave> Artemis:HideTooltip(self,"PetHappiness") </OnLeave>					
         </Scripts>
@@ -174,6 +174,8 @@
             </Anchors>
             <Scripts>
               <OnPostClick> Artemis:DoFeedPet() </OnPostClick>
+              <OnEnter> Artemis:ShowTooltip(self,"PetFeed") </OnEnter>
+              <OnLeave> Artemis:HideTooltip(self,"PetFeed") </OnLeave>					
             </Scripts>
             <Size><AbsDimension x="16" y="16"/></Size>            
             <NormalTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>

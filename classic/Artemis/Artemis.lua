@@ -35,7 +35,12 @@ end
 
 function Artemis.PrintMsg(msg)
   if( msg ~= nil) then 
-    print("(Artemis) " .. msg )
+    --color? textWpnDur:SetTextColor(0,125,125) -- yellow
+    --cff6cf900
+    -- red cffff0000
+    --green cff6cf900
+    print("|cffFFE599".."(Artemis) " .. msg .. "|r" )
+    -- "You have |cffff0000" .. tostring(#notList) .. "|r pending " .. taskPlural
   end
   --TODO TIME STAMP date("%B %m %Y %H:%M:%S")
 end
@@ -87,6 +92,7 @@ function Artemis:SetupWindow()
     ArtemisMainFrame:RegisterEvent("PLAYER_LOGIN")
     
     ArtemisMainFrame:RegisterEvent("PET_STABLE_SHOW")
+    ArtemisMainFrame:RegisterEvent("PET_STABLE_CLOSED")
     ArtemisMainFrame:RegisterEvent("PET_STABLE_UPDATE")
     
     ArtemisMainFrame:RegisterUnitEvent("UNIT_PET","player")
@@ -97,7 +103,7 @@ function Artemis:SetupWindow()
       if( ArtemisDBChar.options.setuptrapsswitch ) then 
         ArtemisMainFrame:RegisterEvent("SPELLS_CHANGED");
         ArtemisMainFrame:RegisterEvent("LEARNED_SPELL_IN_TAB");
-        ArtemisMainFrame:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN");
+        --ArtemisMainFrame:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN");
       end
     else
       ArtemisTrapFrame:Hide();
@@ -226,6 +232,7 @@ function Artemis:InitPlayer()
   ArtemisMainFrame:RegisterForDrag("LeftButton");  -- DRAG
   
 	ArtemisMainFrame:RegisterEvent("PET_STABLE_SHOW")
+  ArtemisMainFrame:RegisterEvent("PET_STABLE_CLOSED")
   ArtemisMainFrame:RegisterEvent("PET_STABLE_UPDATE")
   
   ArtemisMainFrame:RegisterUnitEvent("UNIT_PET","player")
@@ -238,7 +245,7 @@ function Artemis:InitPlayer()
     if( ArtemisDBChar.options.setuptrapsswitch ) then 
       ArtemisMainFrame:RegisterEvent("SPELLS_CHANGED");
       ArtemisMainFrame:RegisterEvent("LEARNED_SPELL_IN_TAB");
-      ArtemisMainFrame:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN");
+      --ArtemisMainFrame:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN");
       --
       Artemis.TrapFrame_Initialize()
       ArtemisTrapFrame:Show();
@@ -293,11 +300,15 @@ function Artemis:OnEvent(event, ...)
   end
   
  if event == "PET_STABLE_SHOW" then
-    Artemis:DoStableMasterEvent()
+    Artemis:DoStableMasterShowEvent()
+	elseif event == "PET_STABLE_CLOSED" then
+    Artemis:DoStableMasterClosedEvent()
 	elseif event == "PET_STABLE_UPDATE" then
-    Artemis:DoStableMasterEvent()
+    Artemis:DoStableMasterShowEvent()
   elseif event == "UNIT_PET" then
-    Artemis:CheckPetChanged()
+    if(not Artemis.instableevent) then
+      Artemis:CheckPetChanged()
+    end
   elseif event == "UNIT_HAPPINESS" then
     Artemis.DebugMsg("OnEvent: arg1 = "..tostring(arg1) ) -- "pet"
     Artemis:UpdatePetHappiness()
@@ -319,6 +330,7 @@ function Artemis:OnUnLoad()
   ArtemisMainFrame:UnregisterEvent("ADDON_LOADED")  
   --ArtemisMainFrame:UnregisterEvent("LeftButton");  -- DRAG
   ArtemisMainFrame:UnregisterEvent("PET_STABLE_SHOW")
+  ArtemisMainFrame:UnregisterEvent("PET_STABLE_CLOSED")
   ArtemisMainFrame:UnregisterEvent("PET_STABLE_UPDATE")
   ArtemisMainFrame:UnregisterEvent("UNIT_PET")
   ArtemisMainFrame:UnregisterEvent("UNIT_HAPPINESS")  
@@ -327,7 +339,7 @@ function Artemis:OnUnLoad()
   
   ArtemisMainFrame:UnregisterEvent("SPELLS_CHANGED");
   ArtemisMainFrame:UnregisterEvent("LEARNED_SPELL_IN_TAB");
-  ArtemisMainFrame:UnregisterEvent("ACTIONBAR_UPDATE_COOLDOWN");
+  --ArtemisMainFrame:UnregisterEvent("ACTIONBAR_UPDATE_COOLDOWN");
 
   --
   Artemis.view.setupmain = false
@@ -386,93 +398,105 @@ function Artemis:OnDragStop()
 	Artemis:SaveAnchors()
 end
 
--- Main Window tooltip
-function Artemis:ShowTooltip(self,messageType)
-  Artemis.DebugMsg("ShowTooltip: messageType=" .. tostring(messageType))
-  if( not ArtemisMainFrame:IsShown()) then
-    return
-  end
+-- Tooltip
+function Artemis:ShowTooltipByCategory(self,messageType,messageCategoryType)
+  Artemis.DebugMsg("messageCategoryType: " .. messageCategoryType)       
   local message = "Artemis"
-  if( messageType ~= nil) then
-    
-    if( messageType == "Settings") then 
-      message = message .. " Settings/Options"
-    elseif( messageType == "AmmoCount") then
-      local itemLink = Artemis.view.ammoItemLink --GetInventoryItemLink("player", Artemis.view.ammoSlot )
-      if( itemLink ~= nil) then
-        local itemName, itemLink2, itemRarity, itemLevel, itemMinLevel, itemType, 
-            itemSubType, itemStackCount, itemEquipLoc, itemTexture, itemSellPrice =  GetItemInfo(itemLink)      
-        message = "<" .. itemName .. ">"      
-      else
-        message = "< None >"
-      end
-    elseif( messageType == "WpnDur") then
-      local itemLink = GetInventoryItemLink("player", Artemis.view.rangedSlot )
-      if( itemLink ~= nil) then
-        local itemName, itemLink2, itemRarity, itemLevel, itemMinLevel, itemType, 
-            itemSubType, itemStackCount, itemEquipLoc, itemTexture, itemSellPrice =  GetItemInfo(itemLink)      
-        message = "<" .. itemName .. ">"      
-      else
-        message = "< None >"
-      end
-    elseif( messageType == "PetHappiness") then
-      if( ArtemisDBChar.stable ~= nil ) then
-        local petarr = ArtemisDBChar.stable[1] 
-        -- name, family, level, icon, loyalty, happiness, petFoodList, currexp, nextexp
-        local name, family, level, icon, loyalty, happiness, petFoodList = Artemis:ParsePetArray(petarr)	
-        --local happiness, damagePercentage, loyaltyRate = GetPetHappiness()
-        --local happy = ({"Unhappy", "Content", "Happy"})[happiness]
-        message = "<" .. happiness .. ">"
-      end
-    elseif( messageType == L["Artemis_Trap_IMMOLATION"] ) then
-       message = "<" .. L["Artemis_Trap_IMMOLATION_TT"] .. ">" 
-    elseif( messageType == L["Artemis_Trap_FREEZING"] ) then
-       message = "<" .. L["Artemis_Trap_FREEZING_TT"] .. ">" 
-    elseif( messageType == L["Artemis_Trap_FROST"] ) then
-       message = "<" .. L["Artemis_Trap_FROST_TT"] .. ">" 
-    elseif( messageType == L["Artemis_Trap_EXPLOSIVE"] ) then
-       message = "<" .. L["Artemis_Trap_EXPLOSIVE_TT"] .. ">" 
-    elseif( messageType == L["Artemis_Trap_SNAKE"] ) then
-       message = "<" .. L["Artemis_Trap_SNAKE_TT"] .. ">"     
-
-    elseif( messageType == L["Artemis_Aspec_Monkey"] ) then
-       message = "<" .. L["Artemis_Aspec_Monkey_TT"] .. ">" 
-    elseif( messageType == L["Artemis_Aspec_Cheetah"] ) then
-       message = "<" .. L["Artemis_Aspec_Cheetah_TT"] .. ">" 
-    elseif( messageType == L["Artemis_Aspec_Pack"] ) then
-       message = "<" .. L["Artemis_Aspec_Pack_TT"] .. ">" 
-    elseif( messageType == L["Artemis_Aspec_Hawk"] ) then
-       message = "<" .. L["Artemis_Aspec_Hawk_TT"] .. ">" 
-    elseif( messageType == L["Artemis_Aspec_Beast"] ) then
-       message = "<" .. L["Artemis_Aspec_Beast_TT"] .. ">"     
-    elseif( messageType == L["Artemis_Aspec_Wild"] ) then
-       message = "<" .. L["Artemis_Aspec_Wild_TT"] .. ">"     
-    
-    elseif( messageType == L["Artemis_Track_Beasts"] ) then
-       message = "<" .. L["Artemis_Track_Beasts_TT"] .. ">" 
-    elseif( messageType == L["Artemis_Track_Humanoids"] ) then
-       message = "<" .. L["Artemis_Track_Humanoids_TT"] .. ">" 
-    elseif( messageType == L["Artemis_Track_Undead"] ) then
-       message = "<" .. L["Artemis_Track_Undead_TT"] .. ">" 
-    elseif( messageType == L["Artemis_Track_Hidden"] ) then
-       message = "<" .. L["Artemis_Track_Hidden_TT"] .. ">" 
-    elseif( messageType == L["Artemis_Track_Elementals"] ) then
-       message = "<" .. L["Artemis_Track_Elementals_TT"] .. ">"     
-    elseif( messageType == L["Artemis_Track_Demons"] ) then
-       message = "<" .. L["Artemis_Track_Demons_TT"] .. ">"     
-    elseif( messageType == L[""] ) then
-       message = "<" .. L["Artemis_Track_Giants_TT"] .. ">"     
-    elseif( messageType == L["Artemis_Track_Dragonkin"] ) then
-       message = "<" .. L["Artemis_Track_Dragonkin_TT"] .. ">"     
-       
-    else
-      message = message .. " " .. messageType
+  if(messageCategoryType=="TRAP" or messageCategoryType=="TRACKER" or messageCategoryType=="ASPECT") then
+    local sid 
+    local slink   
+    sid = Artemis.Trap_Traps[messageType]
+    slink = GetSpellLink( messageType )
+    Artemis.DebugMsg("Link: " .. tostring(slink) )
+    Artemis.DebugMsg("sid: " .. tostring(sid) )
+    Artemis.DebugMsg("slink: " .. tostring(slink) )
+    local sdesc = GetSpellDescription(slink)
+    if( sid~=nil and slink~=nil and sdesc~=nil ) then
+      message = sdesc    
+      Artemis.DebugMsg("sdesc: " .. tostring(sdesc) )
     end
   end
   GameTooltip:SetOwner(self, "ANCHOR_BOTTOM", 0,0	)
 	GameTooltip:AddLine(message .."\n" ,.8,.8,.8,1,false)
 	GameTooltip:Show()
 end
+
+-- Tooltip
+function Artemis:ShowTooltipByMessageType(self,messageType)
+  Artemis.DebugMsg("messageType: " .. messageType)       
+  local message = "Artemis"
+  
+  if( messageType == "Settings") then 
+    message = message .. " Settings/Options"
+  elseif( messageType == "AmmoCount") then
+    local itemLink = Artemis.view.ammoItemLink --GetInventoryItemLink("player", Artemis.view.ammoSlot )
+    if( itemLink ~= nil) then
+      local itemName, itemLink2, itemRarity, itemLevel, itemMinLevel, itemType, 
+          itemSubType, itemStackCount, itemEquipLoc, itemTexture, itemSellPrice =  GetItemInfo(itemLink)
+      message = "<" .. itemName .. ">"      
+    else
+      message = "< None >"
+    end
+  elseif( messageType == "WpnDur") then
+    local itemLink = GetInventoryItemLink("player", Artemis.view.rangedSlot )
+    if( itemLink ~= nil) then
+      local itemName, itemLink2, itemRarity, itemLevel, itemMinLevel, itemType, 
+          itemSubType, itemStackCount, itemEquipLoc, itemTexture, itemSellPrice =  GetItemInfo(itemLink)      
+      message = "<" .. itemName .. ">"      
+    else
+      message = "< None >"
+    end
+  elseif( messageType == "PetHappiness") then
+    if( ArtemisDBChar.stable ~= nil ) then
+      --Artemis:UpdatePetHappiness()
+      local petarr = ArtemisDBChar.stable[1] 
+      -- name, family, level, icon, loyalty, happiness, petFoodList, currexp, nextexp
+      local name, family, level, icon, loyalty, happiness, petFoodList = Artemis:ParsePetArray(petarr)	
+      --local happiness, damagePercentage, loyaltyRate = GetPetHappiness()
+      --local happy = ({"Unhappy", "Content", "Happy"})[happiness]
+      message = "<" .. happiness .. ">"
+    end
+  elseif( messageType == "PetFeed") then
+    if( ArtemisDBChar.stable ~= nil ) then
+      local mText = ""
+      if(ArtemisDBChar.options.setupfeedbuttonismacro) then
+        mText = "FeedPetMacro"
+        local name, icon, body, isLocal = GetMacroInfo("FeedPetMacro")
+        if(name~=nil and body~=nil) then
+          mText = "FeedPetMacro=" .. body 
+        end
+      else
+        mText = "Feed Pet Spell"
+      end
+      message = "<" .. mText .. ">"
+    end
+  else
+    message = message .. " " .. messageType
+  end
+  GameTooltip:SetOwner(self, "ANCHOR_BOTTOM", 0,0	)
+	GameTooltip:AddLine(message .."\n" ,.8,.8,.8,1,false)
+	GameTooltip:Show()  
+end
+
+-- Main Window tooltip
+function Artemis:ShowTooltip(self,messageType,messageCategoryType)
+  Artemis.DebugMsg("ShowTooltip: messageType=" .. tostring(messageType))
+  Artemis.DebugMsg("ShowTooltip: messageCategoryType=" .. tostring(messageCategoryType))
+  if( not ArtemisMainFrame:IsShown()) then
+    return
+  end  
+  if(messageCategoryType ~= nil) then
+    Artemis:ShowTooltipByCategory(self,messageType,messageCategoryType)
+  elseif( messageType ~= nil) then
+    Artemis:ShowTooltipByMessageType(self,messageType)
+  else
+    local message = "Artemis"
+    GameTooltip:SetOwner(self, "ANCHOR_BOTTOM", 0,0	)
+    GameTooltip:AddLine(message .."\n" ,.8,.8,.8,1,false)
+    GameTooltip:Show()
+  end
+end
+
 function Artemis:HideTooltip()
 	GameTooltip:Hide()
 end
@@ -549,7 +573,7 @@ function Artemis:OnEventDataFrame(event, ...)
   elseif event == "PLAYER_LOGOUT" then
     Artemis:OnUnLoadDataFrame()
 	elseif event == "PET_STABLE_SHOW" then
-    --Artemis:DoStableMasterEvent()
+    --Artemis:DoStableMasterShowEvent()
   else
     --TODO How often is this called?
     --Artemis:LoadAmmoCount()
@@ -1281,8 +1305,15 @@ function Artemis:ResetStable()
   ArtemisDBChar.stable = {}		
 end
 
+--
+function Artemis:DoStableMasterClosedEvent()
+  Artemis.instableevent = false
+	--TODO CLOSED Artemis.PrintMsg(L["StableOpenMessage"])
+end
+
 --Update stored stable data, called from Main Frame events, PET_STABLE_SHOW and PET_STABLE_UPDATE
-function Artemis:DoStableMasterEvent()
+function Artemis:DoStableMasterShowEvent()
+  Artemis.instableevent = true
 	Artemis.PrintMsg(L["StableOpenMessage"])
   
   local localizedClass, englishClass = UnitClass("player");
@@ -1521,6 +1552,11 @@ function Artemis:ParsePetArray(petarr)
 	return name, family, level, icon, loyalty, happiness, petFoodList, currexp, nextexp
 end
 
+--On button click
+function Artemis:DoCheckPetHappiness()
+  Artemis:UpdatePetHappiness()
+end
+
 -- 
 function Artemis:UpdatePetHappiness()
   if(UnitExists("pet")) then
@@ -1532,7 +1568,7 @@ function Artemis:UpdatePetHappiness()
     -- If user is a hunter and pet is alive and out/with a name, update happiness data, else, do NOTHING
     if( hasUI and isHunterPet ) then
       Artemis:ScanCurrentPet()
-      local icon, name, level, family, loyalty       = GetStablePetInfo(1)
+      local icon, name, level, family, loyalty = GetStablePetInfo(1)
       if(name~=nil) then
         local happiness, damagePercentage, loyaltyRate = GetPetHappiness()
         local happy = ({"Unhappy", "Content", "Happy"})[happiness]
@@ -1570,7 +1606,17 @@ function Artemis:UpdatePetHappiness()
       end
     else
       --TODO reset data?
-    end-- has pet
+    end-- has pet\
+  else
+    --pet is unsumoned or dead? uuuu
+    if(UnitIsDead("pet")) then
+      textPetHappiness:SetTextColor(125,125,125) 
+      hText = string.format("Pet is... %s", "Dead?") --TODO check this shows,,,when?
+    else
+      textPetHappiness:SetTextColor(0,125,125) --yellow
+      hText = string.format("Pet is... %s", "Uknown?") --TODO check this shows,,,when?
+    end
+    textPetHappiness:SetText(hText)
   end --Pet is alive
 end
 
@@ -1587,17 +1633,17 @@ function Artemis:CheckPetChanged()
     end
   else
     Artemis.DebugMsg("CheckPetChanged Called, and pet not exists")
-    Artemis.DebugMsg("CheckPetChanged hasUI=" .. tostring(hasUI) .. " isHunterPet="..tostring(isHunterPet) )
-    local hasUI, isHunterPet = HasPetUI();
-    if( hasUI and isHunterPet ) then
-      --pet dead or unsummoned?
-      if(UnitIsDead("pet")) then
-        Artemis.PrintMsg( L["PetUnitDead"] )
-      else
-        textPetHappiness:SetTextColor(0,125,125) -- yellow
-        local hText = string.format("Pet is... %s", "...?")
-        textPetHappiness:SetText(hText)
-      end
+    --pet dead or unsummoned?
+    if(UnitIsDead("pet")) then
+      Artemis.PrintMsg( L["PetUnitDead"] )
+      textWpnDur:SetTextColor(255,0,0) -- borken
+      --textPetHappiness:SetTextColor(125,0,0) -- red
+      local hText = string.format("Pet is... %s", "Dead")
+      textPetHappiness:SetText(hText)        
+    else
+      textPetHappiness:SetTextColor(0,125,125) -- yellow
+      local hText = string.format("Pet is... %s", "Unsummoned")
+      textPetHappiness:SetText(hText)        
     end
   end
 end
@@ -1893,7 +1939,7 @@ function Artemis.OptionInit()
     trackersOrientCheckBox:SetScript( "OnClick", Artemis.toggleCheckboxTrackersOrientVertical )
     trackersOrientCheckBox:SetPoint( "TOPLEFT", 20, -50 )
     trackersOrientCheckBox:SetPoint( "TOPLEFT", trackersCheckBox, "TOPRIGHT", 150, 0)
-    if(ArtemisDBChar.options.setuptrackerssorientation) then
+    if(ArtemisDBChar.options.setuptrackersorientation) then
       trackersOrientCheckBox:SetChecked(true)
       ArtemisDBChar.options.setuptrackersorientation = true
     else

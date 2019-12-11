@@ -21,6 +21,7 @@ L["Addon_Desc"] = "Artemis - An addon for hunters to take a snapshot of their st
 
 L["StableNoPets"]            = "You have no pets at this time?"
 L["StableOpenMessage"]       = "You have opened the stable!"
+L["StableClosedMessage"]     = "You have closed the stable!"
 L["StableNotAHunterMessage"] = "You are not a hunter and can't stable pets."
 L["StableNumPetsMessage"]    = "You have %s pets."
 L["PetUnitChanged"]          = "Pet was switched out or changed."

@@ -8,24 +8,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 UnitIsDead
 UnitIsDeadOrGhost("unit")
 skills
-Trap Selector?
-Aspect Selector
 pet/player death handling
 flight path handling
-macro feed pet
 decolor trap button if combat
 fix locking issue on startup
 fix traps showing on startup if not set to
-Aspects
-Keybindings
-Cool down on button
-Trackers
+*Keybindings
+*Cool down on button
+*trap timers?
 When new spell is learned, bar doesnt update
 petskills min level etc
 mana levels etc on buttons
 
 ## [Unreleased]
 - tooltips anchored to seperate frame
+- fix up tooltips
+-color change
+-macro hover over shows macro
+-better handling of pet death/unsummoned
 
 ## [1.0.8]
 --BETA Check the macro option in the options to
