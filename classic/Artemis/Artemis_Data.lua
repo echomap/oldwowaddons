@@ -16,6 +16,62 @@ Artemis.petfamily = {
       ["foodlist"] = "fish, cheese, bread",
       ["PetFoodType"] =  {"fish","cheese","bread"},
     } ,
+  ["Bats"] = {
+      ["foodlist"] = "TODO",
+      ["PetFoodType"] =  {"TODO"},
+    },
+  ["Bears"] = {
+      ["foodlist"] = "TODO",
+      ["PetFoodType"] =  {"TODO"},
+    },
+  ["Boars"] = {
+      ["foodlist"] = "TODO",
+      ["PetFoodType"] =  {"TODO"},
+    },
+  ["Carrion Birds"] = {
+      ["foodlist"] = "TODO",
+      ["PetFoodType"] =  {"TODO"},
+    },
+  ["Cats"] = {
+      ["foodlist"] = "TODO",
+      ["PetFoodType"] =  {"TODO"},
+    },
+  ["Crocolisks"] = {
+      ["foodlist"] = "TODO",
+      ["PetFoodType"] =  {"TODO"},
+    },
+  ["Gorillas"] = {
+      ["foodlist"] = "TODO",
+      ["PetFoodType"] =  {"TODO"},
+    },
+  ["Hyenas"] = {
+      ["foodlist"] = "TODO",
+      ["PetFoodType"] =  {"TODO"},
+    },
+  ["Raptors"] = {
+      ["foodlist"] = "TODO",
+      ["PetFoodType"] =  {"TODO"},
+    },
+  ["Spiders"] = {
+      ["foodlist"] = "TODO",
+      ["PetFoodType"] =  {"TODO"},
+    },
+  ["Tallstriders"] = {
+      ["foodlist"] = "TODO",
+      ["PetFoodType"] =  {"TODO"},
+    },
+  ["Turtles"] = {
+      ["foodlist"] = "TODO",
+      ["PetFoodType"] =  {"TODO"},
+    },
+  ["Wind Serpents"] = {
+      ["foodlist"] = "TODO",
+      ["PetFoodType"] =  {"TODO"},
+    },
+  ["Wolves"] = {
+      ["foodlist"] = "TODO",
+      ["PetFoodType"] =  {"TODO"},
+    },
 }
 
 Artemis.Ability_Base_List = {

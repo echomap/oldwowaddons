@@ -78,12 +78,26 @@ function Artemis:DoPetSearchLearnableSkills()
             Artemis.view.petcanlearn[abilName].locations[loc] = {}
           end
           -- add to table Artemis.view.petcanlearn[abilName].locations[loc]
+          table.insert( Artemis.view.petcanlearn[abilName].animals , kTable )
+          table.insert( Artemis.view.petcanlearn[abilName].locations[loc] , kTable )
         end
       end --for 
-      
     end
   end
   
+   Artemis.DebugMsg("Trainer can teach-->")
+  for kName, kBool in pairs(Artemis.view.petcanlearn[abilName].trainer) do
+    if(kBool) then
+      Artemis.DebugMsg("kName="..tostring(kName))
+    end
+  end
+  Artemis.DebugMsg("<--")
+  
+  Artemis.DebugMsg("Animals can learn from-->")
+  for kName, kTable in pairs(Artemis.view.petcanlearn[abilName].animals) do
+    Artemis.DebugMsg("kName="..tostring(kName))
+  end
+  Artemis.DebugMsg("<--")
   --[[
   ["arcane resistance 1"] = {
     ["trainer"] = true ,
