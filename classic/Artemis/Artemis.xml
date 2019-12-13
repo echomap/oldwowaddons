@@ -5,6 +5,7 @@
   <Script file="Artemis_Traps.lua" />
   <Script file="Artemis_Aspects.lua" />
   <Script file="Artemis_Trackers.lua" />
+  <Script file="Artemis_PetSearch.lua" />
   
   <Button name="Artemis_SecureButton" inherits="SecureActionButtonTemplate" virtual="true">
 		<Size><AbsDimension y="22"/></Size>

@@ -5,14 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## TODO
-UnitIsDead
-UnitIsDeadOrGhost("unit")
-skills
-pet/player death handling
-flight path handling
 decolor trap button if combat
-fix locking issue on startup
-fix traps showing on startup if not set to
 *Keybindings
 *Cool down on button
 *trap timers?
@@ -21,12 +14,15 @@ petskills min level etc
 mana levels etc on buttons
 
 ## [Unreleased]
+-
+## [1.0.10]
+-Bugfixes to mouseovers
+## [1.0.9]
 - tooltips anchored to seperate frame
 - fix up tooltips
 -color change
 -macro hover over shows macro
 -better handling of pet death/unsummoned
-
 ## [1.0.8]
 --BETA Check the macro option in the options to
 --Create a macro named "FeedPetMacro" like: and use the circle button next to the "Pet is...XX"

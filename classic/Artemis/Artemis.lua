@@ -402,10 +402,18 @@ end
 function Artemis:ShowTooltipByCategory(self,messageType,messageCategoryType)
   Artemis.DebugMsg("messageCategoryType: " .. messageCategoryType)       
   local message = "Artemis"
-  if(messageCategoryType=="TRAP" or messageCategoryType=="TRACKER" or messageCategoryType=="ASPECT") then
-    local sid 
-    local slink   
+  local sid 
+  local slink   
+  if(messageCategoryType=="TRAP") then
     sid = Artemis.Trap_Traps[messageType]
+  end
+  if(messageCategoryType=="TRACKER") then
+    sid = Artemis.Tracker_Trackers[messageType]
+  end
+  if(messageCategoryType=="ASPECT") then
+    sid = Artemis.Aspect_Aspects[messageType]
+  end
+  if(sid~=nil) then
     slink = GetSpellLink( messageType )
     Artemis.DebugMsg("Link: " .. tostring(slink) )
     Artemis.DebugMsg("sid: " .. tostring(sid) )
@@ -416,7 +424,7 @@ function Artemis:ShowTooltipByCategory(self,messageType,messageCategoryType)
       Artemis.DebugMsg("sdesc: " .. tostring(sdesc) )
     end
   end
-  GameTooltip:SetOwner(self, "ANCHOR_BOTTOM", 0,0	)
+  GameTooltip:SetOwner(self, "ANCHOR_BOTTOM", -20, 0	)
 	GameTooltip:AddLine(message .."\n" ,.8,.8,.8,1,false)
 	GameTooltip:Show()
 end
@@ -1180,6 +1188,8 @@ function Artemis.SlashCommandHandler(msg)
     Artemis.OptionsOpen()
 	elseif options[1] == "gui" then    
     Artemis:ShowHide()
+	elseif options[1] == "search" then    
+    Artemis:DoPetSearchLearnableSkills()
 	elseif options[1] == "traps" then    
     Artemis:toggleCheckboxTraps()
 	elseif options[1] == "aspects" then    
@@ -1308,7 +1318,7 @@ end
 --
 function Artemis:DoStableMasterClosedEvent()
   Artemis.instableevent = false
-	--TODO CLOSED Artemis.PrintMsg(L["StableOpenMessage"])
+	Artemis.PrintMsg(L["StableClosedMessage"])
 end
 
 --Update stored stable data, called from Main Frame events, PET_STABLE_SHOW and PET_STABLE_UPDATE
@@ -1638,11 +1648,11 @@ function Artemis:CheckPetChanged()
       Artemis.PrintMsg( L["PetUnitDead"] )
       textWpnDur:SetTextColor(255,0,0) -- borken
       --textPetHappiness:SetTextColor(125,0,0) -- red
-      local hText = string.format("Pet is... %s", "Dead")
+      local hText = string.format(L["Artemis_PET_STATUS_MSG"], L["Artemis_PET_DEAD"] )
       textPetHappiness:SetText(hText)        
     else
       textPetHappiness:SetTextColor(0,125,125) -- yellow
-      local hText = string.format("Pet is... %s", "Unsummoned")
+      local hText = string.format(L["Artemis_PET_STATUS_MSG"], L["Artemis_PET_UNSUMMONED"] )
       textPetHappiness:SetText(hText)        
     end
   end
@@ -1716,7 +1726,7 @@ function Artemis.OptionsOpen()
 end
 
 function Artemis.OptionInit()
-  Artemis.PrintMsg("OptionInit Called");
+  Artemis.DebugMsg("OptionInit Called");
   if(ArtemisDBChar.options == nil) then
     ArtemisDBChar.options = {}
     ArtemisDBChar.options.wpndurabilityswitch = true

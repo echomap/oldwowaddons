@@ -33,6 +33,10 @@ L["ShowStable_NoneSaved"]    = "No Pets saved"
 L["ShowStable_NoneSaved_Hunter"] = "No saved pets yet, visit your Stable Master."
 L["ShowStable_NoPets"]           = "No saved pets yet, visit your Stable Master."
 
+L["Artemis_PET_DEAD"]       = "Dead"
+L["Artemis_PET_UNSUMMONED"] = "Unsummoned"
+L["Artemis_PET_STATUS_MSG"] = "Pet is... %s"
+
 L["Artemis_Trap_Drag"]       = "Drag me!!"
 
 L["Artemis_Trap_IMMOLATION"] = "Immolation Trap"
@@ -40,12 +44,6 @@ L["Artemis_Trap_FREEZING"]   = "Freezing Trap"
 L["Artemis_Trap_FROST"]      = "Frost Trap"
 L["Artemis_Trap_EXPLOSIVE"]  = "Explosive Trap"
 L["Artemis_Trap_SNAKE"]      = "Snake Trap"
-
-L["Artemis_Trap_IMMOLATION_TT"] = "Immolation Trap: Place a fire trap that will burn the first enemy to approach."
-L["Artemis_Trap_FREEZING_TT"]   = "Freezing trap: Place a frost trap that freezes the first enemy that approaches."
-L["Artemis_Trap_FROST_TT"]      = "Frost Trap: Place a frost trap that creates an ice slick."
-L["Artemis_Trap_EXPLOSIVE_TT"]  = "Explosive Trap: Place a fire trap that explodes when an enemy approaches,"
-L["Artemis_Trap_SNAKE_TT"]      = "Snake Trap: Place a nature trap that will release several venomous snakes that poison enemies with a Crippling Poison."
 
 L["Artemis_Aspec_Monkey"] = "Aspect of the Monkey"
 L["Artemis_Aspec_Cheetah"] = "Aspect of the Cheetah"
