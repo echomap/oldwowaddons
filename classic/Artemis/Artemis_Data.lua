@@ -17,60 +17,60 @@ Artemis.petfamily = {
       ["PetFoodType"] =  {"fish","cheese","bread"},
     } ,
   ["Bats"] = {
-      ["foodlist"] = "TODO",
-      ["PetFoodType"] =  {"TODO"},
+      ["foodlist"] = "Fruit, Fungus",
+      ["PetFoodType"] =  {"Fruit","Fungus"},
     },
   ["Bears"] = {
-      ["foodlist"] = "TODO",
-      ["PetFoodType"] =  {"TODO"},
+      ["foodlist"] = "Bread,Cheese,Fish,Fruit,Fungus,Meat",
+      ["PetFoodType"] =  {"Bread","Cheese","Fish","Fruit","Fungus","Meat"},
     },
   ["Boars"] = {
-      ["foodlist"] = "TODO",
-      ["PetFoodType"] =  {"TODO"},
+      ["foodlist"] = "Bread,Cheese,Fish,Fruit,Fungus,Meat",
+      ["PetFoodType"] =  {"Bread","Cheese","Fish","Fruit","Fungus","Meat"},
     },
   ["Carrion Birds"] = {
-      ["foodlist"] = "TODO",
-      ["PetFoodType"] =  {"TODO"},
+      ["foodlist"] = "Fish, Meat",
+      ["PetFoodType"] =  {"Fish","Meat"},
     },
   ["Cats"] = {
-      ["foodlist"] = "TODO",
-      ["PetFoodType"] =  {"TODO"},
+      ["foodlist"] = "Fish, Meat",
+      ["PetFoodType"] =  {"Fish","Meat"},
     },
   ["Crocolisks"] = {
-      ["foodlist"] = "TODO",
-      ["PetFoodType"] =  {"TODO"},
+      ["foodlist"] = "Fish, Meat",
+      ["PetFoodType"] =  {"Fish","Meat"},
     },
   ["Gorillas"] = {
-      ["foodlist"] = "TODO",
-      ["PetFoodType"] =  {"TODO"},
+      ["foodlist"] = "Fruit, Fungus",
+      ["PetFoodType"] =  {"Fruit","Fungus"},
     },
   ["Hyenas"] = {
-      ["foodlist"] = "TODO",
-      ["PetFoodType"] =  {"TODO"},
+      ["foodlist"] = "Fruit, Meat",
+      ["PetFoodType"] =  {"Fruit","Meat"},
     },
   ["Raptors"] = {
-      ["foodlist"] = "TODO",
-      ["PetFoodType"] =  {"TODO"},
+      ["foodlist"] = "Meat",
+      ["PetFoodType"] =  {"Meat"},
     },
   ["Spiders"] = {
-      ["foodlist"] = "TODO",
-      ["PetFoodType"] =  {"TODO"},
+      ["foodlist"] = "Meat",
+      ["PetFoodType"] =  {"Meat"},
     },
   ["Tallstriders"] = {
-      ["foodlist"] = "TODO",
-      ["PetFoodType"] =  {"TODO"},
+      ["foodlist"] = "Cheese, Fruit, Fungus",
+      ["PetFoodType"] =  {"Cheese","Fruit","Fungus"},
     },
   ["Turtles"] = {
-      ["foodlist"] = "TODO",
-      ["PetFoodType"] =  {"TODO"},
+      ["foodlist"] = "Fish, Fruit, Fungus",
+      ["PetFoodType"] =  {"Fish","Fruit","Fungus"},
     },
   ["Wind Serpents"] = {
-      ["foodlist"] = "TODO",
-      ["PetFoodType"] =  {"TODO"},
+      ["foodlist"] = "Bread, Cheese, Fish",
+      ["PetFoodType"] =  {"Bread","Cheese","Fish"},
     },
   ["Wolves"] = {
-      ["foodlist"] = "TODO",
-      ["PetFoodType"] =  {"TODO"},
+      ["foodlist"] = "Meat",
+      ["PetFoodType"] =  {"Meat"},
     },
 }
 
