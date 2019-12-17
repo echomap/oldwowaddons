@@ -12,6 +12,7 @@ decolor trap button if combat
 When new spell is learned, bar doesnt update
 petskills min level etc
 mana levels etc on buttons
+colors options
 
 ## [Unreleased]
 -
