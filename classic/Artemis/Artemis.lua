@@ -663,7 +663,7 @@ function Artemis:ShowTooltipPet(self,petIndex)
   name = Artemis:SetStringOrDefault(name,"No Pet")
 
   if( petFoodList==nil or #petFoodList<1 and family~=nil and Artemis.petfamily[family]~=nil) then
-    Artemis.DebugMsg("ScanPetAtIndex getting foodlilst from data, family=".. tostring(family))
+    Artemis.DebugMsg("ScanPetAtIndex getting foodlist from data, family=".. tostring(family))
     petFoodList = Artemis.petfamily[family]["PetFoodType"]
   end
 
@@ -1010,7 +1010,8 @@ function Artemis.PetSkillsAbilityScrollBar_Update()
   --Artemis.PrintMsg("PetSkillsAbilityScrollBar_Update reset data")
   for line=1,10 do
     lineplusoffset = line + FauxScrollFrame_GetOffset(ArtemisPetSearchFrameLeftSideFrame);
-    if lineplusoffset <= #Artemis.Ability_Base_List then
+    
+    if lineplusoffset <= #Artemis.Abilities_Base then --Ability_Base_List then
       getglobal("MyModEntry"..line):SetText(Artemis.view.MyModData[lineplusoffset]);
       getglobal("MyModEntry"..line).moddata = Artemis.view.MyModData[lineplusoffset]
       getglobal("MyModEntry"..line):Show();
@@ -1102,7 +1103,7 @@ function Artemis.PetSkillsAbilityDropdown_OnClick(indexData)
       local nMax = tonumber(abMax)
       local abTrain = abilitySel["trainer"]
        
-      local abilityFamily = Artemis.AbilityFamily [Artemis.view.selectPetAbility]
+      --local abilityFamily = Artemis.AbilityFamily [Artemis.view.selectPetAbility]
       --abilityFamily["trainer"]
       --abilityFamily["CanLearnText"]
       --abilityFamily["CanLearnList"] 
@@ -1394,7 +1395,7 @@ function Artemis:ScanPetAtIndex(index)
       local foodListString = Artemis.toStringFoodList(foodList)
       Artemis.DebugMsg("ScanPetAtIndex foodListString=" .. foodListString)
     else
-      Artemis.DebugMsg("ScanPetAtIndex getting foodlilst from data, family=".. tostring(family))
+      Artemis.DebugMsg("ScanPetAtIndex getting foodlist from data, family=".. tostring(family))
       if(Artemis.petfamily[family]~=nil) then
         foodList = Artemis.petfamily[family]["PetFoodType"]
       else
@@ -1714,6 +1715,23 @@ function Artemis:DoFeedPet(self)
   --PickupMacro("FeedPetMacro")
   --ArtemisMainFrame_FeedButton:SetAttribute("type", "macro")
 	--ArtemisMainFrame_FeedButton:SetAttribute("macro", "FeedPetMacro" ) --BOM.MACRONAME)	
+end
+
+-- Call when spells learned, and on load, to make sure addon knows player's pet spells
+function Artemis.SetupKnownSpells()
+  if( ArtemisDBChar.petskills == nil) then
+    ArtemisDBChar.petskills = {}
+  end
+  
+  local tabName, tabTexture, tabOffset, numEntries = GetSpellTabInfo(1)
+  for i=tabOffset + 1, tabOffset + numEntries do
+    local spellName, spellSubName = GetSpellBookItemName(i, BOOKTYPE_PET)
+    if(spellName~=nil ) then --and spellSubName~=nil
+      Artemis.PrintMsg( "==> " .. spellName .. '(' .. tostring(spellSubName) .. ')' )
+      ArtemisDBChar.petskills[spellName] = spellSubName
+    end
+  end
+  
 end
 
 -------------------------------------------------------------------------
