@@ -66,7 +66,7 @@ function Artemis.TrapFrame_Initialize()
 			button:SetAttribute("type", "spell");
 			button:SetAttribute("spell", spell);
       local buttontext = getglobal("ArtemisTrapFrame_Trap"..count.."Icon");
-      
+            
       local textureName = GetSpellBookItemTexture(spell)      
       local tex = ArtemisTrapFrame:CreateTexture(textureName, "BACKGROUND")
       --tex:SetAllPoints()
@@ -83,6 +83,16 @@ function Artemis.TrapFrame_Initialize()
       
 			button.SpellID = id;
 			button:Show();
+      
+      --
+      local name, rank, icon, castTime, minRange, maxRange, spellId = GetSpellInfo(spell)
+      --Artemis.PrintMsg("TrapFrame_Initialize: spell=" .. tostring(id) )
+      --Artemis.view.buttonspelllist[spellId] = "ArtemisTrapFrame_Trap"..count.."Cooldown"
+      local myCooldown = getglobal("ArtemisTrapFrame_Trap"..count.."Cooldown");
+      Artemis.view.buttonspelllist[spellId] = {}
+      Artemis.view.buttonspelllist[spellId].myCooldown = myCooldown
+      Artemis.view.buttonspelllist[spellId].myType = "TRAP"
+
 		end
 	end
   
@@ -202,6 +212,11 @@ end
 -------------------------------------------------------------------------
 -- Traps Utils
 -------------------------------------------------------------------------
+
+function Artemis.TrapsPostClick(self)
+  Artemis.printMsg("TrapsPostClick Called");
+end
+
 function Artemis.DoClickTrapButton_1()
   local button = getglobal("ArtemisTrapFrame_Trap"..1);
   button:Click("LeftButton",false)

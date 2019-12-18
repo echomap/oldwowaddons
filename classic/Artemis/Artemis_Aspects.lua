@@ -80,6 +80,13 @@ function Artemis.AspectFrame_Initialize()
       
 			button.SpellID = id;
 			button:Show();
+      
+      --
+      local name, rank, icon, castTime, minRange, maxRange, spellId = GetSpellInfo(spell)
+      local myCooldown = getglobal("ArtemisAspectFrame_Aspect"..count.."Cooldown");
+      Artemis.view.buttonspelllist[spellId] = {}
+      Artemis.view.buttonspelllist[spellId].myCooldown = myCooldown
+      Artemis.view.buttonspelllist[spellId].myType = "ASPECT"
 		end
 	end
   

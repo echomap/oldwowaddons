@@ -29,7 +29,7 @@
       </Layer>
     </Layers>
     <Frames>
-			<Cooldown name="$parentCooldown" inherits="CooldownFrameTemplate">
+			<Cooldown name="$parentCooldown" inherits="CooldownFrameTemplate" setAllPoints="true" >
 				<Size x="36" y="36"/>
 				<Anchors>
 					<Anchor point="CENTER">
@@ -38,6 +38,13 @@
 						</Offset>
 					</Anchor>
 				</Anchors> 
+        <SwipeTexture>
+          <Color r="0" g="0" b="0" a="0.8"/>
+        </SwipeTexture>
+        <EdgeTexture file="Interface\Cooldown\edge"/>
+        <BlingTexture file="Interface\Cooldown\star4">
+          <Color r="0.3" g="0.6" b="1" a="0.8"/>
+        </BlingTexture>
 			</Cooldown>
 		</Frames>
     <Scripts>
@@ -87,6 +94,9 @@
             </Offset>
           </Anchor>
 				</Anchors>
+        <Scripts>
+          <OnPostClick>Artemis.TrapsPostClick(self)</OnPostClick>
+        </Scripts>
       </Button>
       <Button name="$parent_Trap2" inherits="ArtemisTrapButtonTemplate" id="2">
 				<Anchors>

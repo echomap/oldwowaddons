@@ -82,6 +82,13 @@ function Artemis.TrackerFrame_Initialize()
       
 			button.SpellID = id;
 			button:Show();
+      
+      --  
+      local name, rank, icon, castTime, minRange, maxRange, spellId = GetSpellInfo(spell)
+      local myCooldown = getglobal("ArtemisTrackerFrame_Tracker"..count.."Cooldown");
+      Artemis.view.buttonspelllist[spellId] = {}
+      Artemis.view.buttonspelllist[spellId].myCooldown = myCooldown
+      Artemis.view.buttonspelllist[spellId].myType = "TRACKER"
 		end
 	end
   

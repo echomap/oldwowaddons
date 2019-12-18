@@ -13,9 +13,12 @@ When new spell is learned, bar doesnt update
 petskills min level etc
 mana levels etc on buttons
 colors options
+set which aspect/tracker is already set at logon
 
 ## [Unreleased]
--
+- updates to bars, foodlist, alpha, search and scanskills
+- traps/aspects/trackers CD
+- foodlist update
 ## [1.0.10]
 -Bugfixes to mouseovers
 ## [1.0.9]

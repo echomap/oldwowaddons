@@ -206,6 +206,8 @@ function Artemis:SetupDefaultSavedvariables()
     ArtemisDBChar.options.setuptrackersorientation = false
 
   end
+
+  Artemis.view.buttonspelllist = {}
 end
   
 function Artemis:InitPlayer()
@@ -278,7 +280,7 @@ function Artemis:OnUpdate()
   Artemis:SetupDataWindow()
 end
 
--- Main frame : Event framework
+-- Main frame : Event framework (DoEvent/OnEvent)
 function Artemis:OnEvent(event, ...)
   Artemis.DebugMsg("OnEvent: Called w/event="..tostring(event) )
 	local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg, arg9 = ...
@@ -320,15 +322,12 @@ function Artemis:OnEvent(event, ...)
   elseif event == "PET_DISMISS_START" then
     Artemis.DebugMsg("PET_DISMISS_START")
     Artemis:CheckPetChanged()
+  elseif event == "LEARNED_SPELL_IN_TAB" then  
+    Artemis.SetupKnownSpells()
   elseif event == "UNIT_SPELLCAST_SUCCEEDED" then
+    Artemis.DoSpellCast(arg3)
     --Artemis.PrintMsg("OnEvent: UNIT_SPELLCAST_SUCCEEDED")
     --Artemis.PrintMsg("OnEvent: arg1 = "..tostring(arg1) )
-  if( arg2 ~= nil) then
-    --Artemis.PrintMsg("OnEvent: arg2 = "..tostring(arg2) )
-    --local desc = GetSpellDescription(arg2);
-    --Artemis.PrintMsg("OnEvent: desc = "..tostring(desc) )
-  end
-
   else
     --TODO How often is this called? -- make sense here? Artemis:LoadAmmoCount()
   end
@@ -1264,6 +1263,8 @@ function Artemis.SlashCommandHandler(msg)
     Artemis.OptionsOpen()
 	elseif options[1] == "gui" then    
     Artemis:ShowHide()
+  elseif options[1] == "scanskills" then    
+    Artemis.SetupKnownSpells()
 	elseif options[1] == "search" then    
     Artemis:DoPetSearchLearnableSkills()
 	elseif options[1] == "traps" then    
@@ -1801,6 +1802,7 @@ end
 
 -- Call when spells learned, and on load, to make sure addon knows player's pet spells
 function Artemis.SetupKnownSpells()
+  Artemis.PrintMsg("SetupKnownSpells Called");
   if( ArtemisDBChar.petskills == nil) then
     ArtemisDBChar.petskills = {}
   end
@@ -1809,12 +1811,89 @@ function Artemis.SetupKnownSpells()
   for i=tabOffset + 1, tabOffset + numEntries do
     local spellName, spellSubName = GetSpellBookItemName(i, BOOKTYPE_PET)
     if(spellName~=nil ) then --and spellSubName~=nil
-      Artemis.PrintMsg( "==> " .. spellName .. '(' .. tostring(spellSubName) .. ')' )
-      ArtemisDBChar.petskills[spellName] = spellSubName
+      Artemis.PrintMsg( "==> " .. spellName .. '(' .. tostring(spellSubName) .. ')' ) 
+      local rankint = string.match(spellSubName, "Rank (%d+)" )
+      ArtemisDBChar.petskills[spellName] = {}           
+      ArtemisDBChar.petskills[spellName].rank     = rankint
+      ArtemisDBChar.petskills[spellName].fullname = spellName .. " " .. rankint
+      ArtemisDBChar.petskills[spellName].name = spellName
+      ArtemisDBChar.petskills[spellName].spellSubName = spellSubName
     end
   end
-  
+  Artemis.PrintMsg("SetupKnownSpells Done");
 end
+
+function Artemis.DoSpellCast(spell)
+    if( spell ~= nil) then
+      local myCooldownAr= Artemis.view.buttonspelllist[spell] --getglobal(btnCDName);      
+      if(myCooldownAr ~= nil) then
+        local myCooldown = myCooldownAr.myCooldown        
+        if(myCooldown ~= nil) then
+          --
+          local start, duration = GetSpellCooldown(spell)
+          --Artemis.PrintMsg("OnEvent: start = "..tostring(start) .." duration = "..tostring(duration))
+          local cooldownMS, gcdMS = GetSpellBaseCooldown(spell)
+          --Artemis.PrintMsg("OnEvent: cooldownMS = "..tostring(cooldownMS) .." gcdMS = "..tostring(gcdMS))
+          duration = cooldownMS/1000
+          
+          --
+          local myType = myCooldownAr.myType
+          if(myType==nil) then
+          elseif(myType=="ASPECT") then
+            Artemis.DoSpellCastAspect(spell,start, duration)
+          elseif(myType=="TRACKER") then
+            Artemis.DoSpellCastTracker(spell,start, duration)
+          elseif(myType=="TRAP") then
+            Artemis.DoSpellCastTrap(spell,start, duration)
+          end
+          myCooldown:SetCooldown(start, duration)
+        end
+      end      
+    end
+end
+
+function Artemis.DoSpellCastAspect(spell)
+  --Artemis.PrintMsg("DoSpellCastAspect Called");
+  local count = 0;
+	for spell, id in pairs(Artemis.Aspect_Aspects) do
+		if (id > 0) then
+			count = count + 1;
+      local myCooldown = getglobal("ArtemisAspectFrame_Aspect"..count.."Cooldown");
+      if(myCooldown~=nil) then
+        myCooldown:SetCooldown(0,0)
+      end
+    end
+  end
+end
+
+function Artemis.DoSpellCastTracker(spell)
+  --Artemis.PrintMsg("DoSpellCastAspect Called");
+  local count = 0;
+	for spell, id in pairs(Artemis.Aspect_Aspects) do
+		if (id > 0) then
+			count = count + 1;
+      local myCooldown = getglobal("ArtemisTrackerFrame_Tracker"..count.."Cooldown");
+      if(myCooldown~=nil) then
+        myCooldown:SetCooldown(0,0)
+      end
+    end
+  end
+end
+
+function Artemis.DoSpellCastTrap(spell,start, duration)
+  --Artemis.PrintMsg("DoSpellCastAspect Called");
+  local count = 0;
+	for spell, id in pairs(Artemis.Aspect_Aspects) do
+		if (id > 0) then
+			count = count + 1;
+      local myCooldown = getglobal("ArtemisTrapFrame_Trap"..count.."Cooldown");
+      if(myCooldown~=nil) then
+        myCooldown:SetCooldown(start,duration)
+      end
+    end
+  end
+end
+
 
 -------------------------------------------------------------------------
 --OPTIONS

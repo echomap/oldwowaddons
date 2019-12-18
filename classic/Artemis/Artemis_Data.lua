@@ -16,59 +16,55 @@ Artemis.petfamily = {
       ["foodlist"] = "fish, cheese, bread",
       ["PetFoodType"] =  {"fish","cheese","bread"},
   } ,
-  ["Bats"] = {
+  ["Bat"] = {
       ["foodlist"] = "Fruit, Fungus",
       ["PetFoodType"] =  {"Fruit","Fungus"},
     },
-  ["Bears"] = {
+  ["Bear"] = {
       ["foodlist"] = "Bread,Cheese,Fish,Fruit,Fungus,Meat",
       ["PetFoodType"] =  {"Bread","Cheese","Fish","Fruit","Fungus","Meat"},
   },
-  ["Boars"] = {
+  ["Boar"] = {
       ["foodlist"] = "Bread,Cheese,Fish,Fruit,Fungus,Meat",
       ["PetFoodType"] =  {"Bread","Cheese","Fish","Fruit","Fungus","Meat"},
   },
-  ["Carrion Birds"] = {
+  ["Carrion Bird"] = {
       ["foodlist"] = "Fish, Meat",
       ["PetFoodType"] =  {"Fish","Meat"},
   },
-  ["Cats"] = {
+  ["Crocolisk"] = {
       ["foodlist"] = "Fish, Meat",
       ["PetFoodType"] =  {"Fish","Meat"},
   },
-  ["Crocolisks"] = {
-      ["foodlist"] = "Fish, Meat",
-      ["PetFoodType"] =  {"Fish","Meat"},
-  },
-  ["Gorillas"] = {
+  ["Gorilla"] = {
       ["foodlist"] = "Fruit, Fungus",
       ["PetFoodType"] =  {"Fruit","Fungus"},
   },
-  ["Hyenas"] = {
+  ["Hyena"] = {
       ["foodlist"] = "Fruit, Meat",
       ["PetFoodType"] =  {"Fruit","Meat"},
   },
-  ["Raptors"] = {
+  ["Raptor"] = {
       ["foodlist"] = "Meat",
       ["PetFoodType"] =  {"Meat"},
   },
-  ["Spiders"] = {
+  ["Spider"] = {
       ["foodlist"] = "Meat",
       ["PetFoodType"] =  {"Meat"},
   },
-  ["Tallstriders"] = {
+  ["Tallstrider"] = {
       ["foodlist"] = "Cheese, Fruit, Fungus",
       ["PetFoodType"] =  {"Cheese","Fruit","Fungus"},
   },
-  ["Turtles"] = {
+  ["Turtle"] = {
       ["foodlist"] = "Fish, Fruit, Fungus",
       ["PetFoodType"] =  {"Fish","Fruit","Fungus"},
   },
-  ["Wind Serpents"] = {
+  ["Wind Serpent"] = {
       ["foodlist"] = "Bread, Cheese, Fish",
       ["PetFoodType"] =  {"Bread","Cheese","Fish"},
   },
-  ["Wolves"] = {
+  ["Wolve"] = {
       ["foodlist"] = "Meat",
       ["PetFoodType"] =  {"Meat"},
   },
