@@ -1,12 +1,14 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/">
   <Script file="Localization\enUS.lua"/>
 	<Script file="Artemis.lua" />
+  <Script file="Artemis_Stable.lua" />
   <Script file="Artemis_Options.lua" />
   <Script file="Artemis_Data.lua" />  
   <Script file="Artemis_Traps.lua" />
   <Script file="Artemis_Aspects.lua" />
   <Script file="Artemis_Trackers.lua" />
   <Script file="Artemis_PetSearch.lua" />  
+  <Script file="Artemis_PetSkills.lua" />  
   
   <Button name="Artemis_SecureButton" inherits="SecureActionButtonTemplate" virtual="true">
 		<Size><AbsDimension y="22"/></Size>
@@ -175,7 +177,7 @@
               </Anchor>
             </Anchors>
             <Scripts>
-              <OnPostClick> Artemis:DoFeedPet() </OnPostClick>
+              <OnPostClick> </OnPostClick>
               <OnEnter> Artemis:ShowTooltip(self,"PetFeed") </OnEnter>
               <OnLeave> Artemis:HideTooltip(self,"PetFeed") </OnLeave>					
             </Scripts>
@@ -228,8 +230,7 @@
             </Layer>
         </Layers>
       </Frame>
-      
-        
+    
     </Frames>
     
 		<Scripts>

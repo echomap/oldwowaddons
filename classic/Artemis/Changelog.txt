@@ -16,6 +16,8 @@ colors options
 set which aspect/tracker is already set at logon
 
 ## [Unreleased]
+- bugfixes
+## [1.0.11]
 - updates to bars, foodlist, alpha, search and scanskills
 - traps/aspects/trackers CD
 - foodlist update

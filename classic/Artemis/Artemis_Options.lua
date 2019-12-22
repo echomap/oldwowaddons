@@ -136,11 +136,11 @@ function Artemis.OptionInit()
     if(ArtemisDBChar.options.petexperienceswitch) then
       expCheckBox:SetChecked(true)
       ArtemisDBChar.options.petexperienceswitch = true
-      Artemis.PrintMsg("PetExp is true");
+      Artemis.DebugMsg("PetExp is true");
     else
       expCheckBox:SetChecked(false)
       ArtemisDBChar.options.petexperienceswitch = false
-      Artemis.PrintMsg("PetExp is false");
+      Artemis.DebugMsg("PetExp is false");
     end    
     Artemis.view.options.panel.expCheckBox = expCheckBox
     

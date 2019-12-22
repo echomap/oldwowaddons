@@ -51,13 +51,6 @@ L["Artemis_Aspec_Pack"] = "Aspect of the Pack"
 L["Artemis_Aspec_Hawk"] = "Aspect of the Hawk"
 L["Artemis_Aspec_Beast"] = "Aspect of the Beast"
 L["Artemis_Aspec_Wild"] = "Aspect of the Wild"
-    
-L["Artemis_Aspec_Monkey_TT"] = "Increases chance to dodge"
-L["Artemis_Aspec_Cheetah_TT"] = "Increases your movement speed, but dazes you on hit"
-L["Artemis_Aspec_Pack_TT"] = "Increases movement speed of all nearby party members, but dazes on hit"
-L["Artemis_Aspec_Hawk_TT"] = "Increases ranged attack power"
-L["Artemis_Aspec_Beast_TT"] = "Makes the Hunter untrackable"
-L["Artemis_Aspec_Wild_TT"] = "Increases nature resistance of you and all group members"
 
 L["Artemis_Track_Beasts"]     = "Track Beasts"
 L["Artemis_Track_Humanoids"]  = "Track Humanoids"
