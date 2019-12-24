@@ -2,4 +2,7 @@
   <Binding name="ArtemisShowStable" description="Artemis Show Stable" category="ADDONS" header="ARTEMIS">
     Artemis:ShowHide()
   </Binding>
+  <Binding name="ArtemisShowPetSkils" description="Artemis Show PetSkils" category="ADDONS">
+    Artemis:ShowHidePetSkillsWindow()
+  </Binding>
 </Bindings>

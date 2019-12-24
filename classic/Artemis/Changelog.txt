@@ -17,6 +17,7 @@ set which aspect/tracker is already set at logon
 
 ## [Unreleased]
 - bugfixes
+- binding for ArtemisShowPetSkils
 ## [1.0.11]
 - updates to bars, foodlist, alpha, search and scanskills
 - traps/aspects/trackers CD

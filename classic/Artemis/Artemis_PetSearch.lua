@@ -246,25 +246,33 @@ function Artemis.PetSkillsAbilityScrollBar_Update()
   if(Artemis.view.MyModData == nil) then
     Artemis.PrintMsg("PetSkillsAbilityScrollBar_Update create moddata")
     Artemis.view.MyModData = {}
-    
-    for i,v in pairs(Artemis.Ability_Base_List) do
-      Artemis.view.MyModData[i] = v
+  
+    local abBaseMax = 0 -- #Artemis.view.MyModData  why doesnt this work later here?
+    for i,v in pairs(Artemis.Abilities_Base) do
+      abBaseMax = abBaseMax + 1
+      Artemis.view.MyModData[abBaseMax] = i      
+      --Artemis.PrintMsg("Artemis.view.MyModData[i]: " .. tostring(Artemis.view.MyModData[i]))
     end
-    --for i=1,50 do
-    --  Artemis.view.MyModData[i] = "Test ".. tostring(i) -- math.random(100)
-    --end
-  end
+    Artemis.view.MyModDataMax = abBaseMax
+  end  
   
   local line; -- 1 through 5 of our window to scroll
   local lineplusoffset; -- an index into our data calculated from the scroll offset
   FauxScrollFrame_Update(ArtemisPetSearchFrameLeftSideFrame,50,5,16);
   --Artemis.PrintMsg("PetSkillsAbilityScrollBar_Update reset data")
+  
+  --Artemis.PrintMsg("Abilities_Base max " .. tostring(#Artemis.Abilities_Base))
+  --Artemis.PrintMsg("Artemis.view.MyModData max " .. tostring(#Artemis.view.MyModData))  
+  --Artemis.PrintMsg("abBaseMax max " .. tostring(Artemis.view.MyModDataMax))
+  
   for line=1,10 do
     lineplusoffset = line + FauxScrollFrame_GetOffset(ArtemisPetSearchFrameLeftSideFrame);
-    
-    if lineplusoffset <= #Artemis.Abilities_Base then --Ability_Base_List then
+    if lineplusoffset <= Artemis.view.MyModDataMax then --Ability_Base_List then
+      --Artemis.PrintMsg("Abilities_Base lineplusoffset " .. tostring(lineplusoffset))
+      --Artemis.PrintMsg("data name: " .. tostring(Artemis.view.MyModData[lineplusoffset]))
+      --Artemis.PrintMsg("data2: " .. tostring(Artemis.Abilities_Base[Artemis.view.MyModData[lineplusoffset]]))
       getglobal("MyModEntry"..line):SetText(Artemis.view.MyModData[lineplusoffset]);
-      getglobal("MyModEntry"..line).moddata = Artemis.view.MyModData[lineplusoffset]
+      getglobal("MyModEntry"..line).moddata = Artemis.Abilities_Base[Artemis.view.MyModData[lineplusoffset]]
       getglobal("MyModEntry"..line):Show();
     else
       getglobal("MyModEntry"..line):Hide();
@@ -354,7 +362,7 @@ function Artemis.PetSkillsAbilityDropdown_OnClick(indexData)
       local nMax = tonumber(abMax)
       local abTrain = abilitySel["trainer"]
        
-      local abilityFamily = Artemis.AbilityFamily [Artemis.view.selectPetAbility]
+      --local abilityFamily = Artemis.AbilityFamily [Artemis.view.selectPetAbility]
       --abilityFamily["trainer"]
       --abilityFamily["CanLearnText"]
       --abilityFamily["CanLearnList"] 
