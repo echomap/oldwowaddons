@@ -110,7 +110,7 @@ function Artemis.TrackerFrame_Initialize()
     pAnchor:SetPoint( "TOP", "ArtemisTrackerFrame" , "TOP" , 0 , -12 )
       
     for count = 1, Artemis.Tracker_NumTrackers do
-      local button = getglobal("ArtemisTrackerFrame_Tracker"..count);      
+      local button = getglobal("ArtemisTrackerFrame_Tracker"..count);
       button:ClearAllPoints()
       --obj:SetPoint(point, relativeTo, relativePoint, ofsx, ofsy);
       button:SetPoint( "TOP", pAnchor , "BOTTOM" );

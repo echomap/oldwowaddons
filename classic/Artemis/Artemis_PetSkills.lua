@@ -13,13 +13,19 @@ local _, L = ...;
 -------------------------------------------------------------------------
 
 -- Call when spells learned, and on load, to make sure addon knows player's pet spells
+-- It scans the pet spellbok, which when a pet is out only shows what it can learn and you've taught it!
 function Artemis.SetupKnownSpells()
-  Artemis.PrintMsg("SetupKnownSpells Called");
+  --Artemis.PrintMsg("SetupKnownSpells Called");
   if( ArtemisDBChar.petskills == nil) then
     ArtemisDBChar.petskills = {}
   end
   
+  local numTabs = GetNumSpellTabs()
+  Artemis.PrintMsg( "numTabs: " .. tostring(numTabs) ) 
   local tabName, tabTexture, tabOffset, numEntries = GetSpellTabInfo(1)
+  --Artemis.PrintMsg( "tabName: " .. tostring(tabName) ) 
+  --Artemis.PrintMsg( "tabOffset: " .. tostring(tabOffset) ) 
+  --Artemis.PrintMsg( "numEntries: " .. tostring(numEntries) ) 
   for i=tabOffset + 1, tabOffset + numEntries do
     local spellName, spellSubName = GetSpellBookItemName(i, BOOKTYPE_PET)
     if(spellName~=nil ) then --and spellSubName~=nil
@@ -32,7 +38,7 @@ function Artemis.SetupKnownSpells()
       ArtemisDBChar.petskills[spellName].spellSubName = spellSubName
     end
   end
-  Artemis.PrintMsg("SetupKnownSpells Done");
+  --Artemis.PrintMsg("SetupKnownSpells Done");
 end
 
 
@@ -62,12 +68,14 @@ function Artemis:DoPetSearchLearnableSkills()
   Artemis.PrintMsg("numberOfCrafts =" ..tostring(numberOfCrafts) )
 --]]
 
+  -- ugh! THIS DOESN'T WORK AS THE API DOESNT RETURN RANK!!!
+  --[[
   for k, v in pairs(Artemis.Abilities_Base) do
     Artemis.PrintMsg("GetAbilitiesBase: k="..tostring(k))
     local name, rank, icon, castTime, minRange, maxRange, spellId = GetSpellInfo(k)
     Artemis.PrintMsg("GetAbilitiesBase: name="..tostring(name) .. " rank="..tostring(rank) )
   end
-
+  --]]
 
   Artemis.PrintMsg("You have these pet skills-->")
   Artemis.view.havepetskills = {}
@@ -76,12 +84,15 @@ function Artemis:DoPetSearchLearnableSkills()
   for i=tabOffset + 1, tabOffset + numEntries do
     local spellName, spellSubName = GetSpellBookItemName(i, BOOKTYPE_PET)
     if(spellName~=nil ) then --and spellSubName~=nil
-      Artemis.PrintMsg( "==> " .. spellName .. '(' .. tostring(spellSubName) .. ')' )
+      local spellNamel    = string.lower(spellName)
+      local spellSubNamel = string.lower(spellSubName )      
+      Artemis.PrintMsg( "==> " .. spellNamel .. '(' .. tostring(spellSubNamel) .. ')' )
       local rankint = string.match(spellSubName, "Rank (%d+)" )
+      --Artemis.PrintMsg( "  rankint: " .. tostring(rankint) )
       Artemis.view.petskills[spellName .. " " .. rankint ] = true
-      Artemis.view.havepetskills[spellName]={}
-      Artemis.view.havepetskills[spellName].rank = rankint
-      Artemis.view.havepetskills[spellName].fullname = spellName .. " " .. rankint
+      Artemis.view.havepetskills[spellNamel]={}
+      Artemis.view.havepetskills[spellNamel].rank = rankint
+      Artemis.view.havepetskills[spellNamel].fullname = spellNamel .. " " .. rankint
     end
   end  
   Artemis.PrintMsg("<--")
@@ -102,6 +113,46 @@ function Artemis:DoPetSearchLearnableSkills()
 end
 
 -- BETA/ALPHA
+function Artemis.PetSkillsSearchForAbility2(abilName, abilTable)
+  --Artemis.PrintMsg("PetSkillsSearchForAbility2 Called,  abilName: " .. tostring(abilName) )
+  --if(Artemis.view.havepetskills[abilName]) then
+  --  return
+  --end
+  local family = abilTable["AbilityFamily"]
+  local rank   = abilTable ["AbilityLevel"]
+  --Artemis.PrintMsg("PetSkillsSearchForAbility2 family: '" .. tostring(family) .. "' rank: '" .. tostring(rank) .."'" )
+
+  local haveAlready = false
+  local havePS = Artemis.view.havepetskills[family]  
+  if(havePS~=nil) then
+    --Artemis.PrintMsg("PetSkillsSearchForAbility2 havePS")
+    local ranki = tonumber(rank)
+    local rankl = tonumber(havePS.rank)
+    if( rankl >= ranki) then
+      haveAlready = true
+      --Artemis.PrintMsg("PetSkillsSearchForAbility2 have==true")
+    end
+  end
+  if(not haveAlready) then
+    --Artemis.PrintMsg("PetSkillsSearchForAbility2 haveAlready: " .. tostring(haveAlready) )
+    local trainer      = abilTable["trainer"]
+    local minPetlevel  = abilTable["MinPetLevel"]    
+    local minPetleveli = tonumber(minPetlevel)
+    local playerLevel  = UnitLevel("player")
+    local petLevel     = UnitLevel("pet")
+    if( playerLevel >= minPetlevel) then
+      Artemis.PrintMsg("PetSkillsSearchForAbility2 Could learn petskill: ".. family .." Rank "..rank)        
+      Artemis.view.petcanlearn[family] = rank
+    end     
+  end
+  --Artemis.PrintMsg("You can learn these new pet skills-->")
+  
+  --Artemis.PrintMsg("<--")
+  --
+end
+
+-- BETA/ALPHA
+--[[
 function Artemis.PetSkillsPrint()  
   --2 Print for Ability
   --Artemis.view.petcanlearn[abilName].trainer
@@ -126,21 +177,9 @@ function Artemis.PetSkillsPrint()
   end
   Artemis.PrintMsg("<--(Animals can learn from)")
 end
+--]]
 
--- BETA/ALPHA
-function Artemis.PetSkillsSearchForAbility2(abilName, abilTable)
-  Artemis.DebugMsg("PetSkillsSearchForAbility2 Called,  abilName: " .. tostring(abilName) )
-  if(Artemis.view.havepetskills[abilName]) then
-    return
-  end
-  --Artemis.view.havepetskills -- rankint, fullname
-  local spelname, rankint = string.match(abilName, "(%s+) (%d+)" )
-  --Artemis.PrintMsg("spelname=" ..tostring(spelname) .. " rankint: " ..tostring(rankint) )
-  --Artemis.view.petskills[spellName .. " " .. rankint ] = true
-  --Artemis.view.havepetskills[spellName].rank = rankint
-  --Artemis.view.havepetskills[spellName].fullname = spellName .. " " .. rankint
-      
-end
+
 --[[
   ["bite 1"] = {
     ["trainer"] = false ,

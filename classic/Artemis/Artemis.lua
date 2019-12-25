@@ -45,6 +45,14 @@ function Artemis.PrintMsg(msg)
   --TODO TIME STAMP date("%B %m %Y %H:%M:%S")
 end
 
+function Artemis.ErrorMsg(msg)
+  if( msg ~= nil) then 
+    -- red cffff0000
+    print("|cffFFF599".."(Artemis) " .. msg .. "|r" )
+  end
+  --TODO TIME STAMP date("%B %m %Y %H:%M:%S")
+end
+
 function Artemis:formatTime(sec)
   local msgTimeFormat = "%dm %02ds"
   return string.format(msgTimeFormat,math.floor(sec/60), sec %60)
@@ -482,8 +490,8 @@ function Artemis:ShowTooltipByCategory(self,messageType,messageCategoryType)
         --Artemis.PrintMsg("costmana: " .. tostring(costmana) .." costtype: " .. tostring(costtype) )
         if(costmana~=nil) then
           message2 = tostring(costmana).. " Mana" --double check? or in this case, always mana...
-    end
-  end
+        end
+      end
       if(castTime==0) then
         message3 = "Instant Cast"
       else
@@ -493,7 +501,7 @@ function Artemis:ShowTooltipByCategory(self,messageType,messageCategoryType)
         message3 = message3 .. "            " .. "CD: ".. duration
       end
     end
-  end
+  end --sid not null
   GameTooltip:SetOwner(self, "ANCHOR_RIGHT", 0, 0	)
   if(message1~=nil) then
     --text [, red, green, blue [, wrapText]]
@@ -779,6 +787,7 @@ function Artemis:DoStableMasterShowEvent()
     else 
       -- Loop through all pets in the Stable and store them
       Artemis:ScanStable()
+      Artemis.SetupKnownSpells()
     end
   else
     Artemis.PrintMsg(L["StableNotAHunterMessage"])
@@ -1108,9 +1117,9 @@ end
   
 -- Called when pet data seems to be updated
 -- From CheckPetChanged
+-- UnitGUID("pet")
 function Artemis:PetChangedCallback(newGUID)
-  Artemis.DebugMsg("PetChangedCallback storedGUID= " .. tostring(Artemis.view.PET_GUID) )
-  Artemis.DebugMsg("PetChangedCallback newGUID= " .. tostring(newGUID) )
+  Artemis.PrintMsg("PetChangedCallback storedGUID= " .. tostring(Artemis.view.PET_GUID) .. " newGUID= " .. tostring(newGUID) )
   if( Artemis.view.PET_GUID==nil and newGUID~=nil ) then
     Artemis.PrintMsg("PetChangedCallback new pet?")
   elseif(Artemis.view.PET_GUID~=newGUID) then
@@ -1163,32 +1172,39 @@ end
 --Called when event == "UNIT_SPELLCAST_SUCCEEDED"
 -- For: Traps / Aspects / Trackers
 function Artemis.DoSpellCast(spell)
-    if( spell ~= nil) then
-      local myCooldownAr= Artemis.view.buttonspelllist[spell] --getglobal(btnCDName);      
-      if(myCooldownAr ~= nil) then
-        local myCooldown = myCooldownAr.myCooldown        
-        if(myCooldown ~= nil) then
-          --
-          local start, duration = GetSpellCooldown(spell)
-          --Artemis.PrintMsg("OnEvent: start = "..tostring(start) .." duration = "..tostring(duration))
-          local cooldownMS, gcdMS = GetSpellBaseCooldown(spell)
-          --Artemis.PrintMsg("OnEvent: cooldownMS = "..tostring(cooldownMS) .." gcdMS = "..tostring(gcdMS))
-          duration = cooldownMS/1000
-          
-          --
-          local myType = myCooldownAr.myType
-          if(myType==nil) then
-          elseif(myType=="ASPECT") then
-            Artemis.DoSpellCastAspect(spell,start, duration)
-          elseif(myType=="TRACKER") then
-            Artemis.DoSpellCastTracker(spell,start, duration)
-          elseif(myType=="TRAP") then
-            Artemis.DoSpellCastTrap(spell,start, duration)
-          end
-          myCooldown:SetCooldown(start, duration)
-        end
-      end      
+  if( spell == nil) then
+    Artemis.PrintMsg("DoSpellCast spell is NULL!");
+    return 
+  end
+
+  local myCooldownAr = Artemis.view.buttonspelllist[spell] --getglobal(btnCDName);      
+  if(myCooldownAr ~= nil) then
+    local myCooldown = myCooldownAr.myCooldown        
+    if(myCooldown ~= nil) then          
+      local start, duration   = GetSpellCooldown(spell)
+      local cooldownMS, gcdMS = GetSpellBaseCooldown(spell)
+      --Artemis.PrintMsg("OnEvent: start = "..tostring(start) .." duration = "..tostring(duration))
+      --Artemis.PrintMsg("OnEvent: cooldownMS = "..tostring(cooldownMS) .." gcdMS = "..tostring(gcdMS))
+      duration = cooldownMS/1000
+      
+      --reset CD's for other attached elements
+      local myType = myCooldownAr.myType
+      if(myType==nil) then
+        Artemis.PrintMsg("DoSpellCast myType is NULL!");
+      elseif(myType=="ASPECT") then
+        Artemis.DoSpellCastAspect(spell, start, duration)
+      elseif(myType=="TRACKER") then
+        Artemis.DoSpellCastTracker(spell, start, duration)
+      elseif(myType=="TRAP") then
+        Artemis.DoSpellCastTrap(spell, start, duration)
+      end
+      --Set CD
+      myCooldown:SetCooldown(start, duration)
+    else      
+      Artemis.ErrorMsg("DoSpellCast myCooldown is NULL!");
+      Artemis.PrintMsg("DoSpellCast spell: '"..tostring(spell).."'");
     end
+  end      
 end
 
 --Called when event == "UNIT_SPELLCAST_SUCCEEDED"
@@ -1201,6 +1217,8 @@ function Artemis.DoSpellCastAspect(spell)
       local myCooldown = getglobal("ArtemisAspectFrame_Aspect"..count.."Cooldown");
       if(myCooldown~=nil) then
         myCooldown:SetCooldown(0,0)
+      else
+        Artemis.PrintMsg("DoSpellCastAspect myCooldown is NULL!");
       end
     end
   end
@@ -1208,9 +1226,9 @@ end
 
 --Called when event == "UNIT_SPELLCAST_SUCCEEDED"
 function Artemis.DoSpellCastTracker(spell)
-  --Artemis.PrintMsg("DoSpellCastAspect Called");
+  --Artemis.PrintMsg("DoSpellCastTracker Called");
   local count = 0;
-	for spell, id in pairs(Artemis.Aspect_Aspects) do
+	for spell, id in pairs(Artemis.Tracker_Trackers) do
 		if (id > 0) then
 			count = count + 1;
       local myCooldown = getglobal("ArtemisTrackerFrame_Tracker"..count.."Cooldown");
@@ -1225,7 +1243,7 @@ end
 function Artemis.DoSpellCastTrap(spell,start, duration)
   --Artemis.PrintMsg("DoSpellCastAspect Called");
   local count = 0;
-	for spell, id in pairs(Artemis.Aspect_Aspects) do
+	for spell, id in pairs(Artemis.Trap_Traps) do
 		if (id > 0) then
 			count = count + 1;
       local myCooldown = getglobal("ArtemisTrapFrame_Trap"..count.."Cooldown");

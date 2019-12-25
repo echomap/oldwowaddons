@@ -20,12 +20,12 @@ function Artemis.AspectFrame_Initialize()
   --
   Artemis.Aspect_NumAspects = 6;
   Artemis.Aspect_Aspects = {
-    [L["Artemis_Aspec_Monkey"]  ]= 0,
-    [L["Artemis_Aspec_Cheetah"] ]= 0,
-    [L["Artemis_Aspec_Pack"]    ]= 0,
-    [L["Artemis_Aspec_Hawk"]    ]= 0,
-    [L["Artemis_Aspec_Beast"]   ]= 0,
-    [L["Artemis_Aspec_Wild"]    ]= 0,
+    [L["Artemis_Aspect_Monkey"]  ]= 0,
+    [L["Artemis_Aspect_Cheetah"] ]= 0,
+    [L["Artemis_Aspect_Pack"]    ]= 0,
+    [L["Artemis_Aspect_Hawk"]    ]= 0,
+    [L["Artemis_Aspect_Beast"]   ]= 0,
+    [L["Artemis_Aspect_Wild"]    ]= 0,
   }
 
 	-- Reset the available abilities.
@@ -48,7 +48,7 @@ function Artemis.AspectFrame_Initialize()
     -- use spellName and spellRank here
     if (Artemis.Aspect_Aspects[spellName]) then
       Artemis.Aspect_Aspects[spellName] = i
-      Artemis.DebugMsg("AspectFrame_Initialize: found a Aspect at idx: " .. tostring(i) )
+      --Artemis.PrintMsg("AspectFrame_Initialize: found a Aspect at idx: " .. tostring(i) )
     end
     i = i + 1
 	end
@@ -84,6 +84,7 @@ function Artemis.AspectFrame_Initialize()
       --
       local name, rank, icon, castTime, minRange, maxRange, spellId = GetSpellInfo(spell)
       local myCooldown = getglobal("ArtemisAspectFrame_Aspect"..count.."Cooldown");
+      Artemis.PrintMsg("AspectFrame_Initialize: spellId: " .. tostring(spellId) )
       Artemis.view.buttonspelllist[spellId] = {}
       Artemis.view.buttonspelllist[spellId].myCooldown = myCooldown
       Artemis.view.buttonspelllist[spellId].myType = "ASPECT"
