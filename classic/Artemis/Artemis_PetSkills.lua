@@ -21,7 +21,7 @@ function Artemis.SetupKnownSpells()
   end
   
   local numTabs = GetNumSpellTabs()
-  Artemis.PrintMsg( "numTabs: " .. tostring(numTabs) ) 
+  --Artemis.PrintMsg( "numTabs: " .. tostring(numTabs) ) 
   local tabName, tabTexture, tabOffset, numEntries = GetSpellTabInfo(1)
   --Artemis.PrintMsg( "tabName: " .. tostring(tabName) ) 
   --Artemis.PrintMsg( "tabOffset: " .. tostring(tabOffset) ) 
@@ -29,8 +29,8 @@ function Artemis.SetupKnownSpells()
   for i=tabOffset + 1, tabOffset + numEntries do
     local spellName, spellSubName = GetSpellBookItemName(i, BOOKTYPE_PET)
     if(spellName~=nil ) then --and spellSubName~=nil
-      Artemis.PrintMsg( "==> " .. spellName .. '(' .. tostring(spellSubName) .. ')' ) 
-      local rankint = string.match(spellSubName, "Rank (%d+)" )
+      --Artemis.PrintMsg( "==> " .. spellName .. '(' .. tostring(spellSubName) .. ')' ) 
+      local rankint = string.match(spellSubName, L["Artemis_Rank"] .." (%d+)" )
       ArtemisDBChar.petskills[spellName] = {}           
       ArtemisDBChar.petskills[spellName].rank     = rankint
       ArtemisDBChar.petskills[spellName].fullname = spellName .. " " .. rankint

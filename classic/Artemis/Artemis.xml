@@ -479,7 +479,7 @@
             <NormalTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
             <PushedTexture file="Interface\AddOns\Artemis\Media\StableIcon.tga"/>
             <Scripts>
-              <OnClick> Artemis:ClickPet(1) </OnClick>
+              <OnClick> Artemis:ClickPet(3) </OnClick>
               <OnEnter> Artemis:ShowTooltipPet(self,3) </OnEnter>
               <OnLeave> Artemis:HideTooltipPet(self,3) </OnLeave>			
             </Scripts>

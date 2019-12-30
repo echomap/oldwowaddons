@@ -223,8 +223,10 @@ function Artemis:ClickPet(petIndex)
   if(ArtemisDBChar.stable==nil) then
     return
   end
-  if( petIndex < #ArtemisDBChar.stable) then
-    ClickStablePet(petIndex-1)
+  Artemis.DebugMsg( "==> petIndex: " .. '(' .. tostring(petIndex) .. ')' ) 
+  Artemis.DebugMsg( "==> #ArtemisDBChar.stable: " .. '(' .. tostring(#ArtemisDBChar.stable) .. ')' ) 
+  if( petIndex <= #ArtemisDBChar.stable) then
+    ClickStablePet(petIndex-1)    
     SetPetStablePaperdoll(ArtemisMainDataFrameMCFrame_MyPetModel)
   else
     ArtemisMainDataFrameMCFrame_MyPetModel:ClearModel()

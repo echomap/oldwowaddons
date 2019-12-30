@@ -16,6 +16,8 @@ colors options
 set which aspect/tracker is already set at logon
 
 ## [Unreleased]
+-update happiness check on pet# change
+## [1.0.12]
 - bugfixes
 - binding for ArtemisShowPetSkils
 ## [1.0.11]

@@ -38,17 +38,33 @@ function Artemis.AspectFrame_Initialize()
 	end
   
   --
-  Artemis.DebugMsg("AspectFrame_Initialize: Setup abilities." )
+  --Artemis.DebugMsg("AspectFrame_Initialize: Setup abilities." )
+  --To collect the levels we've used, so it doesn't downrank
+  Artemis.view.skillscollected = {}
   local i = 1
   while true do
     local spellName, spellRank = GetSpellBookItemName(i, BOOKTYPE_SPELL)
     if not spellName then
       do break end
-    end     
-    -- use spellName and spellRank here
+    end
+    
+    -- use spellName and spellRank here    
     if (Artemis.Aspect_Aspects[spellName]) then
-      Artemis.Aspect_Aspects[spellName] = i
-      --Artemis.PrintMsg("AspectFrame_Initialize: found a Aspect at idx: " .. tostring(i) )
+      --Artemis.PrintMsg("AspectFrame_Initialize: name='" .. tostring(spellName) .. "' rank=" .. tostring(spellRank) )
+      if(spellRank~=nil) then
+        local rankint = string.match(spellRank, L["Artemis_Rank"] .." (%d+)" )
+        --Artemis.PrintMsg("AspectFrame_Initialize: name='" .. tostring(spellOName) .. "' rank=" .. tostring(rankint) )
+        if(Artemis.view.skillscollected[spellName] == nil) then
+          Artemis.view.skillscollected[spellName] = spellRank
+        end
+        if(spellRank >= Artemis.view.skillscollected[spellName]) then
+          Artemis.view.skillscollected[spellName] = spellRank
+          Artemis.Aspect_Aspects[spellName] = i
+          --Artemis.PrintMsg("AspectFrame_Initialize: found a Aspect at idx: " .. tostring(i) )
+        end
+      else
+        Artemis.Aspect_Aspects[spellName] = i
+      end
     end
     i = i + 1
 	end
@@ -84,10 +100,15 @@ function Artemis.AspectFrame_Initialize()
       --
       local name, rank, icon, castTime, minRange, maxRange, spellId = GetSpellInfo(spell)
       local myCooldown = getglobal("ArtemisAspectFrame_Aspect"..count.."Cooldown");
+      --Artemis.PrintMsg("AspectFrame_Initialize: name='" .. tostring(name) .. "' rank=" .. tostring(rank) )
       --Artemis.PrintMsg("AspectFrame_Initialize: spellId: " .. tostring(spellId) )
       Artemis.view.buttonspelllist[spellId] = {}
       Artemis.view.buttonspelllist[spellId].myCooldown = myCooldown
       Artemis.view.buttonspelllist[spellId].myType = "ASPECT"
+      
+      -- already selected?
+      --local name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellId = UnitBuff("player", spell ) 
+      --Artemis.PrintMsg("AspectFrame_Initialize: buff name=" .. tostring(name)  .. " rank=" .. tostring(rank) )
 		end
 	end
   

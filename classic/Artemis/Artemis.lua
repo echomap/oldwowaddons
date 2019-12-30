@@ -136,7 +136,7 @@ function Artemis:ShowWindow()
     Artemis.ShowPetRelatedFrames()
   end
   if(ArtemisDBChar.options.petexperienceswitch) then
-     Artemis.DebugMsg("PetExperienceFrame:Show")
+    --Artemis.DebugMsg("PetExperienceFrame:Show")
     ArtemisMainFrame_PetExperienceFrame:Show()
   end
   --Artemis.ShowPetRelatedFrames()
@@ -162,10 +162,10 @@ end
 
 -- Called after ADDON_LOADED via the Main frame, event framework
 function Artemis:InitAddon()
-  Artemis.DebugMsg("InitAddon: Called")
+  --Artemis.DebugMsg("InitAddon: Called")
   --ArtemisMainFrame:RegisterEvent("PLAYER_LOGIN")
   --ArtemisMainFrame:RegisterEvent("PLAYER_LOGOUT"); -- Fired when about to log out
-  Artemis.DebugMsg("InitAddon: Done")
+  --Artemis.DebugMsg("InitAddon: Done")
 end
 
 -- Initalize Saved Variables
@@ -218,7 +218,7 @@ end
 
 --
 function Artemis:InitPlayer()
-  Artemis.DebugMsg("InitPlayer: Called")
+  --Artemis.DebugMsg("InitPlayer: Called")
   if( ArtemisDBChar~=nil and ArtemisDBChar.enable) then
     Artemis.view.enable = ArtemisDBChar.enable
   end  
@@ -273,7 +273,7 @@ function Artemis:InitPlayer()
   
   Artemis.OptionInit()
   ArtemisMainFrame:UnregisterEvent("PLAYER_LOGIN")
-  Artemis.DebugMsg("InitPlayer: Done")
+  --Artemis.DebugMsg("InitPlayer: Done")
 end
 
 -- Called via Main frame: update 
@@ -289,15 +289,15 @@ end
 
 -- Main frame : Event framework (DoEvent/OnEvent)
 function Artemis:OnEvent(event, ...)
-  Artemis.DebugMsg("OnEvent: Called w/event="..tostring(event) )
+  --Artemis.DebugMsg("OnEvent: Called w/event="..tostring(event) )
 	local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg, arg9 = ...
-  Artemis.DebugMsg("OnEvent: arg1 = "..tostring(arg1) )
+  --Artemis.DebugMsg("OnEvent: arg1 = "..tostring(arg1) )
   if( arg2 ~= nil) then
-    Artemis.DebugMsg("OnEvent: arg2 = "..tostring(arg2) )
+    --Artemis.DebugMsg("OnEvent: arg2 = "..tostring(arg2) )
   end
 	
   if event == "ADDON_LOADED" and arg1 == "ArtemisMainFrame" then
-    Artemis.DebugMsg("OnEvent: ADDON_LOADED")
+    --Artemis.DebugMsg("OnEvent: ADDON_LOADED")
 		ArtemisMainFrame:UnregisterEvent("ADDON_LOADED")
 		--Artemis:InitAddon()
   elseif event == "PLAYER_LOGIN" then
@@ -321,13 +321,13 @@ function Artemis:OnEvent(event, ...)
       Artemis:CheckPetChanged()
     end
   elseif event == "UNIT_HAPPINESS" then
-    Artemis.DebugMsg("OnEvent: arg1 = "..tostring(arg1) ) -- "pet"
+    --Artemis.DebugMsg("OnEvent: arg1 = "..tostring(arg1) ) -- "pet"
     Artemis:UpdatePetHappiness()
   elseif event == "PET_UI_CLOSE" then
     Artemis:CheckPetChanged()
-    Artemis.DebugMsg("PET_UI_CLOSE")
+    --Artemis.DebugMsg("PET_UI_CLOSE")
   elseif event == "PET_DISMISS_START" then
-    Artemis.DebugMsg("PET_DISMISS_START")
+    --Artemis.DebugMsg("PET_DISMISS_START")
     Artemis:CheckPetChanged()
   elseif event == "LEARNED_SPELL_IN_TAB" then  
     Artemis.SetupKnownSpells()
@@ -342,7 +342,7 @@ end
 
 -- Unregister Main Frame events: via PLAYER_LOGOUT and /artemis enable off
 function Artemis:OnUnLoad()
-  Artemis.DebugMsg("OnUnLoad: Called")
+  --Artemis.DebugMsg("OnUnLoad: Called")
   --
   ArtemisMainFrame:UnregisterEvent("ADDON_LOADED")  
   --ArtemisMainFrame:UnregisterEvent("LeftButton");  -- DRAG
@@ -361,13 +361,13 @@ function Artemis:OnUnLoad()
 
   --
   Artemis.view.setupmain = false
-  Artemis.DebugMsg("OnUnLoad: Done")
+  --Artemis.DebugMsg("OnUnLoad: Done")
 end
 
 
 -- Called via Main frame: load 
 function Artemis:OnLoad()
-  Artemis.DebugMsg("OnLoad: Called")
+  --Artemis.DebugMsg("OnLoad: Called")
   
   -- If saved variables has enabled == false (not null/not unset ), then stop!
   --if( ArtemisDBChar~=nil and ArtemisDBChar.enable~=nil and ArtemisDBChar.enable == false ) then
@@ -451,7 +451,7 @@ end
 
 -- Tooltip
 function Artemis:ShowTooltipByCategory(self,messageType,messageCategoryType)
-  Artemis.DebugMsg("messageCategoryType: " .. messageCategoryType)       
+  --Artemis.DebugMsg("messageCategoryType: " .. messageCategoryType)       
   local message = "Artemis"
   local sid 
   local slink   
@@ -468,9 +468,9 @@ function Artemis:ShowTooltipByCategory(self,messageType,messageCategoryType)
   if(sid~=nil) then
     slink = GetSpellLink( messageType )
     --name/mana/instant/desc
-    Artemis.DebugMsg("Link: " .. tostring(slink) )
-    Artemis.DebugMsg("sid: " .. tostring(sid) )
-    Artemis.DebugMsg("slink: " .. tostring(slink) )
+    --Artemis.DebugMsg("Link: " .. tostring(slink) )
+    --Artemis.DebugMsg("sid: " .. tostring(sid) )
+    --Artemis.DebugMsg("slink: " .. tostring(slink) )
     local sdesc = GetSpellDescription(slink)
     if( sid~=nil and slink~=nil and sdesc~=nil ) then
       message = sdesc    
@@ -519,7 +519,7 @@ end
 
 -- Tooltip
 function Artemis:ShowTooltipByMessageType(self,messageType)
-  Artemis.DebugMsg("messageType: " .. messageType)       
+  --Artemis.DebugMsg("messageType: " .. messageType)       
   local message = "Artemis"
   
   if( messageType == "Settings") then 
@@ -576,8 +576,8 @@ end
 
 -- Main Window tooltip
 function Artemis:ShowTooltip(self,messageType,messageCategoryType)
-  Artemis.DebugMsg("ShowTooltip: messageType=" .. tostring(messageType))
-  Artemis.DebugMsg("ShowTooltip: messageCategoryType=" .. tostring(messageCategoryType))
+  --Artemis.DebugMsg("ShowTooltip: messageType=" .. tostring(messageType))
+  --Artemis.DebugMsg("ShowTooltip: messageCategoryType=" .. tostring(messageCategoryType))
   if( not ArtemisMainFrame:IsShown()) then
     return
   end  
@@ -767,20 +767,20 @@ end
 --
 function Artemis:DoStableMasterClosedEvent()
   Artemis.instableevent = false
-	Artemis.PrintMsg(L["StableClosedMessage"])
+	--Artemis.PrintMsg(L["StableClosedMessage"])
 end
 
 --Update stored stable data, called from Main Frame events, PET_STABLE_SHOW and PET_STABLE_UPDATE
 function Artemis:DoStableMasterShowEvent()
   Artemis.instableevent = true
-	Artemis.PrintMsg(L["StableOpenMessage"])
+	--Artemis.PrintMsg(L["StableOpenMessage"])
   
   local localizedClass, englishClass = UnitClass("player");
-  Artemis.DebugMsg("ShowStable englishClass: " .. englishClass .. "'" )
+  --Artemis.DebugMsg("ShowStable englishClass: " .. englishClass .. "'" )
   if englishClass == 'HUNTER' then
     --If has one pet... scan the others
     local icon, name, level, family, loyalty = GetStablePetInfo(1)
-    Artemis.DebugMsg("DoStableOpened name: " .. tostring(name) .. "' family: '" ..tostring(family).. "'" )
+    --Artemis.DebugMsg("DoStableOpened name: " .. tostring(name) .. "' family: '" ..tostring(family).. "'" )
     if icon == nil and name == nil and family == nil then
       Artemis:ResetStable()
       Artemis.PrintMsg(L["StableNoPets"] )
@@ -796,12 +796,12 @@ end
 
 -- Update stored stable data, for CURRENT PET
 function Artemis:ScanCurrentPet()
-  Artemis.DebugMsg("ScanCurrentPet: Called")
+  --Artemis.DebugMsg("ScanCurrentPet: Called")
   -- If is a hunter, and the PET is out/alive, get current data, else don't.
   --TODO dead pet??
   local hasUI, isHunterPet = HasPetUI();
   if( hasUI and isHunterPet ) then
-    Artemis.DebugMsg("ScanCurrentPet: scanning...")
+    --Artemis.DebugMsg("ScanCurrentPet: scanning...")
     Artemis:ScanPetAtIndex(0)
  -- Current Pet is, stable[ONE], or api[ZERO]
     local petarr = ArtemisDBChar.stable[1]
@@ -813,10 +813,10 @@ function Artemis:ScanCurrentPet()
     -- { name, family, level, icon, loyalty, happiness, petFoodList, currXP, nextXP }
     local petarr2 =  { petarr[1], petarr[2], petarr[3], petarr[4], petarr[5], happiness, petFoodList, currXP, nextXP }   
     ArtemisDBChar.stable[1] = petarr2
-    Artemis.DebugMsg("ScanCurrentPet: Done")
+    --Artemis.DebugMsg("ScanCurrentPet: Done")
     return petarr2
   end
-  Artemis.DebugMsg("ScanCurrentPet: Done")
+  --Artemis.DebugMsg("ScanCurrentPet: Done")
   return nil
 end
 
@@ -832,19 +832,19 @@ function Artemis:ScanPetAtIndex(index)
   loyalty =  Artemis:SetStringOrDefault(loyalty,"")
   happiness =  Artemis:SetStringOrDefault(happiness,"")
   --petFoodList =  Artemis:SetStringOrDefault(petFoodList,"") (NOTE: Can only get for current pet?)
-  Artemis.DebugMsg("ScanPetAtIndex, index = " .. index .." icon=" .. tostring(icon) .. " name="..name.." level="..level.." family=" .. family.. " loyalty="..loyalty .. " happiness="..happiness)
+  --Artemis.DebugMsg("ScanPetAtIndex, index = " .. index .." icon=" .. tostring(icon) .. " name="..name.." level="..level.." family=" .. family.. " loyalty="..loyalty .. " happiness="..happiness)
   
   local petarr = {}
   petarr =  ArtemisDBChar.stable[index+1]
   local foodList, exp1, exp2 = nil
   if(petarr~=nil) then
     if( #petarr > 6 and petarr[7] ~= nil ) then
-      Artemis.DebugMsg("ScanPetAtIndex got foodlilst from arr ")
+      --Artemis.DebugMsg("ScanPetAtIndex got foodlilst from arr ")
       foodList = petarr[7] 
       local foodListString = Artemis.toStringFoodList(foodList)
-      Artemis.DebugMsg("ScanPetAtIndex foodListString=" .. foodListString)
+      --Artemis.DebugMsg("ScanPetAtIndex foodListString=" .. foodListString)
     else
-      Artemis.DebugMsg("ScanPetAtIndex getting foodlist from data, family=".. tostring(family))
+      --Artemis.DebugMsg("ScanPetAtIndex getting foodlist from data, family=".. tostring(family))
       if(Artemis.petfamily[family]~=nil) then
         foodList = Artemis.petfamily[family]["PetFoodType"]
       else
@@ -875,7 +875,7 @@ end
 
 -- The main function that loops through all pets in the Stable and stores them for viewing later
 function Artemis:ScanStable()
-  Artemis.DebugMsg("ScanStable: Called");
+  --Artemis.DebugMsg("ScanStable: Called");
  	haveFilled = 0
 	petnumidx  = 1
 	ArtemisDBChar.stable = {}
@@ -898,10 +898,14 @@ function Artemis:ScanStable()
 	--Artemis.PrintMsg("Stored: num pets: " .. petnumidx)
   Artemis.PrintMsg( string.format( L["StableNumPetsMessage"] , haveFilled ) );
   -- Artemis.PrintMsg( "You have " .. haveFilled .. " pets." )
+  if( ArtemisDBChar.stable_petnumidx ~= petnumidx) then
+      --if number of pets changed
+      Artemis:UpdatePetHappiness()
+  end
 	ArtemisDBChar.stable_petnumidx  = petnumidx
 	ArtemisDBChar.stable_havefilled = haveFilled
 	ArtemisDBChar.stable_lasttime   = date("%B %m %Y %H:%M:%S")
-  Artemis.DebugMsg("ScanStable: Done");
+  --Artemis.DebugMsg("ScanStable: Done");
 end 
 
 -- Output an array data to the CONSOLE
@@ -925,14 +929,14 @@ end
 
 -- Slash Command line function to print stable data
 function Artemis:ShowStable()
-	Artemis.DebugMsg("ShowStable Called")
+	--Artemis.DebugMsg("ShowStable Called")
 	maxNum = ArtemisDBChar.stable_petnumidx
   --
 	if maxNum == nil then
 		Artemis.PrintMsg( L["ShowStable_NoneSaved"] )
 		--playerUnitId = UnitId("player")
 		localizedClass, englishClass = UnitClass("player");
-		Artemis.DebugMsg("ShowStable englishClass: " .. englishClass .. "'" )
+		--Artemis.DebugMsg("ShowStable englishClass: " .. englishClass .. "'" )
 		if englishClass == 'HUNTER' then
 			Artemis.PrintMsg( L["ShowStable_NoneSaved_Hunter"] )
 		end
@@ -946,14 +950,14 @@ function Artemis:ShowStable()
 			for index=1, maxNum-1 do				
 				petarr = ArtemisDBChar.stable[index] 
 				if petarr == nil then
-					Artemis.DebugMsg("ShowStable: can't print pet: " .. index )
+					--Artemis.DebugMsg("ShowStable: can't print pet: " .. index )
 				else 
 					Artemis:printPet(petarr,index)
 				end
 			end
 		end
 	end
-	Artemis.DebugMsg("ShowStable Done")
+	--Artemis.DebugMsg("ShowStable Done")
 end
 
 -- name, family, level, icon, loyalty, happiness, petFoodList, currexp, nextexp
@@ -1020,7 +1024,7 @@ end
 -- Setup Happiness/Exp frames
 function Artemis:UpdatePetHappiness()
   if(UnitExists("pet")) then
-    Artemis.DebugMsg("UpdatePetHappiness Called w/pet")
+    --Artemis.DebugMsg("UpdatePetHappiness Called w/pet")
     
     local hasUI, isHunterPet = HasPetUI();
     --Artemis.PrintMsg("UpdatePetHappiness hasUI=".. tostring(hasUI) )
@@ -1090,7 +1094,7 @@ end
 -- Called on event: UNIT_PET 
 function Artemis:CheckPetChanged()
   if(UnitExists("pet")) then
-    Artemis.DebugMsg("CheckPetChanged Called, and pet exists")
+    --Artemis.DebugMsg("CheckPetChanged Called, and pet exists")
     local newGUID = UnitGUID("pet")
     if(Artemis.view.PET_GUID == nil) then
       Artemis.view.PET_GUID = newGUID
@@ -1099,7 +1103,7 @@ function Artemis:CheckPetChanged()
       Artemis:PetChangedCallback(newGUID)
     end
   else
-    Artemis.DebugMsg("CheckPetChanged Called, and pet not exists")
+    --Artemis.DebugMsg("CheckPetChanged Called, and pet not exists")
     --pet dead or unsummoned?
     if(UnitIsDead("pet")) then
       Artemis.PrintMsg( L["PetUnitDead"] )
@@ -1119,11 +1123,11 @@ end
 -- From CheckPetChanged
 -- UnitGUID("pet")
 function Artemis:PetChangedCallback(newGUID)
-  Artemis.PrintMsg("PetChangedCallback storedGUID= " .. tostring(Artemis.view.PET_GUID) .. " newGUID= " .. tostring(newGUID) )
+  Artemis.DebugMsg("PetChangedCallback storedGUID= " .. tostring(Artemis.view.PET_GUID) .. " newGUID= " .. tostring(newGUID) )
   if( Artemis.view.PET_GUID==nil and newGUID~=nil ) then
     Artemis.PrintMsg("PetChangedCallback new pet?")
   elseif(Artemis.view.PET_GUID~=newGUID) then
-    Artemis.DebugMsg("PetChangedCallback different pet?")
+    --Artemis.DebugMsg("PetChangedCallback different pet?")
   else
     Artemis.PrintMsg("PetChangedCallback other? Why/What?/TODO")
   end
@@ -1142,22 +1146,22 @@ function Artemis:PetChangedCallback(newGUID)
   end
   -- update view?
   -- re-show view?
-	Artemis.DebugMsg("PetChangedCallback Done")
+	--Artemis.DebugMsg("PetChangedCallback Done")
 end
 
 --Called from ShowPetRelatedFrames
 --switch: ArtemisDBChar.options.setupfeedbutton
 function Artemis:SetupFeedPet(self)
-  Artemis.DebugMsg("SetupFeedPet");
+  --Artemis.DebugMsg("SetupFeedPet");
   if(ArtemisDBChar.options.setupfeedbuttonismacro==nil) then
     ArtemisDBChar.options.setupfeedbuttonismacro = false
   end
   if(ArtemisDBChar.options.setupfeedbuttonismacro) then
-    Artemis.DebugMsg("SetupFeedPet: Macro as 'FeedPetMacro'");
+    --Artemis.DebugMsg("SetupFeedPet: Macro as 'FeedPetMacro'");
     ArtemisMainFrame_FeedFrame_FeedButton:SetAttribute("type", "macro")
     ArtemisMainFrame_FeedFrame_FeedButton:SetAttribute("macro", "FeedPetMacro" ) --BOM.MACRONAME)	  
   else
-    Artemis.DebugMsg("SetupFeedPet: Spell as 'Feed Pet'");
+    --Artemis.DebugMsg("SetupFeedPet: Spell as 'Feed Pet'");
     ArtemisMainFrame_FeedFrame_FeedButton:SetAttribute("type", "spell")
     ArtemisMainFrame_FeedFrame_FeedButton:SetAttribute("spell", "Feed Pet" )
   end
