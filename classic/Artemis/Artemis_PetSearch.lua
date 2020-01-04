@@ -24,9 +24,9 @@ end
 
 -- Called the first time showhide is called, or after OnUnLoad() is called
 function Artemis:SetupPetSkillsWindow() 
-	Artemis.PrintMsg("SetupPetSkillsWindow Called")
-  
- 	Artemis.PrintMsg("SetupPetSkillsWindow Done")
+	--Artemis.PrintMsg("SetupPetSkillsWindow Called")
+  --
+ 	--Artemis.PrintMsg("SetupPetSkillsWindow Done")
 end
 
 -- Show the PetSkills window: 
@@ -66,7 +66,7 @@ end
 
 -- Called after ADDON_LOADED via the PetSkills frame, event framework
 function Artemis:InitPetSkillsWindow()
-	Artemis.PrintMsg("InitPetSkillsWindow Called")
+	--Artemis.PrintMsg("InitPetSkillsWindow Called")
   
   -- ArtemisPetSearchFrameLeftSideFrame
   -- Default first one
@@ -383,18 +383,26 @@ function Artemis.PetSkillsAbilityDropdown_OnClick(indexData)
       local TamingList = abilityDetails["TamingList"]
      
       --
-      local textAll = abilityDetails["Text"] --.. " " .. TamingList
+      local textAll = ""
+      textAll = textAll.. "  MinLvl: " .. abilityDetails["MinPetLevel"] .. "\n"
+      textAll = textAll.. "  Text: \n" .. abilityDetails["Text"] .. "\n"
+      textAll = textAll.. "  TamingList: " -- .. abilityDetails["TamingList"] .. "\n"       
+      
       textAll = textAll.. "\n"
       if(TamingList~=nil) then
         textAll = textAll.. "\n"
         for i,v in pairs(TamingList) do
           textAll = textAll.. " name: " ..i.. "  lvl: " ..v["MinLvl"].. " - " .. v["MaxLvl"].. "\n"
           textAll = textAll.. "  location:" .. v["location"] .. "\n"
+          --textAll = textAll.. "  Min Lvl:" .. v["MinLvl"] .. "\n"
+          --textAll = textAll.. "  Max Lvl:" .. v["MaxLvl"] .. "\n"
           --v["type"]   = family,
           --v["MinLvl"] = minlvl,
           --v["MaxLvl"] = maxlvl, 
           --v["location"] = location
         end
+      else
+        textAll = textAll.. "<None Found>"  
       end
       
       --ArtemisPetSearchTitleText:SetText(nameNew)

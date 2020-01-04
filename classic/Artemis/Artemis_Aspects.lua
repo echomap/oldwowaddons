@@ -112,6 +112,25 @@ function Artemis.AspectFrame_Initialize()
 		end
 	end
   
+  --[[
+  --]]
+  local buffs, i = { }, 1;
+  local buff = UnitBuff("player", i);
+  while buff do
+    buffs[#buffs + 1] = buff;
+    i = i + 1;
+    buff = UnitBuff("player", i);
+  end;
+  if #buffs < 1 then
+    buffs = "You have no buffs";
+  else
+    buffs[1] = "You're buffed with: "..buffs[1];
+    buffs = table.concat(buffs, ", ");
+  end;
+  DEFAULT_CHAT_FRAME:AddMessage(buffs);
+  --[[  
+  --]]
+  
   -- Hide the buttons we don't need.
 	for i = count + 1, Artemis.Aspect_NumAspects, 1 do
 		local button = getglobal("ArtemisAspectFrame_Aspect"..i);
@@ -132,7 +151,7 @@ function Artemis.AspectFrame_Initialize()
       button:ClearAllPoints()
       --obj:SetPoint(point, relativeTo, relativePoint, ofsx, ofsy);
       button:SetPoint( "TOP", pAnchor , "BOTTOM" );
-       pAnchor = button
+      pAnchor = button
     end
   end
   
