@@ -12,7 +12,7 @@
 Artemis = {
     name            = "Artemis",	-- Matches folder and Manifest file names.
     displayName     = "Artemis Hunter Helper",
-    version         = "1.0.8",			-- A nuisance to match to the Manifest.
+    version         = "1.0.13",			-- A nuisance to match to the Manifest.
     author          = "Echomap",
     color           = "DDFFEE",			 -- Used in menu titles and so on.    
     --menuName        = "Artemis_Options", -- Unique identifier for menu object.
@@ -529,7 +529,11 @@ function Artemis:ShowTooltipByMessageType(self,messageType)
     if( itemLink ~= nil) then
       local itemName, itemLink2, itemRarity, itemLevel, itemMinLevel, itemType, 
           itemSubType, itemStackCount, itemEquipLoc, itemTexture, itemSellPrice =  GetItemInfo(itemLink)
-      message = "<" .. itemName .. ">"      
+      if(itemName~=nil) then
+        message = "<" .. itemName .. ">"      
+      else
+        message = "<Empty>"      
+      end
     else
       message = "< None >"
     end

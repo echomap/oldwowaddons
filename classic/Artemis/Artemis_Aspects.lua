@@ -69,6 +69,16 @@ function Artemis.AspectFrame_Initialize()
     i = i + 1
 	end
   
+  -- Check current User Buffs
+  local buffs = { }
+  local idx   = 1;
+  local buff = UnitBuff("player", idx);
+  while buff do
+    buffs[buff] = buff;    
+    idx = idx + 1;
+    buff = UnitBuff("player", idx);
+  end;
+  
   --
 	local count = 0;
 	for spell, id in pairs(Artemis.Aspect_Aspects) do
@@ -96,6 +106,11 @@ function Artemis.AspectFrame_Initialize()
       
 			button.SpellID = id;
 			button:Show();
+      button:SetButtonState("PUSHED")
+      
+      if(buffs[spell]~=nil) then
+        --Artemis.PrintMsg("AspectFrame_Initialize: ".. spell .. " is selected")
+      end
       
       --
       local name, rank, icon, castTime, minRange, maxRange, spellId = GetSpellInfo(spell)
@@ -111,26 +126,7 @@ function Artemis.AspectFrame_Initialize()
       --Artemis.PrintMsg("AspectFrame_Initialize: buff name=" .. tostring(name)  .. " rank=" .. tostring(rank) )
 		end
 	end
-  
-  --[[
-  --]]
-  local buffs, i = { }, 1;
-  local buff = UnitBuff("player", i);
-  while buff do
-    buffs[#buffs + 1] = buff;
-    i = i + 1;
-    buff = UnitBuff("player", i);
-  end;
-  if #buffs < 1 then
-    buffs = "You have no buffs";
-  else
-    buffs[1] = "You're buffed with: "..buffs[1];
-    buffs = table.concat(buffs, ", ");
-  end;
-  DEFAULT_CHAT_FRAME:AddMessage(buffs);
-  --[[  
-  --]]
-  
+ 
   -- Hide the buttons we don't need.
 	for i = count + 1, Artemis.Aspect_NumAspects, 1 do
 		local button = getglobal("ArtemisAspectFrame_Aspect"..i);

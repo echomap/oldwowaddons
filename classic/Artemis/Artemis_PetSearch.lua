@@ -244,7 +244,7 @@ function Artemis.PetSkillsAbilityScrollBar_Update()
   -- 50 is max entries, 5 is number of lines, 16 is pixel height of each line
   --Artemis.PrintMsg("PetSkillsAbilityScrollBar_Update called")
   if(Artemis.view.MyModData == nil) then
-    Artemis.PrintMsg("PetSkillsAbilityScrollBar_Update create moddata")
+    Artemis.DebugMsg("PetSkillsAbilityScrollBar_Update create moddata")
     Artemis.view.MyModData = {}
   
     local abBaseMax = 0 -- #Artemis.view.MyModData  why doesnt this work later here?
@@ -405,7 +405,7 @@ function Artemis.PetSkillsAbilityDropdown_OnClick(indexData)
         textAll = textAll.. "<None Found>"  
       end
       
-      --ArtemisPetSearchTitleText:SetText(nameNew)
+      ArtemisPetSearchTitleText:SetText(nameNew)
       ArtemisPetSearchFrameDataText:SetText( textAll ) 
       
     end
