@@ -120,10 +120,19 @@ function Artemis.AspectFrame_Initialize()
       Artemis.view.buttonspelllist[spellId] = {}
       Artemis.view.buttonspelllist[spellId].myCooldown = myCooldown
       Artemis.view.buttonspelllist[spellId].myType = "ASPECT"
+      Artemis.view.buttonspelllist[spellId].button = button
+      --Artemis.view.testspellId = spellId
       
       -- already selected?
       --local name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellId = UnitBuff("player", spell ) 
       --Artemis.PrintMsg("AspectFrame_Initialize: buff name=" .. tostring(name)  .. " rank=" .. tostring(rank) )
+      
+      --local key1, key2 = GetBindingKey("ARTEMIS_Button_Toggle_"..count);
+      --Artemis.PrintMsg("AspectFrame_Initialize: key1: " .. tostring(key1))     
+      --Artemis.PrintMsg("AspectFrame_Initialize: key2: " .. tostring(key2))     
+      --button:SetBindingClick(true, "BUTTON1", "ARTEMIS_Button_Toggle_"..count, "LeftButton")
+      --SetBindingClick(key1, button:GetName())
+      --local button = getglobal("ArtemisAspectFrame_Aspect"..count);
 		end
 	end
  

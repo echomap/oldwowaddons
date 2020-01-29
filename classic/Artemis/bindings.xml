@@ -5,4 +5,27 @@
   <Binding name="ArtemisShowPetSkils" description="Artemis Show PetSkils" category="ADDONS">
     Artemis:ShowHidePetSkillsWindow()
   </Binding>
+  
+  <Binding name="CLICK ArtemisAspectFrame_Aspect1:LeftButton" category="ADDONS"/>
+  <Binding name="CLICK ArtemisAspectFrame_Aspect2:LeftButton" category="ADDONS"/>
+  <Binding name="CLICK ArtemisAspectFrame_Aspect3:LeftButton" category="ADDONS"/>
+  <Binding name="CLICK ArtemisAspectFrame_Aspect4:LeftButton" category="ADDONS"/>
+  <Binding name="CLICK ArtemisAspectFrame_Aspect5:LeftButton" category="ADDONS"/>
+  <Binding name="CLICK ArtemisAspectFrame_Aspect6:LeftButton" category="ADDONS"/>
+  
+  <Binding name="CLICK ArtemisTrackerFrame_Tracker1:LeftButton" category="ADDONS"/>
+  <Binding name="CLICK ArtemisTrackerFrame_Tracker2:LeftButton" category="ADDONS"/>
+  <Binding name="CLICK ArtemisTrackerFrame_Tracker3:LeftButton" category="ADDONS"/>
+  <Binding name="CLICK ArtemisTrackerFrame_Tracker4:LeftButton" category="ADDONS"/>
+  <Binding name="CLICK ArtemisTrackerFrame_Tracker5:LeftButton" category="ADDONS"/>
+  <Binding name="CLICK ArtemisTrackerFrame_Tracker6:LeftButton" category="ADDONS"/>
+  <Binding name="CLICK ArtemisTrackerFrame_Tracker7:LeftButton" category="ADDONS"/>
+  <Binding name="CLICK ArtemisTrackerFrame_Tracker8:LeftButton" category="ADDONS"/>
+    
+  <Binding name="CLICK ArtemisTrapFrame_Trap1:LeftButton" category="ADDONS"/>
+  <Binding name="CLICK ArtemisTrapFrame_Trap2:LeftButton" category="ADDONS"/>
+  <Binding name="CLICK ArtemisTrapFrame_Trap3:LeftButton" category="ADDONS"/>
+  <Binding name="CLICK ArtemisTrapFrame_Trap4:LeftButton" category="ADDONS"/>
+  <Binding name="CLICK ArtemisTrapFrame_Trap5:LeftButton" category="ADDONS"/>
+  
 </Bindings>

@@ -12,7 +12,7 @@
 Artemis = {
     name            = "Artemis",	-- Matches folder and Manifest file names.
     displayName     = "Artemis Hunter Helper",
-    version         = "1.0.13",			-- A nuisance to match to the Manifest.
+    version         = "1.0.14",			-- A nuisance to match to the Manifest.
     author          = "Echomap",
     color           = "DDFFEE",			 -- Used in menu titles and so on.    
     --menuName        = "Artemis_Options", -- Unique identifier for menu object.
@@ -662,6 +662,8 @@ function Artemis.SlashCommandHandler(msg)
     Artemis:ShowHidePetSkillsWindow()
   elseif options[1] == "searchabilities" then
     Artemis:SearchAbilities(options[2]) --,options[3])--,maxLvl)
+  elseif options[1] == "test1" then  
+    Artemis:DoTest1()
   elseif (options[1] == "options" and #options == 3) then
     Artemis:DoOptionsSetUnset(options[2],options[3])
   else
@@ -1045,7 +1047,7 @@ function Artemis:UpdatePetHappiness()
         if(happy~=nil) then
           hText = string.format("Pet is... %s", happy)
           if(happiness==1) then
-            textPetHappiness:SetTextColor(125,125,125) 
+            textPetHappiness:SetTextColor(125,0,0) --red
           elseif(happiness==2) then
             textPetHappiness:SetTextColor(0,125,125) --yellow
           elseif(happiness==3) then
@@ -1116,7 +1118,7 @@ function Artemis:CheckPetChanged()
       local hText = string.format(L["Artemis_PET_STATUS_MSG"], L["Artemis_PET_DEAD"] )
       textPetHappiness:SetText(hText)        
     else
-      textPetHappiness:SetTextColor(0,125,125) -- yellow
+      textPetHappiness:SetTextColor(0,0,0) 
       local hText = string.format(L["Artemis_PET_STATUS_MSG"], L["Artemis_PET_UNSUMMONED"] )
       textPetHappiness:SetText(hText)        
     end
@@ -1264,6 +1266,9 @@ end
 
 -------------------------------------------------------------------------
 -------------------------------------------------------------------------
+function Artemis:DoTest1()
+  --Artemis.view.buttonspelllist[Artemis.view.testspellId].button:Click()
+end
 
 
 -------------------------------------------------------------------------

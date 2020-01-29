@@ -17,6 +17,8 @@ set which aspect/tracker is already set at logon
 
 ## [Unreleased]
 - 
+## [1.0.14]
+- keybindings available. even if numbered not named yet.
 ## [1.0.13]
 - update happiness check on pet# change
 - bugfixes
