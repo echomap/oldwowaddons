@@ -16,7 +16,9 @@ colors options
 set which aspect/tracker is already set at logon
 
 ## [Unreleased]
-- 
+- Update TOC
+- Update localization file, to enable easier translation insertion, so if you have them, send them to me
+- Update traps do not have 6 types, so there was an unnecessary button
 ## [1.0.14]
 - keybindings available. even if numbered not named yet.
 ## [1.0.13]

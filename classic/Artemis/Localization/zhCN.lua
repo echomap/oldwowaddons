@@ -1,5 +1,5 @@
 ﻿-------------------------------------------------------------------------
--- English Translations
+-- Chinese Translations
 -------------------------------------------------------------------------
 local addonName, L = ...; -- Let's use the private table passed to every .lua file to store our locale
 local function defaultFunc(L, key)
@@ -11,6 +11,7 @@ local function defaultFunc(L, key)
 end
 setmetatable(L, {__index=defaultFunc});
 -------------------------------------------------------------------------
+--if GetLocale() ~= "zhCN" then return end
 -------------------------------------------------------------------------
 
 --Probably static

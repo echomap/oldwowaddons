@@ -118,11 +118,6 @@
 					<Anchor point="LEFT" relativeTo="$parent_Trap4" relativePoint="RIGHT"/>
 				</Anchors>
 			</Button>
-      <Button name="$parent_Trap6" inherits="ArtemisTrapButtonTemplate" id="6">
-				<Anchors>
-					<Anchor point="LEFT" relativeTo="$parent_Trap5" relativePoint="RIGHT"/>
-				</Anchors>
-			</Button>
     </Frames>
     <Layers>
       <Layer level="BACKGROUND">

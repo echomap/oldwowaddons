@@ -1,8 +1,8 @@
-## Interface: 11303
+## Interface: 11304
 ## Title: Artemis
 ## Notes: An addon for hunters to take a snapshot of their stable, so they can remember what pets they have anywhere.
 ## Author: echomap
-## Version: 1.0.14
+## Version: 1.0.15
 
 ## X-Curse-Project-Name: Artemis
 ## X-Curse-Project-ID: Artemis
@@ -12,8 +12,15 @@
 ## SavedVariables: ArtemisDB
 ## SavedVariablesPerCharacter: ArtemisDBChar
 
+## X-Localizations: enUS
+## X-Website: https://github.com/echomap/oldwowaddons/tree/master/classic/Artemis
+
+embeds.xml
+local.xml
+
 bindings.xml
 Artemis.xml
+
 Artemis_PetSearch.xml
 Artemis_Traps.xml
 Artemis_Aspects.xml
