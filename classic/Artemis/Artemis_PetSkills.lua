@@ -31,6 +31,9 @@ function Artemis.SetupKnownSpells()
     if(spellName~=nil ) then --and spellSubName~=nil
       --Artemis.PrintMsg( "==> " .. spellName .. '(' .. tostring(spellSubName) .. ')' ) 
       local rankint = string.match(spellSubName, L["Artemis_Rank"] .." (%d+)" )
+	  if(rankint==nil) then
+		rankint = ""
+	  end
       ArtemisDBChar.petskills[spellName] = {}           
       ArtemisDBChar.petskills[spellName].rank     = rankint
       ArtemisDBChar.petskills[spellName].fullname = spellName .. " " .. rankint

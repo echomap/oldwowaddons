@@ -16,6 +16,8 @@ colors options
 set which aspect/tracker is already set at logon
 
 ## [Unreleased]
+- updates per a few bugs
+
 
 ## [1.0.15]
 - Update TOC

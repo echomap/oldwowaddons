@@ -430,6 +430,10 @@ function Artemis.ShowPetRelatedFrames()
   if(ArtemisDBChar.options.petexperienceswitch==nil) then
     ArtemisDBChar.options.petexperienceswitch = true
   end
+  if InCombatLockdown() then 
+	Artemis.DebugMsg("InCombatLockdown: so doing nothing")
+    return 
+  end
   if(ArtemisDBChar.options.pethappinesswitch) then
     ArtemisMainFrame_HappinessFrame:Show()
   end
@@ -728,6 +732,9 @@ function Artemis:LoadAmmoCount()
   local slotId, textureName  = GetInventorySlotInfo("AmmoSlot");  
   Artemis.view.ammoSlot = slotId
   local itemId = GetInventoryItemID("player", slotId);
+  if(itemId==nil) then
+	return
+  end
   Artemis.view.ammoItemId = itemId
   Artemis.view.ammoItemLink = GetItemInfo(itemId)
   Artemis.view.ammoCount = tonumber(GetInventoryItemCount("player", Artemis.view.ammoSlot ));
@@ -1111,7 +1118,7 @@ function Artemis:CheckPetChanged()
   else
     --Artemis.DebugMsg("CheckPetChanged Called, and pet not exists")
     --pet dead or unsummoned?
-    if(UnitIsDead("pet")) then
+    if( UnitIsDead("pet") ) then
       Artemis.PrintMsg( L["PetUnitDead"] )
       textWpnDur:SetTextColor(255,0,0) -- borken
       --textPetHappiness:SetTextColor(125,0,0) -- red
