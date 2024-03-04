@@ -53,6 +53,7 @@ L["Artemis_Aspect_Pack"]    = "Aspect of the Pack"
 L["Artemis_Aspect_Hawk"]    = "Aspect of the Hawk"
 L["Artemis_Aspect_Beast"]   = "Aspect of the Beast"
 L["Artemis_Aspect_Wild"]    = "Aspect of the Wild"
+L["Artemis_Aspect_Viper"]    = "Aspect of the Viper"
 
 L["Artemis_Track_Beasts"]     = "Track Beasts"
 L["Artemis_Track_Humanoids"]  = "Track Humanoids"

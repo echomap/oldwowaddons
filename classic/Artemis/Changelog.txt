@@ -17,7 +17,7 @@ set which aspect/tracker is already set at logon
 
 ## [Unreleased]
 - updates per a few bugs
-
+- En and Aspects, added VIPER
 
 ## [1.0.15]
 - Update TOC

@@ -18,7 +18,7 @@ local _, L = ...;
 function Artemis.AspectFrame_Initialize()
   Artemis.DebugMsg("AspectFrame_Initialize Called")
   --
-  Artemis.Aspect_NumAspects = 6;
+  Artemis.Aspect_NumAspects = 7;
   Artemis.Aspect_Aspects = {
     [L["Artemis_Aspect_Monkey"]  ]= 0,
     [L["Artemis_Aspect_Cheetah"] ]= 0,
@@ -26,6 +26,7 @@ function Artemis.AspectFrame_Initialize()
     [L["Artemis_Aspect_Hawk"]    ]= 0,
     [L["Artemis_Aspect_Beast"]   ]= 0,
     [L["Artemis_Aspect_Wild"]    ]= 0,
+    [L["Artemis_Aspect_Viper"]    ]= 0, --check what patch this is in?
   }
 
 	-- Reset the available abilities.
