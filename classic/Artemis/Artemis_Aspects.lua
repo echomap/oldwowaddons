@@ -105,8 +105,8 @@ function Artemis.AspectFrame_Initialize()
         buttontext:SetTexture("Interface\\Icons\\Ability_Druid_DemoralizingRoar");
       end
       
-			button.SpellID = id;
-			button:Show();
+      button.SpellID = id;
+      button:Show();
       button:SetButtonState("PUSHED")
       
       if(buffs[spell]~=nil) then
@@ -120,6 +120,7 @@ function Artemis.AspectFrame_Initialize()
       --Artemis.PrintMsg("AspectFrame_Initialize: spellId: " .. tostring(spellId) )
       Artemis.view.buttonspelllist[spellId] = {}
       Artemis.view.buttonspelllist[spellId].myCooldown = myCooldown
+	  Artemis.view.buttonspelllist[spellId].name = name
       Artemis.view.buttonspelllist[spellId].myType = "ASPECT"
       Artemis.view.buttonspelllist[spellId].button = button
       --Artemis.view.testspellId = spellId
@@ -191,7 +192,7 @@ end
 -- Aspect Gui
 -------------------------------------------------------------------------
 function Artemis.AspectButton_OnEnter(self)
-  Artemis.DebugMsg("AspectButton_OnEnter Called" .. tostring(self) );
+  --Artemis.DebugMsg("AspectButton_OnEnter Called" .. tostring(self) );
   Artemis:ShowTooltip(self, self:GetAttribute("spell"), "ASPECT" )
 end
 

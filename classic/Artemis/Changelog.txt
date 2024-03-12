@@ -18,7 +18,7 @@ set which aspect/tracker is already set at logon
 ## [Unreleased]
 - updates per a few bugs
 - En and Aspects, added VIPER
-
+- highlight aspects selected
 ## [1.0.15]
 - Update TOC
 - Update localization file, to enable easier translation insertion, so if you have them, send them to me

@@ -1194,8 +1194,11 @@ function Artemis.DoSpellCast(spell)
     return 
   end
 
-  local myCooldownAr = Artemis.view.buttonspelllist[spell] --getglobal(btnCDName);      
+  local myCooldownAr = Artemis.view.buttonspelllist[spell] 
+  --getglobal(btnCDName);      
   if(myCooldownAr ~= nil) then
+    --Artemis.DebugMsg(string.format("DoSpellCast myCooldownAr: %s", myCooldownAr.name));
+    --Artemis.DebugMsg(string.format("DoSpellCast myType: %s", myCooldownAr.myType));
     local myCooldown = myCooldownAr.myCooldown        
     if(myCooldown ~= nil) then          
       local start, duration   = GetSpellCooldown(spell)
@@ -1225,10 +1228,11 @@ function Artemis.DoSpellCast(spell)
 end
 
 --Called when event == "UNIT_SPELLCAST_SUCCEEDED"
-function Artemis.DoSpellCastAspect(spell)
-  --Artemis.PrintMsg("DoSpellCastAspect Called");
+function Artemis.DoSpellCastAspect(spell, start, duration)
+  Artemis.DebugMsg("DoSpellCastAspect Called");
+  Artemis.DebugMsg(string.format("DoSpellCastAspect spell: %s", spell))
   local count = 0;
-	for spell, id in pairs(Artemis.Aspect_Aspects) do
+	for spell2, id in pairs(Artemis.Aspect_Aspects) do
 		if (id > 0) then
 			count = count + 1;
       local myCooldown = getglobal("ArtemisAspectFrame_Aspect"..count.."Cooldown");
@@ -1238,6 +1242,36 @@ function Artemis.DoSpellCastAspect(spell)
         Artemis.PrintMsg("DoSpellCastAspect myCooldown is NULL!");
       end
     end
+  end
+  Artemis.CheckAspectBuffs(spell)
+ end
+  
+function Artemis.CheckAspectBuffs(spell)
+  --need to reset others
+  for idx = 1, Artemis.Aspect_NumAspects do
+	local button = getglobal("ArtemisAspectFrame_Aspect"..idx);
+	--Artemis.DebugMsg("DoSpellCastAspect resetting button");
+	--SetItemButtonTextureVertexColor(button,255,255,255)
+	SetItemButtonDesaturated(button,false)
+  end
+  --
+  local map = Artemis.view.buttonspelllist[spell]
+  if(map~=nil) then
+	local hasBuff = false
+	local i = 1
+	local buff = UnitBuff("player", i);
+	while buff do
+		if(buff==map.name) then
+			hasBuff = true;
+			buff = nil
+		else 
+			i = i + 1;
+			buff = UnitBuff("player", i);
+		end
+	end;
+	if(hasBuff) then
+		SetItemButtonDesaturated(map.button,true)
+	end	
   end
 end
 
@@ -1258,7 +1292,7 @@ end
 
 --Called when event == "UNIT_SPELLCAST_SUCCEEDED"
 function Artemis.DoSpellCastTrap(spell,start, duration)
-  --Artemis.PrintMsg("DoSpellCastAspect Called");
+  --Artemis.DebugMsg("DoSpellCastTrap Called");
   local count = 0;
 	for spell, id in pairs(Artemis.Trap_Traps) do
 		if (id > 0) then
