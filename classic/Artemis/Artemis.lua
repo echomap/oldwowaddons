@@ -1,11 +1,12 @@
 --[[
-  * Artemis ***
-  * Written by : echomap (Echomapping)
-  *
-	* Copyright (c) 2019 by Echomap	@ gmail.com
-	*
-	* is distributed in the hope that it will be useful and perhaps entertaining,
-	* but WITHOUT ANY WARRANTY
+ * Artemis ***
+ * Written by : echomap (Echomapping)
+ *
+ * Copyright (c) 2019 by Echomap	@ gmail.com
+ *
+ * is distributed in the hope that it will be useful and perhaps entertaining,
+ * but WITHOUT ANY WARRANTY
+ * https://github.com/echomap/oldwowaddons/tree/master/classic/Artemis
 ]]--
 -------------------------------------------------------------------------
 -------------------------------------------------------------------------
@@ -20,7 +21,10 @@ Artemis = {
     view            = {
         debuglvl = 1,
         maxPets  = 3,
-    },    
+		aspectsetup = false,
+		trapsetup = false,
+		trackersetup = false,
+    },
     --Saved Variables: ArtemisDB/ArtemisDBChar
 }
 local _, L = ...;
@@ -289,7 +293,7 @@ end
 
 -- Main frame : Event framework (DoEvent/OnEvent)
 function Artemis:OnEvent(event, ...)
-  --Artemis.DebugMsg("OnEvent: Called w/event="..tostring(event) )
+  Artemis.DebugMsg("OnEvent: Called w/event="..tostring(event) )
 	local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg, arg9 = ...
   --Artemis.DebugMsg("OnEvent: arg1 = "..tostring(arg1) )
   if( arg2 ~= nil) then
@@ -337,6 +341,7 @@ function Artemis:OnEvent(event, ...)
     --Artemis.PrintMsg("OnEvent: arg1 = "..tostring(arg1) )
   else
     --TODO How often is this called? -- make sense here? Artemis:LoadAmmoCount()
+  Artemis.DebugMsg("OnEvent: ElSE w/event="..tostring(event) )
   end
 end
 
@@ -1185,7 +1190,39 @@ end
 
 -------------------------------------------------------------------------
 -- Spells / Bars 
--------------------------------------------------------------------------
+-----------------------------------------------------------------------
+
+--
+function Artemis.DoSpellCastSetup()
+	if( not Artemis.view.trapsetup and ArtemisDBChar.options.setuptrapsswitch ) then 
+      --ArtemisMainFrame:RegisterEvent("SPELLS_CHANGED");
+      ArtemisMainFrame:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED");
+      ArtemisMainFrame:RegisterEvent("LEARNED_SPELL_IN_TAB");
+      --ArtemisMainFrame:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN");
+      --
+      Artemis.TrapFrame_Initialize()
+      ArtemisTrapFrame:Show();
+	  Artemis.view.trapsetup = true
+	else
+	  Artemis.view.trapsetup = true
+	end
+	if( not Artemis.view.aspectsetup and ArtemisDBChar.options.setupaspectsswitch ) then 
+	  Artemis.AspectFrame_Initialize()
+	  ArtemisAspectFrame:Show();
+	  Artemis.view.aspectsetup = true
+	else
+	  Artemis.view.aspectsetup = true
+	end
+    if( not Artemis.view.trackersetup and ArtemisDBChar.options.setuptrackersswitch ) then 
+      Artemis.TrackerFrame_Initialize()
+      ArtemisTrackerFrame:Show();
+	  Artemis.view.trackersetup = true
+	else
+	  Artemis.view.trackersetup = true
+	end 
+end
+	
+--
 --Called when event == "UNIT_SPELLCAST_SUCCEEDED"
 -- For: Traps / Aspects / Trackers
 function Artemis.DoSpellCast(spell)
@@ -1193,18 +1230,22 @@ function Artemis.DoSpellCast(spell)
     Artemis.PrintMsg("DoSpellCast spell is NULL!");
     return 
   end
-
+  --
+  if( not Artemis.view.trapsetup or not Artemis.view.aspectsetup or not Artemis.view.trackersetup) then
+	Artemis.DoSpellCastSetup();
+  end
+  --
   local myCooldownAr = Artemis.view.buttonspelllist[spell] 
   --getglobal(btnCDName);      
   if(myCooldownAr ~= nil) then
-    --Artemis.DebugMsg(string.format("DoSpellCast myCooldownAr: %s", myCooldownAr.name));
-    --Artemis.DebugMsg(string.format("DoSpellCast myType: %s", myCooldownAr.myType));
+    Artemis.DebugMsg(string.format("DoSpellCast myCooldownAr: %s", myCooldownAr.name));
+    Artemis.DebugMsg(string.format("DoSpellCast myType: %s", myCooldownAr.myType));
     local myCooldown = myCooldownAr.myCooldown        
     if(myCooldown ~= nil) then          
       local start, duration   = GetSpellCooldown(spell)
       local cooldownMS, gcdMS = GetSpellBaseCooldown(spell)
-      --Artemis.PrintMsg("OnEvent: start = "..tostring(start) .." duration = "..tostring(duration))
-      --Artemis.PrintMsg("OnEvent: cooldownMS = "..tostring(cooldownMS) .." gcdMS = "..tostring(gcdMS))
+      Artemis.DebugMsg("DoSpellCast: start = "..tostring(start) .." duration = "..tostring(duration))
+      Artemis.DebugMsg("DoSpellCast: cooldownMS = "..tostring(cooldownMS) .." gcdMS = "..tostring(gcdMS))
       duration = cooldownMS/1000
       
       --reset CD's for other attached elements
@@ -1224,6 +1265,8 @@ function Artemis.DoSpellCast(spell)
       Artemis.ErrorMsg("DoSpellCast myCooldown is NULL!");
       Artemis.PrintMsg("DoSpellCast spell: '"..tostring(spell).."'");
     end
+  else 
+	Artemis.DebugMsg("DoSpellCast: no buttonspelllist for spell = "..tostring(spell) )
   end      
 end
 
@@ -1245,7 +1288,7 @@ function Artemis.DoSpellCastAspect(spell, start, duration)
   end
   Artemis.CheckAspectBuffs(spell)
  end
-  
+ 
 function Artemis.CheckAspectBuffs(spell)
   --need to reset others
   for idx = 1, Artemis.Aspect_NumAspects do

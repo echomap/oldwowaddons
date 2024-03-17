@@ -125,6 +125,11 @@
 					<Anchor point="LEFT" relativeTo="$parent_Aspect6" relativePoint="RIGHT"/>
 				</Anchors>
 			</Button>
+      <Button name="$parent_Aspect8" inherits="ArtemisAspectButtonTemplate" id="7">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent_Aspect7" relativePoint="RIGHT"/>
+				</Anchors>
+			</Button>
     </Frames>
     <Layers>
       <Layer level="BACKGROUND">

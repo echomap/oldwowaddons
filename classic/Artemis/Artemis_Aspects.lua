@@ -51,24 +51,29 @@ function Artemis.AspectFrame_Initialize()
     
     -- use spellName and spellRank here    
     if (Artemis.Aspect_Aspects[spellName]) then
-      --Artemis.PrintMsg("AspectFrame_Initialize: name='" .. tostring(spellName) .. "' rank=" .. tostring(spellRank) )
+      Artemis.DebugMsg("AspectFrame_Initialize: name='" .. tostring(spellName) .. "' rank=" .. tostring(spellRank) )
       if(spellRank~=nil) then
         local rankint = string.match(spellRank, L["Artemis_Rank"] .." (%d+)" )
-        --Artemis.PrintMsg("AspectFrame_Initialize: name='" .. tostring(spellOName) .. "' rank=" .. tostring(rankint) )
+        Artemis.DebugMsg("AspectFrame_Initialize: name='" .. tostring(spellName) .. "' rankint=" .. tostring(rankint) )
         if(Artemis.view.skillscollected[spellName] == nil) then
           Artemis.view.skillscollected[spellName] = spellRank
         end
         if(spellRank >= Artemis.view.skillscollected[spellName]) then
           Artemis.view.skillscollected[spellName] = spellRank
           Artemis.Aspect_Aspects[spellName] = i
-          --Artemis.PrintMsg("AspectFrame_Initialize: found a Aspect at idx: " .. tostring(i) )
+          Artemis.DebugMsg("AspectFrame_Initialize: found a Aspect at idx: " .. tostring(i) )
         end
       else
-        Artemis.Aspect_Aspects[spellName] = i
+		-- if no ranks returned, I guess we want the highest id?
+		local sid = Artemis.Aspect_Aspects[spellName];
+		if(sid==nil or sid<i) then
+			Artemis.Aspect_Aspects[spellName] = i
+			Artemis.DebugMsg("AspectFrame_Initialize: set name='" .. tostring(spellName) .. "' rank=" .. tostring(spellRank) )
+		end
       end
     end
     i = i + 1
-	end
+  end --while
   
   -- Check current User Buffs
   local buffs = { }
@@ -83,7 +88,7 @@ function Artemis.AspectFrame_Initialize()
   --
 	local count = 0;
 	for spell, id in pairs(Artemis.Aspect_Aspects) do
-		if (id > 0) then
+	  if (id > 0) then
 			count = count + 1;
       Artemis.DebugMsg("AspectFrame_Initialize: spell=" .. tostring(spell) )
 			local button = getglobal("ArtemisAspectFrame_Aspect"..count);
@@ -118,6 +123,7 @@ function Artemis.AspectFrame_Initialize()
       local myCooldown = getglobal("ArtemisAspectFrame_Aspect"..count.."Cooldown");
       --Artemis.PrintMsg("AspectFrame_Initialize: name='" .. tostring(name) .. "' rank=" .. tostring(rank) )
       --Artemis.PrintMsg("AspectFrame_Initialize: spellId: " .. tostring(spellId) )
+      Artemis.DebugMsg("AspectFrame_Initialize: buttonspelllist[" .. tostring(spellId).."]="..name )
       Artemis.view.buttonspelllist[spellId] = {}
       Artemis.view.buttonspelllist[spellId].myCooldown = myCooldown
 	  Artemis.view.buttonspelllist[spellId].name = name
