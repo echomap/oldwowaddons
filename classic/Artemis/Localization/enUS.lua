@@ -43,6 +43,7 @@ L["Artemis_Trap_Drag"]       = "Drag me!!"
 
 L["Artemis_Trap_IMMOLATION"] = "Immolation Trap"
 L["Artemis_Trap_FREEZING"]   = "Freezing Trap"
+L["Artemis_Trap_FREEZING_CATA"]   = "Freezing Trap(Frost)"
 L["Artemis_Trap_FROST"]      = "Frost Trap"
 L["Artemis_Trap_EXPLOSIVE"]  = "Explosive Trap"
 L["Artemis_Trap_SNAKE"]      = "Snake Trap"

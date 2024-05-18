@@ -99,7 +99,7 @@ function Artemis:SetupWindow()
     
     ArtemisMainFrame:RegisterEvent("PLAYER_LOGOUT"); -- Fired when about to log out
     ArtemisMainFrame:RegisterForDrag("LeftButton");  -- DRAG
-    ArtemisMainFrame:RegisterEvent("PLAYER_LOGIN")
+    --ArtemisMainFrame:RegisterEvent("PLAYER_LOGIN")
     
     ArtemisMainFrame:RegisterEvent("PET_STABLE_SHOW")
     ArtemisMainFrame:RegisterEvent("PET_STABLE_CLOSED")
@@ -111,7 +111,7 @@ function Artemis:SetupWindow()
     
     if class=="HUNTER" then
       if( ArtemisDBChar.options.setuptrapsswitch ) then 
-        --ArtemisMainFrame:RegisterEvent("SPELLS_CHANGED");
+        ArtemisMainFrame:RegisterEvent("SPELLS_CHANGED");
         ArtemisMainFrame:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED");
         ArtemisMainFrame:RegisterEvent("LEARNED_SPELL_IN_TAB");
         --ArtemisMainFrame:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN");
@@ -305,9 +305,13 @@ function Artemis:OnEvent(event, ...)
 		ArtemisMainFrame:UnregisterEvent("ADDON_LOADED")
 		--Artemis:InitAddon()
   elseif event == "PLAYER_LOGIN" then
-    Artemis:InitPlayer()
+    --Artemis:InitPlayer()
   elseif event == "PLAYER_LOGOUT" then
     Artemis:OnUnLoad()
+  elseif event == "UNIT_SPELLCAST_SUCCEEDED" then
+    Artemis:InitPlayer()
+  elseif event == "PLAYER_ENTERING_WORLD" then
+    Artemis:InitPlayer()
   end
   
   if( not ArtemisDBChar or not ArtemisDBChar.enable) then
@@ -359,7 +363,7 @@ function Artemis:OnUnLoad()
   --ArtemisMainFrame:UnregisterEvent("PET_UI_CLOSE")  
   ArtemisMainFrame:UnregisterEvent("PET_DISMISS_START")  
   
-  --ArtemisMainFrame:UnregisterEvent("SPELLS_CHANGED");
+  ArtemisMainFrame:UnregisterEvent("SPELLS_CHANGED");
   ArtemisMainFrame:UnregisterEvent("UNIT_SPELLCAST_SUCCEEDED");
   ArtemisMainFrame:UnregisterEvent("LEARNED_SPELL_IN_TAB");
   --ArtemisMainFrame:UnregisterEvent("ACTIONBAR_UPDATE_COOLDOWN");
@@ -372,17 +376,25 @@ end
 
 -- Called via Main frame: load 
 function Artemis:OnLoad()
-  --Artemis.DebugMsg("OnLoad: Called")
-  
-  -- If saved variables has enabled == false (not null/not unset ), then stop!
-  --if( ArtemisDBChar~=nil and ArtemisDBChar.enable~=nil and ArtemisDBChar.enable == false ) then
-  --    return
-  --end
-  
-  ArtemisMainFrame:RegisterEvent("PLAYER_LOGIN")
-  ArtemisMainFrame:RegisterEvent("PLAYER_LOGOUT"); -- Fired when about to log out
+	--Artemis.DebugMsg("OnLoad: Called")
 
-	print("v"..Artemis.version.." loaded")
+	-- If saved variables has enabled == false (not null/not unset ), then stop!
+	--if( ArtemisDBChar~=nil and ArtemisDBChar.enable~=nil and ArtemisDBChar.enable == false ) then
+	--    return
+	--end
+
+	--ArtemisMainFrame:RegisterEvent("PLAYER_LOGIN")
+	ArtemisMainFrame:RegisterEvent("PLAYER_LOGOUT"); -- Fired when about to log out
+	ArtemisMainFrame:RegisterEvent("SPELLS_CHANGED")
+	ArtemisMainFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+
+	print("Artemis: v"..Artemis.version.." loaded")
+	--print("Artemis: BuildInfo: "..GetBuildInfo())
+	local version, build, date, tocversion, localizedVersion, localizedVersion, buildnum = GetBuildInfo()
+	if(buildnum~=nil and buildnum>=40400) then
+		Artemis.iscata = true
+	end
+	print("Artemis: iscata: "..tostring(Artemis.iscata) )
 end
 
 --
@@ -1238,7 +1250,7 @@ function Artemis.DoSpellCast(spell)
   local myCooldownAr = Artemis.view.buttonspelllist[spell] 
   --getglobal(btnCDName);      
   if(myCooldownAr ~= nil) then
-    Artemis.DebugMsg(string.format("DoSpellCast myCooldownAr: %s", myCooldownAr.name));
+    Artemis.DebugMsg("DoSpellCast myCooldownAr: ".. tostring(myCooldownAr.name));
     Artemis.DebugMsg(string.format("DoSpellCast myType: %s", myCooldownAr.myType));
     local myCooldown = myCooldownAr.myCooldown        
     if(myCooldown ~= nil) then          
@@ -1290,6 +1302,7 @@ function Artemis.DoSpellCastAspect(spell, start, duration)
  end
  
 function Artemis.CheckAspectBuffs(spell)
+  --Artemis.DebugMsg("CheckAspectBuffs: spell=" .. tostring( spell ) )
   --need to reset others
   for idx = 1, Artemis.Aspect_NumAspects do
 	local button = getglobal("ArtemisAspectFrame_Aspect"..idx);
@@ -1300,19 +1313,19 @@ function Artemis.CheckAspectBuffs(spell)
   --
   local map = Artemis.view.buttonspelllist[spell]
   if(map~=nil) then
-	local hasBuff = false
-	local i = 1
-	local buff = UnitBuff("player", i);
+    local spellname = map.spellname
+  	-- Check current User Buffs
+	local buffs = { }
+	local idx   = 1;
+	local buff = UnitBuff("player", idx);
 	while buff do
-		if(buff==map.name) then
-			hasBuff = true;
-			buff = nil
-		else 
-			i = i + 1;
-			buff = UnitBuff("player", i);
-		end
+		Artemis.DebugMsg("CheckAspectBuffs: buff=" .. tostring( buff ) )
+		buffs[buff] = buff;
+		idx = idx + 1;
+		buff = UnitBuff("player", idx);
 	end;
-	if(hasBuff) then
+    Artemis.DebugMsg("CheckAspectBuffs: buff[spell]=" .. tostring( buffs[spellname] ) )
+	if(buffs[spellname]~=nil) then
 		SetItemButtonDesaturated(map.button,true)
 	end	
   end
@@ -1335,17 +1348,19 @@ end
 
 --Called when event == "UNIT_SPELLCAST_SUCCEEDED"
 function Artemis.DoSpellCastTrap(spell,start, duration)
-  --Artemis.DebugMsg("DoSpellCastTrap Called");
-  local count = 0;
-	for spell, id in pairs(Artemis.Trap_Traps) do
+	--Artemis.DebugMsg("DoSpellCastTrap Called");
+	local count = 0;
+	for spellname, id in pairs(Artemis.Trap_Traps) do
 		if (id > 0) then
 			count = count + 1;
-      local myCooldown = getglobal("ArtemisTrapFrame_Trap"..count.."Cooldown");
-      if(myCooldown~=nil) then
-        myCooldown:SetCooldown(start,duration)
-      end
-    end
-  end
+			if( Artemis.iscata and spell==spellname ) then
+				local myCooldown = getglobal("ArtemisTrapFrame_Trap"..count.."Cooldown");
+				if(myCooldown~=nil) then
+					myCooldown:SetCooldown(start,duration)
+				end
+			end
+		end
+	end
 end
 
 -------------------------------------------------------------------------

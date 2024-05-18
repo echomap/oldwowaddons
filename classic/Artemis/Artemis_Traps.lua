@@ -16,127 +16,146 @@ local _, L = ...;
 -------------------------------------------------------------------------
 
 function Artemis.TrapFrame_Initialize()
-  Artemis.DebugMsg("TrapFrame_Initialize Called")
-  --
-  Artemis.Traps_NumTraps = 5;
-  Artemis.Trap_Traps = {
-    [L["Artemis_Trap_IMMOLATION"] ]= 0,
-    [L["Artemis_Trap_FREEZING"]   ]= 0,
-    [L["Artemis_Trap_FROST"]      ]= 0,
-    [L["Artemis_Trap_EXPLOSIVE"]  ]= 0,
-    [L["Artemis_Trap_SNAKE"]      ]= 0,
-  }
-  --Artemis.Trap_Traps[ L["Artemis_Trap_IMMOLATION"] ]= 0
-  --Artemis.DebugMsg("TrapFrame_Initialize: test immo = ".. L["Artemis_Trap_IMMOLATION"] )
+	Artemis.DebugMsg("TrapFrame_Initialize Called")
+	--
+	Artemis.Traps_NumTraps = 5;
+
+	Artemis.Trap_Traps = {
+		[L["Artemis_Trap_IMMOLATION"] ]= 0,
+		[L["Artemis_Trap_FREEZING"]   ]= 0,
+		[L["Artemis_Trap_FROST"]      ]= 0,
+		[L["Artemis_Trap_EXPLOSIVE"]  ]= 0,
+		[L["Artemis_Trap_SNAKE"]      ]= 0,
+	}
+	--Artemis.Trap_Traps[ L["Artemis_Trap_IMMOLATION"] ]= 0
+	--Artemis.DebugMsg("TrapFrame_Initialize: test immo = ".. L["Artemis_Trap_IMMOLATION"] )
 
 	-- Reset the available abilities.
-  Artemis.DebugMsg("TrapFrame_Initialize: Reset the available abilities." )
+	Artemis.DebugMsg("TrapFrame_Initialize: Reset the available abilities." )
 	for spell, id in pairs( Artemis.Trap_Traps ) do
-    Artemis.DebugMsg("TrapFrame_Initialize: Traps =" .. tostring(spell) )
+		--Artemis.DebugMsg("TrapFrame_Initialize: Rest Traps=" .. tostring(spell) )
 		if (id > 0) then
-			Artemis.Trap_Traps[spellName] = 0      
+			Artemis.Trap_Traps[spellName] = 0
 		end
 	end
   
-  --
-  Artemis.DebugMsg("TrapFrame_Initialize: Setup abilities." )
-  local i = 1
-  while true do
-    local spellName, spellRank = GetSpellBookItemName(i, BOOKTYPE_SPELL)
-    if not spellName then
-      do break end
-    end     
-    -- use spellName and spellRank here
-    --DEFAULT_CHAT_FRAME:AddMessage( spellName .. '(' .. spellRank .. ')' )
-    --Artemis.DebugMsg("TrapFrame_Initialize: spellName=" .. tostring(spellName) .. '(' .. spellRank .. ')' )
-    if (Artemis.Trap_Traps[spellName]) then
-      Artemis.Trap_Traps[spellName] = i
-      Artemis.DebugMsg("TrapFrame_Initialize: found a trap at idx: " .. tostring(i) )
-    end
-    i = i + 1
+	--
+	--Artemis.DebugMsg("TrapFrame_Initialize: Setup abilities." )
+	local i = 1
+	while true do
+		local spellName, spellRank = GetSpellBookItemName(i, BOOKTYPE_SPELL)
+		if not spellName then
+			do break end
+		end     
+		-- use spellName and spellRank here
+		--DEFAULT_CHAT_FRAME:AddMessage( spellName .. '(' .. spellRank .. ')' )
+		if (Artemis.Trap_Traps[spellName]) then
+			--Artemis.DebugMsg("TrapFrame_Initialize: spellName=" .. tostring(spellName) .. '(' .. tostring(spellRank) .. ')')
+			Artemis.Trap_Traps[spellName] = i
+			Artemis.DebugMsg("TrapFrame_Initialize: found trap("..spellName.. ") at idx: " .. tostring(i) )
+		end
+		i = i + 1
 	end
   
-  --
+	--
+	Artemis.DebugMsg("TrapFrame_Initialize: Setup abilities 2." )
 	local count = 0;
 	for spell, id in pairs(Artemis.Trap_Traps) do
 		if (id > 0) then
-			count = count + 1;
-      Artemis.DebugMsg("TrapFrame_Initialize: spell=" .. tostring(spell) )
-			local button = getglobal("ArtemisTrapFrame_Trap"..count);
-			button:SetAttribute("type", "spell");
-			button:SetAttribute("spell", spell);
-      local buttontext = getglobal("ArtemisTrapFrame_Trap"..count.."Icon");
-            
-      local textureName = GetSpellBookItemTexture(spell)      
-      local tex = ArtemisTrapFrame:CreateTexture(textureName, "BACKGROUND")
-      --tex:SetAllPoints()
-      --tex:SetColorTexture(1, 1, 1, 0.5)
-      --tex:SetTexture(textureName)
-      
-      if(textureName~=nil) then
-        Artemis.DebugMsg("TrapFrame_Initialize: textureName=" .. tostring(textureName) )
-        SetItemButtonTexture(button,textureName)
-      else
-        Artemis.DebugMsg("TrapFrame_Initialize: setting choice of texture")                
-        buttontext:SetTexture("Interface\\Icons\\Ability_Druid_DemoralizingRoar");
-      end
-      
-			button.SpellID = id;
-			button:Show();
-      
-      --
-      local name, rank, icon, castTime, minRange, maxRange, spellId = GetSpellInfo(spell)
-      --Artemis.PrintMsg("TrapFrame_Initialize: spell=" .. tostring(id) )
-      --Artemis.view.buttonspelllist[spellId] = "ArtemisTrapFrame_Trap"..count.."Cooldown"
-      local myCooldown = getglobal("ArtemisTrapFrame_Trap"..count.."Cooldown");
-      Artemis.view.buttonspelllist[spellId] = {}
-      Artemis.view.buttonspelllist[spellId].myCooldown = myCooldown
-      Artemis.view.buttonspelllist[spellId].myType = "TRAP"
+			local sname, rank, icon, castTime, minRange, maxRange, spellId = GetSpellInfo(spell)
+			if(Artemis.iscata and L["Artemis_Trap_FREEZING"]==spell) then
+				spell = L["Artemis_Trap_FREEZING_CATA"]
+				sname, rank, icon, castTime, minRange, maxRange, spellId = GetSpellInfo(spell)
+			end
+			Artemis.DebugMsg("TrapFrame_Initialize: spell=" .. tostring(spell).." id=" ..tostring(id).. " spellid="..tostring(spellId) )
+			if(spellId~=nil) then
+				local isKnown = IsSpellKnown(spellId)
+				Artemis.DebugMsg("TrapFrame_Initialize: spell=" .. tostring(sname).." isKnown=" .. tostring(isKnown) )
+				if(isKnown) then
+					--Artemis.PrintMsg("TrapFrame_Initialize: spell=" .. tostring(id) )
+					--Artemis.view.buttonspelllist[spellId] = "ArtemisTrapFrame_Trap"..count.."Cooldown"
+					
+					--
+					count = count + 1;
+					--Artemis.DebugMsg("TrapFrame_Initialize: spell=" .. tostring(spell) )
+					local button = getglobal("ArtemisTrapFrame_Trap"..count);
+					button:SetAttribute("type", "spell");
+					button:SetAttribute("spell", spell);
+					local buttontext = getglobal("ArtemisTrapFrame_Trap"..count.."Icon");
+					
+					--
+					local myCooldown = getglobal("ArtemisTrapFrame_Trap"..count.."Cooldown");
+					Artemis.view.buttonspelllist[spellId] = {}
+					Artemis.view.buttonspelllist[spellId].myCooldown = myCooldown
+					Artemis.view.buttonspelllist[spellId].myType = "TRAP"
+					Artemis.view.buttonspelllist[spellId].spellname = spell
+					
+					--local textureName = GetSpellBookItemTexture(spell)      
+					local textureName = GetSpellBookItemTexture(id,BOOKTYPE_SPELL)      
+					local tex = ArtemisTrapFrame:CreateTexture(textureName, "BACKGROUND")
+					Artemis.DebugMsg("TrapFrame_Initialize: get textureName=" .. tostring(textureName) )
+					--tex:SetAllPoints()
+					--tex:SetColorTexture(1, 1, 1, 0.5)
+					--tex:SetTexture(textureName)
 
+					if(textureName~=nil) then
+						Artemis.DebugMsg("TrapFrame_Initialize: textureName=" .. tostring(textureName) )
+						SetItemButtonTexture(button,textureName)
+					else
+						Artemis.DebugMsg("TrapFrame_Initialize: setting choice of texture")                
+						buttontext:SetTexture("Interface\\Icons\\Ability_Druid_DemoralizingRoar");
+					end
+
+					button.SpellID = id;
+					if(textureName~=nil) then
+						button:Show();
+						Artemis.view.buttonspelllist[spellId].button = button
+					end
+				end
+			end
 		end
-	end
+	end --for
   
-  -- Hide the buttons we don't need.
+	-- Hide the buttons we don't need.
 	for i = count + 1, Artemis.Traps_NumTraps, 1 do
 		local button = getglobal("ArtemisTrapFrame_Trap"..i);
 		button:Hide();
 	end
   
-  Artemis.DebugMsg("TrapFrame_Initialize: Orient: " .. tostring(ArtemisDBChar.options.setuptrapsorientation))     
-  -- Vertical
-  if( ArtemisDBChar.options.setuptrapsorientation) then
-    ArtemisTrapFrame:SetSize(60,250);
-    
-    local pAnchor = getglobal("ArtemisTrapFrame_Anchor");      
-    pAnchor:ClearAllPoints()
-    pAnchor:SetPoint( "TOP", "ArtemisTrapFrame" , "TOP" , 0 , -12 )
-      
-    for count = 1, Artemis.Traps_NumTraps do
-      local button = getglobal("ArtemisTrapFrame_Trap"..count);      
-      button:ClearAllPoints()
-      --obj:SetPoint(point, relativeTo, relativePoint, ofsx, ofsy);
-      button:SetPoint( "TOP", pAnchor , "BOTTOM" );
-       pAnchor = button
-    end
-  end
+	Artemis.DebugMsg("TrapFrame_Initialize: Orient: " .. tostring(ArtemisDBChar.options.setuptrapsorientation))     
+	-- Vertical
+	if( ArtemisDBChar.options.setuptrapsorientation) then
+		ArtemisTrapFrame:SetSize(60,250);
+
+		local pAnchor = getglobal("ArtemisTrapFrame_Anchor");      
+		pAnchor:ClearAllPoints()
+		pAnchor:SetPoint( "TOP", "ArtemisTrapFrame" , "TOP" , 0 , -12 )
+		  
+		for count = 1, Artemis.Traps_NumTraps do
+			local button = getglobal("ArtemisTrapFrame_Trap"..count);      
+			button:ClearAllPoints()
+			--obj:SetPoint(point, relativeTo, relativePoint, ofsx, ofsy);
+			button:SetPoint( "TOP", pAnchor , "BOTTOM" );
+			pAnchor = button
+		end
+	end
   
-  --Horizontal   <AbsDimension x="240" y="60"/>
-  if( ArtemisDBChar.options.setuptrapsorientation==nil or not ArtemisDBChar.options.setuptrapsorientation ) then
-    ArtemisTrapFrame:SetSize(250,60);
-    
-    local pAnchor = getglobal("ArtemisTrapFrame_Anchor");      
-    pAnchor:ClearAllPoints()
-    pAnchor:SetPoint( "LEFT", "ArtemisTrapFrame" , "LEFT" , 0 , -12 )
-   
-    for count = 1, Artemis.Traps_NumTraps do
-      local button = getglobal("ArtemisTrapFrame_Trap"..count);      
-      button:ClearAllPoints()
-      --obj:SetPoint(point, relativeTo, relativePoint, ofsx, ofsy);
-      button:SetPoint( "LEFT", pAnchor , "RIGHT" );
-      pAnchor = button
-    end
-  end
-  
+	--Horizontal   <AbsDimension x="240" y="60"/>
+	if( ArtemisDBChar.options.setuptrapsorientation==nil or not ArtemisDBChar.options.setuptrapsorientation ) then
+		ArtemisTrapFrame:SetSize(250,60);
+
+		local pAnchor = getglobal("ArtemisTrapFrame_Anchor");      
+		pAnchor:ClearAllPoints()
+		pAnchor:SetPoint( "LEFT", "ArtemisTrapFrame" , "LEFT" , 0 , -12 )
+
+		for count = 1, Artemis.Traps_NumTraps do
+			local button = getglobal("ArtemisTrapFrame_Trap"..count);      
+			button:ClearAllPoints()
+			--obj:SetPoint(point, relativeTo, relativePoint, ofsx, ofsy);
+			button:SetPoint( "LEFT", pAnchor , "RIGHT" );
+			pAnchor = button
+		end
+	end
   --
   Artemis.Trap_UpdateLock()
 end

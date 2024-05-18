@@ -16,6 +16,8 @@ colors options
 set which aspect/tracker is already set at logon
 
 ## [Unreleased]
+-
+## [1.0.16]
 - updates per a few bugs
 - En and Aspects, added VIPER
 - highlight aspects selected
